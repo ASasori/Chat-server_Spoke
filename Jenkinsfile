@@ -5,11 +5,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // 2. ⚠️ THAY ĐỔI URL repo GitHub của BẠN
-                git branch: 'main', url: 'https://github.com/ten-cua-ban/my-chat-server.git'
+                // 1. Dùng URL SSH (không phải HTTPS)
+                // 2. Thêm credentialsId (từ log của bạn)
+                git branch: 'main', 
+                    url: 'git@github.com:ASasori/Chat-server_Spoke.git', 
+                    credentialsId: 'jenkins-agent-ssh-key'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 // 3. Đặt tên image là 'chat-server'
