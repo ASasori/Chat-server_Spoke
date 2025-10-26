@@ -7,9 +7,11 @@ pipeline {
             steps {
                 // 1. Dùng URL SSH (không phải HTTPS)
                 // 2. Thêm credentialsId (từ log của bạn)
+                // git branch: 'main', 
+                //     url: 'git@github.com:ASasori/Chat-server_Spoke.git',
+                //     credentialsId: 'jenkins-agent-ssh-key'
                 git branch: 'main', 
-                    url: 'git@github.com:ASasori/Chat-server_Spoke.git'
-                    //credentialsId: 'jenkins-agent-ssh-key'
+                    url: 'https://github.com/ASasori/Chat-server_Spoke.git'
             }
         }
         stage('Build Docker Image') {
