@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  chat-server:
+    # Build từ Dockerfile trong thư mục hiện tại
+    build: .
+    container_name: chat-server
+    ports:
+      # Ánh xạ port: <máy_host>:<container>
+      # ⚠️ QUAN TRỌNG: Đổi "3000:3000" cho phù hợp
+      - "3000:3000"
+    restart: unless-stopped
+    env_file:
+      - .env
+    # volumes:
+    #   # Nếu server của bạn cần lưu data (ví dụ: chat logs, db),
+    #   # hãy mount một volume
+    #   - ./chat_data:/usr/src/app/data

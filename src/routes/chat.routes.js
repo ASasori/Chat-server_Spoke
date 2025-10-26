@@ -5,7 +5,7 @@ const router = Router()
 
 router.post(
     '/test',
-    ChatController.testFunction
+    ChatController.getAnswer
 )
 
 router.post(
