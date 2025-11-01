@@ -7,14 +7,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# Copy toàn bộ source code của bạn (thư mục src, v.v.)
+# Copy toàn bộ source code (thư mục src, v.v.)
 COPY . .
 
-# ⚠️ QUAN TRỌNG: Mở port mà server của bạn đang chạy
-# Mở src/server.js và kiểm tra (ví dụ: process.env.PORT || 3000)
-# Ở đây tôi đoán là port 3000, hãy sửa nếu cần.
+# Mở port mà server đang chạy
 EXPOSE 3000
 
 # Chạy server trực tiếp bằng node
-# Chúng ta KHÔNG dùng "npm start" vì nó gọi nodemon
+# KHÔNG dùng "npm start" vì nó gọi nodemon
 CMD ["node", "src/server.js"]
