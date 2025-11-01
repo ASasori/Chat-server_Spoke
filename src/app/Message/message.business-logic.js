@@ -21,21 +21,21 @@ class MessageLogic {
             }
             console.log(`Question: ${question}`)
 
-            // const api = env.SPOKE_AGENT_URL
-            // if (!api || !api.startsWith('http')){
-            //     throw new AppError(
-            //         "The URL is invalid",
-            //         HttpStatusCode.INTERNAL_SERVER_ERROR,
-            //         ErrorCode.INVALID_URL
-            //     )
-            // }
-            // const response = await axios.post(
-            //     api,
-            //     {prompt: question}
-            // )
+            const api = env.SPOKE_AGENT_URL
+            if (!api || !api.startsWith('http')){
+                throw new AppError(
+                    "The URL is invalid",
+                    HttpStatusCode.INTERNAL_SERVER_ERROR,
+                    ErrorCode.INVALID_URL
+                )
+            }
+            const response = await axios.post(
+                api,
+                {prompt: question}
+            )
 
-            // const answer = response.data?.answer
-            const answer = "this is a mock answer"
+            const answer = response.data?.answer
+            // const answer = "this is a mock answer"
             if (!answer) {
                  throw new AppError(
                     "Could not generate an answer",
