@@ -122,7 +122,7 @@
       input.value = '';
 
       try {
-        const response = await fetch('/chat/test', {
+        const response = await fetch('/message/test', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question }),

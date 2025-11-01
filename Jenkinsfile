@@ -37,9 +37,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // 5. ⭐️ PHẦN QUAN TRỌNG NHẤT: Nạp file .env
-                // 'chat-server-env' là ID bạn tạo ở Bước 1
-                // '.env.prod' là tên file tạm thời nó tạo ra
+                // 5. Nạp file .env
+                // 'chat-server-env' là ID tạo ở Bước 1
+                // '.env.prod' là tên file tạm thời tạo ra
                 withCredentials([file(credentialsId: 'chat-server-env', variable: 'DOT_ENV_FILE')]) {
                     sh '''
                     echo "Deploying Chat Server..."

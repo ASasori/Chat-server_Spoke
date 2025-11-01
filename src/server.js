@@ -1,11 +1,10 @@
+import { env } from "./utils/env-loader.js"
+import connectDB from "./db/connect.db.js"
+import routes from "./app/index.routes.js"
+
 import express, { urlencoded } from "express"
 import cors from "cors"
-import dotenv from "dotenv"
 
-import connectDB from "./db/connect.db.js"
-import routes from "./routes/index.routes.js"
-
-dotenv.config()
 
 const app = express()
 
@@ -23,12 +22,10 @@ app.use(urlencoded({extended: true}))
 connectDB()
 
 routes(app)
-const PORT = process.env.PORT
-const HOST = process.env.HOST
 
-app.listen(PORT, () => {
-    const baseURL = `${HOST}:${PORT}`;
-    console.log(`Listening on port ${PORT}`);
+app.listen(env.PORT, () => {
+    const baseURL = `${env.HOST}:${env.PORT}`;
+    console.log(`Listening on port ${env.PORT}`);
     console.log(`--> Test page: ${baseURL}/`);
-});
+})
 

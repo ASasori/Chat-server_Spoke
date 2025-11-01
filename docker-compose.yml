@@ -6,12 +6,12 @@ services:
     container_name: chat-server
     ports:
       # Ánh xạ port: <máy_host>:<container>
-      # ⚠️ QUAN TRỌNG: Đổi "3000:3000" cho phù hợp
+      # Đổi "3000:3000" cho phù hợp
       - "3000:3000"
     restart: unless-stopped
     env_file:
       - .env
     # volumes:
-    #   # Nếu server của bạn cần lưu data (ví dụ: chat logs, db),
+    #   # Nếu server cần lưu data (ví dụ: chat logs, db),
     #   # hãy mount một volume
     #   - ./chat_data:/usr/src/app/data

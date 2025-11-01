@@ -1,12 +1,15 @@
-import mongoose from "mongoose"
-import dotenv from "dotenv"
+import { env } from "../utils/env-loader.js"
 
-dotenv.config()
+import mongoose from "mongoose"
 
 async function connectDB() {
     try {
+        if (!env.DB_URI) {
+            console.error("Missing DB_URI in environment variables.")
+            process.exit(1)
+        }
         await mongoose.connect(
-            process.env.DB_URI,
+            env.DB_URI,
             {
                 family: 4
             }            
@@ -14,6 +17,7 @@ async function connectDB() {
         console.log("Database connected successfully!")
     } catch (error) {
         console.log(`Database connection failed:\n${error}`)
+        process.exit(1)
     }
 }
 
