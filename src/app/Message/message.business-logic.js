@@ -3,6 +3,7 @@ import { ErrorCode } from "../../utils/error-code.js"
 import { messageRoles } from "./message.enum.js"
 import { env } from "../../utils/env-loader.js"
 import ChatSessionLogic from "../ChatSession/chat-session.business-logic.js"
+import ChatSession from "../ChatSession/chat-session.model.js"
 import AppError from "../../utils/custom-throw-error.js"
 import Message from "./message.model.js"
 
@@ -69,7 +70,8 @@ class MessageLogic {
                 role: messageRoles.BOT,
                 content: answer
             })
-            
+            await ChatSession.findByIdAndUpdate(chatSessionId, {updatedAt: new Date()})
+
             return {
                 answer,
                 chatSessionId,
@@ -97,6 +99,8 @@ class MessageLogic {
                 )
             }
             
+            limit = Math.min(Math.max(limit, 1), 100)
+            skip = Math.max(skip, 0)
             const chatMessages = await Message
                                     .find({chatSessionId: chatSessionId})
                                     .sort({createdAt: -1})
