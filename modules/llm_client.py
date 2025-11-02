@@ -3,7 +3,7 @@
 import json
 import time
 import threading
-import re # <<< THÊM THƯ VIỆN RE (REGULAR EXPRESSIONS)
+import re 
 from abc import ABC, abstractmethod
 from typing import Any, List
 import google.generativeai as genai
@@ -54,8 +54,7 @@ class GeminiLLMClient(BaseLLMClient):
         self.request_timestamps: List[float] = [] 
         self.lock = threading.Lock()
         
-        print(f"Initialized GeminiLLMClient (Model: gemini-2.5-pro).")
-        print(f"Proactive RPM Limit: {self.rpm_limit} RPM. Reactive Retries: {self.max_retries}.")
+        print(f"Initialized GeminiLLMClient.")
 
 
     def _wait_for_rate_limit(self):
@@ -87,7 +86,7 @@ class GeminiLLMClient(BaseLLMClient):
             self.request_timestamps.append(time.time())
 
     
-    def _generate_with_retry(self, model: Any, prompt: str, is_json: bool) -> str:
+    async def _generate_with_retry(self, model: Any, prompt: str, is_json: bool) -> str:
         """
         CẬP NHẬT: Internal method to handle generation with *smart* reactive retry.
         """
@@ -102,7 +101,6 @@ class GeminiLLMClient(BaseLLMClient):
 
         while retries < self.max_retries:
             try:
-                # _wait_for_rate_limit() đã được gọi BÊN NGOÀI
                 response = model.generate_content(
                     prompt,
                     generation_config=gen_config
@@ -142,7 +140,7 @@ class GeminiLLMClient(BaseLLMClient):
         return '{"error": "Gemini API call failed after retries"}' if is_json else "Error: Gemini call failed"
 
 
-    def generate(self, prompt: str) -> str:
+    async def generate(self, prompt: str) -> str:
         """
         Generates a JSON response with retry logic.
         """
@@ -151,7 +149,7 @@ class GeminiLLMClient(BaseLLMClient):
         
         print(f"[LLM_JSON_INPUT] (Length: {len(prompt)} chars)")
         try:
-            raw_json_string = self._generate_with_retry(self.model_json, prompt, is_json=True)
+            raw_json_string = await self._generate_with_retry(self.model_json, prompt, is_json=True)
             
             # Basic validation that it is JSON
             try:
@@ -165,8 +163,8 @@ class GeminiLLMClient(BaseLLMClient):
         except Exception as e:
             print(f"Error in generate(): {e}")
             return '{"error": "Gemini API call failed"}'
-
-    def generate_text(self, prompt: str) -> str:
+        
+    async def generate_text(self, prompt: str) -> str:
         """
         Generates a plain text response with retry logic.
         """
@@ -175,7 +173,7 @@ class GeminiLLMClient(BaseLLMClient):
         
         print(f"[LLM_TEXT_INPUT] (Length: {len(prompt)} chars)")
         try:
-            return self._generate_with_retry(self.model_text, prompt, is_json=False)
+            return await self._generate_with_retry(self.model_text, prompt, is_json=False)
         except Exception as e:
             print(f"Error in generate_text(): {e}")
             return "An error occurred while trying to generate a response."

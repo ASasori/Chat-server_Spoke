@@ -6,10 +6,10 @@ import time
 from dotenv import load_dotenv
 
 # Import our new separated modules
-from llm_client import GeminiLLMClient
-from smart_search import SmartSearch
-from spoke_executor import SpokeExecutor
-from generate_answer import AnswerGenerator
+from modules.llm_client import GeminiLLMClient
+from modules.smart_search import SmartSearch
+from modules.spoke_executor import SpokeExecutor
+from modules.generate_answer import AnswerGenerator
 
 def main():
     start_time = time.time()
@@ -29,8 +29,8 @@ def main():
     # Module 1: Planner (needs LLM)
     search_module = SmartSearch(
         llm_client=main_llm_client,
-        schema_path="spoke_types.json",
-        planner_template_path="planner_prompt_v3.txt" # Make sure this path is correct
+        schema_path="modules/spoke_types.json",
+        planner_template_path="modules/planner_prompt_v3.txt" # Make sure this path is correct
     )
     
     # Module 2: Executor (LLM is optional for pruning)

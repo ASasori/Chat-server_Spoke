@@ -3,7 +3,7 @@
 import json
 import re
 from typing import Dict, Any
-from llm_client import BaseLLMClient
+from modules.llm_client import BaseLLMClient
 
 class SmartSearch:
     """
@@ -78,13 +78,13 @@ class SmartSearch:
             "INJECT_CUTOFFS": cutoffs_str
         }
 
-    def _call_llm_and_parse(self, final_prompt: str) -> Dict[str, Any]:
+    async def _call_llm_and_parse(self, final_prompt: str) -> Dict[str, Any]:
         """
         Internal method to call the LLM, clean, and parse the JSON response.
         """
         try:
             # Use the LLM client (which now has retry logic)
-            raw_output = self.llm_client.generate(final_prompt)
+            raw_output = await self.llm_client.generate(final_prompt)
             
             # Clean up potential markdown code fences
             match = re.search(r'\{.*\}', raw_output, re.DOTALL)
@@ -103,7 +103,7 @@ class SmartSearch:
             print(f"Error: Unknown error during LLM call: {e}")
             return {"error": str(e)}
 
-    def get_execution_plan(self, nlq: str) -> Dict[str, Any]:
+    async def get_execution_plan(self, nlq: str) -> Dict[str, Any]:
         """
         Uses the planner_prompt_template to create a complete
         execution plan from the NLQ.
@@ -116,4 +116,4 @@ class SmartSearch:
         # Add the user's NLQ
         final_prompt += f"\nNLQ:\n{nlq}\n→"
         
-        return self._call_llm_and_parse(final_prompt)
+        return await self._call_llm_and_parse(final_prompt)

@@ -1,11 +1,12 @@
 # spoke_executor.py
 
 import requests
+from requests.models import Request
 import json
 import re
 from urllib.parse import urlparse, parse_qs
 from typing import Dict, Any, List, Optional
-from llm_client import BaseLLMClient # For type hinting
+from modules.llm_client import BaseLLMClient # For type hinting
 
 class SpokeExecutor:
     """
@@ -41,7 +42,7 @@ class SpokeExecutor:
         print(f"✓ SpokeExecutor initialized. LLM Pruning: {pruning_status}")
 
     
-    def execute_plan(self, plan_json: Dict[str, Any], original_nlq: str) -> Dict[str, Any]:
+    async def execute_plan(self, plan_json: Dict[str, Any], original_nlq: str) -> Dict[str, Any]:
         """
         Main entry point. Executes a full plan and returns the final
         context store (dictionary).
@@ -57,10 +58,10 @@ class SpokeExecutor:
             step_result = None
             
             if step.get("api_call"):
-                step_result = self._execute_api_step(step, results_store)
+                step_result = await self._execute_api_step(step, results_store)
             
             elif step.get("logic"):
-                step_result = self._execute_logic_step(step, results_store)
+                step_result = await self._execute_logic_step(step, results_store)
 
             
             # --- *** LLM-IN-THE-LOOP PRUNING LOGIC *** ---
@@ -83,7 +84,7 @@ class SpokeExecutor:
                 # 3. Call LLM to prune *only if* it's intermediate AND LLM client was provided
                 if is_intermediate and self.llm_client:
                     print(f"    ! Pruning '{step['store_as']}': list is large ({len(step_result)} nodes).")
-                    step_result = self._prune_node_list(
+                    step_result = await self._prune_node_list(
                         original_nlq,
                         step_result,
                         next_step_description
@@ -120,7 +121,7 @@ class SpokeExecutor:
         return results_store
 
 
-    def _prune_node_list(self, nlq: str, node_list: List[Dict], next_step_desc: str) -> List[Dict]:
+    async def _prune_node_list(self, nlq: str, node_list: List[Dict], next_step_desc: str) -> List[Dict]:
         """
         Uses the LLM to prune a large node list based on the original question.
         """
@@ -166,7 +167,7 @@ class SpokeExecutor:
             if not self.llm_client:
                 return node_list
                 
-            raw_json_string = self.llm_client.generate(pruning_prompt)
+            raw_json_string = await self.llm_client.generate(pruning_prompt)
             print(f"    -> [PRUNING] LLM raw response: {raw_json_string[:100]}...")
             
             parsed_response = json.loads(raw_json_string)
@@ -208,14 +209,14 @@ class SpokeExecutor:
             return node_list
 
     
-    def _execute_api_step(self, step: Dict[str, Any], store: Dict[str, Any]) -> Any:
+    async def _execute_api_step(self, step: Dict[str, Any], store: Dict[str, Any]) -> Any:
         """Handles any 'api_call' step."""
         api_call_str = step["api_call"]
         inputs = step.get("inputs")
         
         if not inputs:
             # This is an "anchor" call that starts a query
-            return self._execute_simple_neighborhood_call(api_call_str)
+            return await self._execute_simple_neighborhood_call(api_call_str)
         
         # This is a "looping" call that uses previous results
         input_var_name = inputs[0]
@@ -225,9 +226,9 @@ class SpokeExecutor:
             print(f"    ! Error: Input '{input_var_name}' not found or is not a list.")
             return None
         
-        return self._execute_looping_neighborhood_call(step, input_data)
+        return await self._execute_looping_neighborhood_call(step, input_data)
 
-    def _execute_simple_neighborhood_call(self, api_call: str) -> List[Dict[str, Any]]:
+    async def _execute_simple_neighborhood_call(self, api_call: str) -> List[Dict[str, Any]]:
         """Executes a single, non-looping API call."""
         try:
             url = f"{self.base_url}{api_call}"
@@ -261,7 +262,7 @@ class SpokeExecutor:
             print(f"    ! API Error (Anchor Neighborhood): {e}")
             return []
 
-    def _execute_looping_neighborhood_call(self, step: Dict[str, Any], input_nodes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    async def _execute_looping_neighborhood_call(self, step: Dict[str, Any], input_nodes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Executes API calls by looping over a list of input nodes."""
         if not input_nodes:
             print("    -> Skipping loop: input list is empty.")
@@ -291,6 +292,9 @@ class SpokeExecutor:
             base_path = f"/api/v1/neighborhood/{node_type}/name/{node_name}"
             url = f"{self.base_url}{base_path}"
             
+            temp_request = Request('GET', url, params=query_params).prepare()
+            print(f"    -> API Call: {temp_request.url}")
+
             try:
                 response = self.session.get(url, params=query_params)
                 response.raise_for_status()
@@ -325,7 +329,7 @@ class SpokeExecutor:
         
         return list(unique_nodes.values())
 
-    def _get_nodes_by_identifier(self, node_list: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
+    async def _get_nodes_by_identifier(self, node_list: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
         """Helper to create a dictionary of nodes keyed by their identifier."""
         nodes_by_id = {}
         for node in node_list:
@@ -336,7 +340,7 @@ class SpokeExecutor:
                 print(f"    ! Warning (Logic): Could not find identifier for node. {node}")
         return nodes_by_id
 
-    def _execute_logic_step(self, step: Dict[str, Any], store: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def _execute_logic_step(self, step: Dict[str, Any], store: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Handles 'logic' steps like UNION and INTERSECTION."""
         logic_op = step["logic"]
         input_a_name, input_b_name = step["inputs"]
@@ -344,8 +348,8 @@ class SpokeExecutor:
         list_B = store.get(input_b_name, [])
 
         # Use identifiers for robust set operations
-        nodes_A_by_id = self._get_nodes_by_identifier(list_A)
-        nodes_B_by_id = self._get_nodes_by_identifier(list_B)
+        nodes_A_by_id = await self._get_nodes_by_identifier(list_A)
+        nodes_B_by_id = await self._get_nodes_by_identifier(list_B)
 
         if logic_op == "UNION":
             print(f"    -> Logic: Performing UNION on {len(nodes_A_by_id)} and {len(nodes_B_by_id)} nodes.")

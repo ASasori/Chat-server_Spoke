@@ -2,7 +2,7 @@
 
 import json
 from typing import Dict, Any
-from llm_client import BaseLLMClient
+from modules.llm_client import BaseLLMClient
 
 class AnswerGenerator:
     """
@@ -17,7 +17,7 @@ class AnswerGenerator:
         self.llm_client = llm_client
         print("✓ AnswerGenerator ready.")
 
-    def generate_final_answer(self, nlq: str, context_store: Dict[str, Any]) -> str:
+    async def generate_final_answer(self, nlq: str, context_store: Dict[str, Any]) -> str:
         """
         Generates a final answer using the original question and the
         full context store (which includes intermediate steps).
@@ -65,7 +65,7 @@ class AnswerGenerator:
         
         try:
             # Use the LLM client (which now has retry logic)
-            final_answer = self.llm_client.generate_text(final_prompt)
+            final_answer = await self.llm_client.generate_text(final_prompt)
             return final_answer
         except Exception as e:
             print(f"Error when generating final answer: {e}")
