@@ -24,7 +24,7 @@ class Authentication {
                 })
             }
 
-            const info = await User.findById(decoded._id).select("-passwordHash")
+            const info = await User.findById(decoded._id).select("_id")
             if (!info) {
                 return res.status(HttpStatusCode.UNAUTHORIZED).json({
                     error: "User not found",

@@ -7,8 +7,10 @@ class ChatSessionController {
     getChatSessionListByUser = async (req, res) => {
         try {
             const _id = req.user._id
-            const chatSessionList = await ChatSessionLogic.getChatSessionListByUser(_id)
-            res.status(HttpStatusCode.OK).json({"chatSessions": chatSessionList})
+            const page = parseInt(req.query.page) || 1
+            const limit = parseInt(req.query.limit) || 20
+            const {chatSessions, metadata} = await ChatSessionLogic.getChatSessionListByUser(_id, page, limit)
+            res.status(HttpStatusCode.OK).json({chatSessions, metadata})
         } catch (error) {
             if (error instanceof AppError) {
                 console.error(`[AppError ${error.errorCode}] ${error.message}`)

@@ -96,7 +96,7 @@ class UserLogic {
 
     changePass = async (_id, oldPassword, newPassword) => {
         try {
-            if(!_id || !oldPassword || !newPassword) {
+            if(!oldPassword || !newPassword) {
                 throw new AppError(
                     "Some field is missing",
                     HttpStatusCode.BAD_REQUEST,
@@ -112,7 +112,7 @@ class UserLogic {
                 )
             }
             
-            const user = await User.findById(_id)
+            const user = await User.findById(_id).select("passwordHash")
             if(!user) {
                 throw new AppError(
                     "Can't find account",
@@ -133,8 +133,55 @@ class UserLogic {
             const salt = await bcrypt.genSalt(10)
             const hash = await bcrypt.hash(newPassword, salt)
 
-            user.passwordHash = hash
-            await user.save()
+            await User.findByIdAndUpdate(_id, {passwordHash: hash})
+        } catch (error) {
+            throw error
+        }
+    }
+
+    getProfile = async (_id) => {
+        try {
+            const user = await User.findById(_id).select("-passwordHash")
+            if(!user) {
+                throw new AppError(
+                    "Can't find account",
+                    HttpStatusCode.NOT_FOUND,
+                    ErrorCode.ITEM_NOT_FOUND
+                )
+            }
+            const {_id: id, ...publicUserData} = user.toObject() || user
+
+            return publicUserData
+        } catch (error) {
+            throw error
+        }
+    }
+
+    updateUsername = async (_id, newUsername) => {
+        try {
+            if(!newUsername) {
+                throw new AppError(
+                    "Username is missing",
+                    HttpStatusCode.BAD_REQUEST,
+                    ErrorCode.MISSING_FIELD
+                )
+            }
+
+            const user = await User.findByIdAndUpdate(
+                _id,
+                {username: newUsername},
+                {new: true}
+            ).select("-passwordHash")
+            if(!user) {
+                throw new AppError(
+                    "Can't find account",
+                    HttpStatusCode.NOT_FOUND,
+                    ErrorCode.ITEM_NOT_FOUND
+                )
+            }
+            const {_id: id, ...publicUserData} = user.toObject() || user
+            
+            return publicUserData
         } catch (error) {
             throw error
         }

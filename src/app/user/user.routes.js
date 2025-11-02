@@ -15,8 +15,20 @@ router.post(
     UserController.signUp
 )
 
-router.post(
-    "/change-pass",
+router.get(
+    "/get-profile",
+    Auth.userAuth,
+    UserController.getProfile
+)
+
+router.patch(
+    "/username",
+    Auth.userAuth,
+    UserController.updateUsername
+)
+
+router.patch(
+    "/password",
     Auth.userAuth,
     UserController.changePass
 )

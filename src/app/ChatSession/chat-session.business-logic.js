@@ -7,7 +7,7 @@ import User from "../User/user.model.js"
 import mongoose from "mongoose"
 
 class ChatSessionLogic {
-    getChatSessionListByUser = async (_id) => {
+    getChatSessionListByUser = async (_id, page, limit) => {
         try {
             const user = await User.findById(_id)
             if(!user) {
@@ -18,11 +18,33 @@ class ChatSessionLogic {
                 )
             }
 
-            const chatSessionList = await ChatSession
-                                        .find({userId: user._id, isDeleted: false})
+            const filter = {userId: user._id, isDeleted: false}
+            page = Math.max(1, page) 
+            limit = Math.min(Math.max(limit, 1), 100)
+            const skip = (page - 1) * limit
+            const totalItems = await ChatSession.countDocuments(filter)
+            const totalPages = Math.ceil(totalItems / limit)
+            const itemsRemain = Math.max(totalItems - (limit + skip), 0)
+            const nextPage = (page < totalPages) ? page + 1 : null
+            const prevPage = (page > 1) ? page - 1 : null
+            const chatSessions = await ChatSession
+                                        .find(filter)
                                         .sort({updatedAt: -1})
-                                        
-            return chatSessionList
+                                        .skip(skip)
+                                        .limit(limit)
+
+            return {
+                chatSessions: chatSessions.map(session => session.toObject()),
+                metadata: {
+                    currentPage: page,
+                    nextPage: nextPage,
+                    prevPage: prevPage,
+                    totalPages: totalPages,
+                    totalItems: totalItems,
+                    itemPerPage: limit,
+                    itemsRemain: itemsRemain
+                },
+            }
         } catch (error) {
             throw error
         }
@@ -43,7 +65,7 @@ class ChatSessionLogic {
                 title: title,
             })
 
-            return chatSession
+            return chatSession.toObject()
         } catch (error) {
             throw error
         }
@@ -76,7 +98,7 @@ class ChatSessionLogic {
             chatSession.title = newTitle
             await chatSession.save()
 
-            return chatSession
+            return chatSession.toObject()
         } catch (error) {
             throw error
         }

@@ -6,9 +6,9 @@ import { fileURLToPath } from "url";
 import path from "path";
 
 function routes(app) {
-    app.use("/chat-session", chatSessionRouter)
-    app.use("/message", messageRouter)
-    app.use("/user", userRouter)
+    app.use("/chat-sessions", chatSessionRouter)
+    app.use("/messages", messageRouter)
+    app.use("/users", userRouter)
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);

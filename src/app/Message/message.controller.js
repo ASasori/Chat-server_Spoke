@@ -46,12 +46,12 @@ class MessageController {
     getChatMessagesBySession = async (req, res) => {
         try {
             const chatSessionId = req.params.id
-            const skip = parseInt(req.query.skip) || 0
+            const page = parseInt(req.query.page) || 1
             const limit = parseInt(req.query.limit) || 20
-            const {chatMessages, olderMessageRemains} = await MessageLogic.getChatMessagesBySession(chatSessionId, skip, limit)
+            const {chatMessages, metadata} = await MessageLogic.getChatMessagesBySession(chatSessionId, page, limit)
             res.status(HttpStatusCode.OK).json({
-                chatMessages: chatMessages.reverse(),
-                olderMessageRemains
+                chatMessages,
+                metadata
             })
         } catch (error) {
             if (error instanceof AppError) {

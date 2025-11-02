@@ -9,15 +9,15 @@ router.post(
     "/test",
     MessageController.testFunction
 )
-
+// change to websocket
 router.post(
-    "/ask",
+    "/get-answer",
     Auth.userAuth,
     MessageController.getAnswer
 )
 
 router.get(
-    "/chat-messages/:id",
+    "/session/:id/get-messages",
     Auth.userAuth,
     MessageController.getChatMessagesBySession
 )

@@ -73,6 +73,51 @@ class UserController {
         }
     }
 
+    getProfile = async (req, res) => {
+        try {
+            const _id = req.user._id
+            const user = await UserLogic.getProfile(_id)
+            res.status(HttpStatusCode.OK).json({user})
+        } catch (error) {
+            if (error instanceof AppError) {
+                console.error(`[AppError ${error.errorCode}] ${error.message}`)
+                return res.status(error.statusCode).json({
+                    error: error.message,
+                    code: error.errorCode
+                })
+            }
+            
+            console.error("Unexpected Server Error: ", error)
+            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ 
+                error: "An unexpected internal error occurred",
+                code: ErrorCode.SERVER_ERROR
+            })
+        }
+    }
+
+    updateUsername = async (req, res) => {
+        try {
+            const {newUsername} = req.body
+            const _id = req.user._id
+            const user = await UserLogic.updateUsername(_id, newUsername)
+            res.status(HttpStatusCode.OK).json({user})
+        } catch (error) {
+            if (error instanceof AppError) {
+                console.error(`[AppError ${error.errorCode}] ${error.message}`)
+                return res.status(error.statusCode).json({
+                    error: error.message,
+                    code: error.errorCode
+                })
+            }
+
+            console.error("Unexpected Server Error: ", error)
+            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ 
+                error: "An unexpected internal error occurred",
+                code: ErrorCode.SERVER_ERROR
+            })
+        }
+    }
+
     restorePass = async (req, res) => {
         try {
             console.log("In development")

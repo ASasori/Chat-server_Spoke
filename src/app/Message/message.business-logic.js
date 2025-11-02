@@ -22,21 +22,21 @@ class MessageLogic {
             }
             console.log(`Question: ${question}`)
 
-            const api = env.SPOKE_AGENT_URL
-            if (!api || !api.startsWith('http')){
-                throw new AppError(
-                    "The URL is invalid",
-                    HttpStatusCode.INTERNAL_SERVER_ERROR,
-                    ErrorCode.INVALID_URL
-                )
-            }
-            const response = await axios.post(
-                api,
-                {prompt: question}
-            )
+            // const api = env.SPOKE_AGENT_URL
+            // if (!api || !api.startsWith('http')){
+            //     throw new AppError(
+            //         "The URL is invalid",
+            //         HttpStatusCode.INTERNAL_SERVER_ERROR,
+            //         ErrorCode.INVALID_URL
+            //     )
+            // }
+            // const response = await axios.post(
+            //     api,
+            //     {prompt: question}
+            // )
 
-            const answer = response.data?.answer
-            // const answer = "this is a mock answer"
+            // const answer = response.data?.answer
+            const answer = "this is a mock answer"
             if (!answer) {
                  throw new AppError(
                     "Could not generate an answer",
@@ -89,7 +89,7 @@ class MessageLogic {
         }
     }
 
-    getChatMessagesBySession = async (chatSessionId, skip, limit) => {
+    getChatMessagesBySession = async (chatSessionId, page, limit) => {
         try {
             if(!mongoose.isValidObjectId(chatSessionId)) {
                 throw new AppError(
@@ -99,17 +99,31 @@ class MessageLogic {
                 )
             }
             
+            page = Math.max(1, page) 
             limit = Math.min(Math.max(limit, 1), 100)
-            skip = Math.max(skip, 0)
+            const skip = (page - 1) * limit
+            const totalItems = await Message.countDocuments({chatSessionId})
+            const totalPages = Math.ceil(totalItems / limit)
+            const itemsRemain = Math.max(totalItems - (limit + skip), 0)
+            const nextPage = (page < totalPages) ? page + 1 : null
+            const prevPage = (page > 1) ? page - 1 : null
             const chatMessages = await Message
                                     .find({chatSessionId: chatSessionId})
                                     .sort({createdAt: -1})
                                     .skip(skip)
                                     .limit(limit)
-            const total = await Message.countDocuments({chatSessionId})
+            
             return {
-                chatMessages,
-                olderMessageRemains: Math.max(total - (limit + skip), 0)
+                chatMessages: chatMessages.map(msg => msg.toObject()).reverse(),
+                metadata: {
+                    currentPage: page,
+                    nextPage: nextPage,
+                    prevPage: prevPage,
+                    totalPages: totalPages,
+                    totalItems: totalItems,
+                    itemPerPage: limit,
+                    itemsRemain: itemsRemain
+                },
             }
         } catch (error) {
             throw error
