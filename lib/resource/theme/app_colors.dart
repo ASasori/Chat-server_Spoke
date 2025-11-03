@@ -6,9 +6,13 @@ class AppColors {
   static Color lightScaffoldBackgroundColor = hexToColor('#F9F9F9');
   static Color darkScaffoldBackgroundColor = hexToColor('#2F2E2E');
   static Color secondaryAppColor = hexToColor('#22DDA6');
+  static Color white = hexToColor("#FFFFFF");
+  static Color isNotSelectedNavBarColor = hexToColor('#0E0E15');
+  static Color isSelectedNavBarColor = hexToColor('#F8D000');
   static const Color black = Color(0xFF181A20);
   static const Color black80 = Color(0xCC000000);
-
+  
+  static Color colorFF7E5F = hexToColor("#FF7E5F");
 }
 
 ColorFilter greyFilter = const ColorFilter.matrix(<double>[
