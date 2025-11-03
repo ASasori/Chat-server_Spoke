@@ -1,10 +1,8 @@
 import { HttpStatusCode } from "../../utils/status-code.js"
-import { ErrorCode } from "../../utils/error-code.js"
-import AppError from "../../utils/custom-throw-error.js"
 import MessageLogic from "./message.business-logic.js"
 
 class MessageController {
-    testFunction = async (req, res) => {
+    testFunction = async (req, res, next) => {
         const question = req.body.question
 
         if (question != undefined && question !== "") {
@@ -20,30 +18,18 @@ class MessageController {
         }
     }
 
-    getAnswer = async (req, res) => {
+    getAnswer = async (req, res, next) => {
         try{
             const {question, chatSessionId} = req.body
             const userId = req.user._id
             const {answer, chatSessionId: returnedId, messages} = await MessageLogic.getAnswer(question, chatSessionId, userId)
             res.status(HttpStatusCode.CREATED).json({answer, chatSessionId: returnedId, messages})
         } catch (error) {
-            if (error instanceof AppError) {
-                console.error(`[AppError ${error.errorCode}] ${error.message}`)
-                return res.status(error.statusCode).json({
-                    error: error.message,
-                    code: error.errorCode
-                })
-            }
-            
-            console.error("Unexpected Server Error: ", error);
-            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ 
-                error: "An unexpected internal error occurred",
-                code: ErrorCode.SERVER_ERROR
-            })
+            return next(error)
         }  
     }
 
-    getChatMessagesBySession = async (req, res) => {
+    getChatMessagesBySession = async (req, res, next) => {
         try {
             const chatSessionId = req.params.id
             const page = parseInt(req.query.page) || 1
@@ -54,19 +40,7 @@ class MessageController {
                 metadata
             })
         } catch (error) {
-            if (error instanceof AppError) {
-                console.error(`[AppError ${error.errorCode}] ${error.message}`)
-                return res.status(error.statusCode).json({
-                    error: error.message,
-                    code: error.errorCode
-                })
-            }
-            
-            console.error("Unexpected Server Error: ", error);
-            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ 
-                error: "An unexpected internal error occurred",
-                code: ErrorCode.SERVER_ERROR
-            })
+            return next(error)
         }
     }
 }

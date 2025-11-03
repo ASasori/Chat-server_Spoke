@@ -122,7 +122,7 @@
       input.value = '';
 
       try {
-        const response = await fetch('/message/test', {
+        const response = await fetch('/messages/test', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question }),

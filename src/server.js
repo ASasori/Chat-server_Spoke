@@ -1,4 +1,5 @@
 import { env } from "./utils/env-loader.js"
+import errorHandler from "./middlewares/error-handler.js"
 import connectDB from "./db/connect.db.js"
 import routes from "./app/index.routes.js"
 
@@ -22,6 +23,8 @@ app.use(urlencoded({extended: true}))
 connectDB()
 
 routes(app)
+
+app.use(errorHandler)
 
 app.listen(env.PORT, () => {
     const baseURL = `${env.HOST}:${env.PORT}`;
