@@ -1,6 +1,6 @@
 import chatSessionRouter from "./ChatSession/chat-session.routes.js"
 import messageRouter from "./Message/message.routes.js"
-import userRouter from "./User/user.routes.js"
+import userRouter from "./user/user.routes.js"
 
 import { fileURLToPath } from "url";
 import path from "path";
