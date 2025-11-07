@@ -11,6 +11,11 @@ import mongoose from "mongoose"
 import axios from "axios"
 
 class MessageLogic {
+    getMockAnswer = async (question, delay = 3000) => {
+        console.log("Start processing mock answer...")
+        await new Promise(resolve => setTimeout(resolve, delay))
+        return `MOCK ANSWER (at ${new Date().toLocaleTimeString()}): Bạn vừa hỏi "${question}". Hiện tại AI chưa sẵn sàng nên đây là câu trả lời giả lập.`
+    }
     getAnswer = async (question, chatSessionId, userId) => {
         try {
             if (!question) {
@@ -36,7 +41,7 @@ class MessageLogic {
             // )
 
             // const answer = response.data?.answer
-            const answer = "this is a mock answer"
+            const answer = await this.getMockAnswer(question)
             if (!answer) {
                  throw new AppError(
                     "Could not generate an answer",

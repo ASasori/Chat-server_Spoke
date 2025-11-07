@@ -5,16 +5,17 @@ import { Router } from "express"
 
 const router = Router()
 
-router.post(
-    "/test",
-    MessageController.testFunction
-)
-// change to websocket
-router.post(
-    "/get-answer",
-    Auth.userAuth,
-    MessageController.getAnswer
-)
+// router.post(
+//     "/test",
+//     MessageController.testFunction
+// )
+
+// changed to websocket
+// router.post(
+//     "/get-answer",
+//     Auth.userAuth,
+//     MessageController.getAnswer
+// )
 
 router.get(
     "/session/:id/get-messages",

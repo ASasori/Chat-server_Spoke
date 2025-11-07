@@ -10,12 +10,15 @@ function routes(app) {
     app.use("/messages", messageRouter)
     app.use("/users", userRouter)
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
 
-    app.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "../templates/chat.html"));
-    });
+    // app.get("/", (req, res) => {
+    //     res.sendFile(path.join(__dirname, "../templates/chat.html"))
+    // })
+    app.get("/test-ws", (req, res) => {
+        res.sendFile(path.join(__dirname, "../templates/test-websocket.html"))
+    })
 }
 
 export default routes
