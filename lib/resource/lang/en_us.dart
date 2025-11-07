@@ -7,5 +7,7 @@ const Map<String, String> enUS = {
   "forgotPassword": "Forgot password",
   "noAccount": "Don't have an account ?",
   "signUp": "Sign up",
+  "enterEmail": "Enter your email",
+  "enterPassword": "Enter your password"
 
 };

@@ -13,6 +13,12 @@ class AppColors {
   static const Color black80 = Color(0xCC000000);
   
   static Color colorFF7E5F = hexToColor("#FF7E5F");
+  static Color color0E0E15 = hexToColor("#0E0E15");
+  static Color colorBDBDBD = hexToColor("#BDBDBD");
+  static Color colorFF2D2D = hexToColor("#FF2D2D");
+  static Color errorColor = Colors.red;
+
+
 }
 
 ColorFilter greyFilter = const ColorFilter.matrix(<double>[

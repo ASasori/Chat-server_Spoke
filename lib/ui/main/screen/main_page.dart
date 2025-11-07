@@ -10,18 +10,9 @@ class MainPage extends BasePage<MainController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-            () => IndexedStack(
-          index: controller.currentIndex.value,
-          children: controller.pages,
-        ),
-      ),
-      bottomNavigationBar: Obx(
-            () => CustomNavigationBar(
-          isSelectedList: controller.isSelectedList,
-          onItemTapped: controller.updateIndex,
-        ),
+    return Container (
+      decoration: const BoxDecoration(
+        color: Colors.greenAccent,
       ),
     );
   }
