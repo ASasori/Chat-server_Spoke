@@ -1,5 +1,5 @@
 import { env } from "./utils/env-loader.js"
-import initSocket from "./app/Message/message.socket.js"
+import initSocket from "./app/Message/socket/message.socket.js"
 import errorHandler from "./middlewares/error-handler.js"
 import connectDB from "./db/connect.db.js"
 import routes from "./app/index.routes.js"
@@ -31,7 +31,7 @@ app.use(urlencoded({extended: true}))
 //     next()
 // })
 
-connectDB()
+await connectDB()
 
 routes(app)
 initSocket(io)

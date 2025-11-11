@@ -1,14 +1,12 @@
 import { HttpStatusCode } from "../../utils/status-code.js"
 import { ErrorCode } from "../../utils/error-code.js"
 import { messageRoles } from "./message.enum.js"
-import { env } from "../../utils/env-loader.js"
 import ChatSessionLogic from "../ChatSession/chat-session.business-logic.js"
 import ChatSession from "../ChatSession/chat-session.model.js"
 import AppError from "../../utils/custom-throw-error.js"
 import Message from "./message.model.js"
 
 import mongoose from "mongoose"
-import axios from "axios"
 
 class MessageLogic {
     getMockAnswer = async (question, delay = 3000) => {
@@ -16,7 +14,7 @@ class MessageLogic {
         await new Promise(resolve => setTimeout(resolve, delay))
         return `MOCK ANSWER (at ${new Date().toLocaleTimeString()}): Bạn vừa hỏi "${question}". Hiện tại AI chưa sẵn sàng nên đây là câu trả lời giả lập.`
     }
-    getAnswer = async (question, chatSessionId, userId) => {
+    getAnswer = async (question, chatSessionId, userId, aiSocket) => {
         try {
             if (!question) {
                 throw new AppError(
@@ -26,22 +24,41 @@ class MessageLogic {
                 )
             }
             console.log(`Question: ${question}`)
+            
+            const answer = await new Promise((resolve, reject) => {
+                const cleanup = () => {
+                    aiSocket.removeListener("message", messageListener)
+                    aiSocket.removeListener("error", errorListener)
+                    aiSocket.removeListener("close", closeListener)
+                }
+                const messageListener = (data) => {
+                    cleanup()
+                    try {
+                        const response = JSON.parse(data)
+                        if (response.error) {
+                            reject(new Error(response.error))
+                        } else {
+                            resolve(response.answer)
+                        }
+                    } catch (err) {
+                        reject(new Error("Invalid response format from AI Server"))
+                    }
+                }
+                const errorListener = (err) => {
+                    cleanup()
+                    reject(new Error("AI Server connection error while waiting for response"))
+                }
+                const closeListener = () => {
+                    cleanup()
+                    reject(new Error("AI Server connection closed unexpectedly"))
+                }
 
-            // const api = env.SPOKE_AGENT_URL
-            // if (!api || !api.startsWith('http')){
-            //     throw new AppError(
-            //         "The URL is invalid",
-            //         HttpStatusCode.INTERNAL_SERVER_ERROR,
-            //         ErrorCode.INVALID_URL
-            //     )
-            // }
-            // const response = await axios.post(
-            //     api,
-            //     {prompt: question}
-            // )
-
-            // const answer = response.data?.answer
-            const answer = await this.getMockAnswer(question)
+                aiSocket.once("message", messageListener)
+                aiSocket.once("error", errorListener)
+                aiSocket.once("close", closeListener)
+                aiSocket.send(JSON.stringify({question: question, history: []}))
+            })
+            // const answer = await this.getMockAnswer(question)
             if (!answer) {
                  throw new AppError(
                     "Could not generate an answer",
@@ -83,13 +100,6 @@ class MessageLogic {
                 messages: [userMessage.toObject(), botAnswer.toObject()]
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                throw new AppError(
-                    error.message,
-                    HttpStatusCode.INTERNAL_SERVER_ERROR,
-                    ErrorCode.EXTERNAL_API_FAILURE
-                )
-            }
             throw error
         }
     }

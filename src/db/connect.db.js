@@ -2,7 +2,7 @@ import { env } from "../utils/env-loader.js"
 
 import mongoose from "mongoose"
 
-async function connectDB() {
+const connectDB = async () => {
     try {
         if (!env.DB_URI) {
             console.error("Missing DB_URI in environment variables.")
