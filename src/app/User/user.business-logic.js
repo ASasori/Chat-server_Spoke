@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 class UserLogic {
-    createToken = (_id, expiresIn = "1d") => {
+    #createToken = (_id, expiresIn = "1d") => {
         return jwt.sign({_id}, env.JWT_SECRET, {expiresIn})
     }
     
@@ -49,7 +49,7 @@ class UserLogic {
                 passwordHash: hash,
             })
             const {passwordHash, _id, ...publicUserData} = user.toObject() || user
-            const token = this.createToken(user._id)
+            const token = this.#createToken(user._id)
 
             return {user: publicUserData, token}
         } catch (error) {
@@ -86,7 +86,7 @@ class UserLogic {
             }
 
             const {passwordHash, _id, ...publicUserData} = user.toObject() || user
-            const token = this.createToken(user._id)
+            const token = this.#createToken(user._id)
 
             return {user: publicUserData, token}
         } catch (error) {

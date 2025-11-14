@@ -9,11 +9,6 @@ import Message from "./message.model.js"
 import mongoose from "mongoose"
 
 class MessageLogic {
-    getMockAnswer = async (question, delay = 3000) => {
-        console.log("Start processing mock answer...")
-        await new Promise(resolve => setTimeout(resolve, delay))
-        return `MOCK ANSWER (at ${new Date().toLocaleTimeString()}): Bạn vừa hỏi "${question}". Hiện tại AI chưa sẵn sàng nên đây là câu trả lời giả lập.`
-    }
     getAnswer = async (question, chatSessionId, userId, aiSocket) => {
         try {
             if (!question) {
@@ -24,43 +19,15 @@ class MessageLogic {
                 )
             }
             console.log(`Question: ${question}`)
-            
-            const answer = await new Promise((resolve, reject) => {
-                const cleanup = () => {
-                    aiSocket.removeListener("message", messageListener)
-                    aiSocket.removeListener("error", errorListener)
-                    aiSocket.removeListener("close", closeListener)
-                }
-                const messageListener = (data) => {
-                    cleanup()
-                    try {
-                        const response = JSON.parse(data)
-                        if (response.error) {
-                            reject(new Error(response.error))
-                        } else {
-                            resolve(response.answer)
-                        }
-                    } catch (err) {
-                        reject(new Error("Invalid response format from AI Server"))
-                    }
-                }
-                const errorListener = (err) => {
-                    cleanup()
-                    reject(new Error("AI Server connection error while waiting for response"))
-                }
-                const closeListener = () => {
-                    cleanup()
-                    reject(new Error("AI Server connection closed unexpectedly"))
-                }
 
-                aiSocket.once("message", messageListener)
-                aiSocket.once("error", errorListener)
-                aiSocket.once("close", closeListener)
-                aiSocket.send(JSON.stringify({question: question, history: []}))
-            })
-            // const answer = await this.getMockAnswer(question)
+            let chatHistory = []
+            if (chatSessionId) {
+                chatHistory = await this.#getAllChatMessagesBySession(chatSessionId)
+            }
+
+            const answer = await this.#callAIServer(question, chatHistory, aiSocket)
             if (!answer) {
-                 throw new AppError(
+                throw new AppError(
                     "Could not generate an answer",
                     HttpStatusCode.NOT_FOUND,
                     ErrorCode.NO_ANSWER_FOUND
@@ -73,15 +40,6 @@ class MessageLogic {
                 const chatSession = await ChatSessionLogic.createNewChatSession(userId, newTitle)
                 chatSessionId = chatSession._id
             }
-
-            if(!mongoose.isValidObjectId(chatSessionId)) {
-                throw new AppError(
-                    "Invalid chat session ID",
-                    HttpStatusCode.BAD_REQUEST,
-                    ErrorCode.INVALID_FIELD
-                )
-            }
-
             const userMessage = await Message.create({
                 chatSessionId: chatSessionId,
                 role: messageRoles.USER,
@@ -114,7 +72,7 @@ class MessageLogic {
                 )
             }
             
-            page = Math.max(1, page) 
+            page = Math.max(1, page)
             limit = Math.min(Math.max(limit, 1), 100)
             const skip = (page - 1) * limit
             const totalItems = await Message.countDocuments({chatSessionId})
@@ -129,6 +87,7 @@ class MessageLogic {
                                     .limit(limit)
             
             return {
+                // reverse the list to return the item by choronological order
                 chatMessages: chatMessages.map(msg => msg.toObject()).reverse(),
                 metadata: {
                     currentPage: page,
@@ -143,6 +102,60 @@ class MessageLogic {
         } catch (error) {
             throw error
         }
+    }
+
+    #getAllChatMessagesBySession = async (chatSessionId) => {
+        try {
+            if(!mongoose.isValidObjectId(chatSessionId)) {
+                throw new AppError(
+                    "Invalid chat session ID",
+                    HttpStatusCode.BAD_REQUEST,
+                    ErrorCode.INVALID_FIELD
+                )
+            }
+            const chatMessages = await Message
+                                    .find({chatSessionId: chatSessionId})
+                                    .sort({createdAt: 1})
+                                    .select("role content -_id")
+            return chatMessages.map(msg => msg.toObject())
+        } catch (error) {
+            throw error
+        }
+    }
+
+    #callAIServer = async (question, history, aiSocket) => {
+        return new Promise((resolve, reject) => {
+            const cleanup = () => {
+                aiSocket.removeListener("message", messageListener)
+                aiSocket.removeListener("error", errorListener)
+                aiSocket.removeListener("close", closeListener)
+            }
+            const messageListener = (data) => {
+                cleanup()
+                try {
+                    const response = JSON.parse(data)
+                    if (response.error) {
+                        reject(new Error(response.error))
+                    } else {
+                        resolve(response.answer)
+                    }
+                } catch (err) {
+                    reject(new Error("Invalid response format from AI Server"))
+                }
+            }
+            const errorListener = (err) => {
+                cleanup()
+                reject(new Error("AI Server connection error while waiting for response"))
+            }
+            const closeListener = () => {
+                cleanup()
+                reject(new Error("AI Server connection closed unexpectedly"))
+            }
+            aiSocket.once("message", messageListener)
+            aiSocket.once("error", errorListener)
+            aiSocket.once("close", closeListener)
+            aiSocket.send(JSON.stringify({question: question, history: history}))
+        })
     }
 }
 
