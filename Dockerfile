@@ -11,7 +11,7 @@ RUN npm ci --omit=dev
 COPY . .
 
 # Mở port mà server đang chạy
-EXPOSE 3000
+EXPOSE 3001
 
 # Chạy server trực tiếp bằng node
 # KHÔNG dùng "npm start" vì nó gọi nodemon

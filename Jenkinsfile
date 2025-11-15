@@ -1,63 +1,77 @@
 pipeline {
-    // 1. Tên agent của bạn
-    agent { label 'docker-agent' }
+    agent any
+
+    environment {
+        IMAGE_NAME = "chat-server"
+        IMAGE_TAG = "latest"
+        CONTAINER_NAME = "chat-server"
+        ENV_FILE = ".env"
+        PORT = "3001"  // Port chat-server chạy
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                // 1. Dùng URL SSH (không phải HTTPS)
-                // 2. Thêm credentialsId (từ log của bạn)
-                // git branch: 'main', 
-                //     url: 'git@github.com:ASasori/Chat-server_Spoke.git',
-                //     credentialsId: 'jenkins-agent-ssh-key'
-                git branch: 'main', 
-                    url: 'https://github.com/ASasori/Chat-server_Spoke.git'
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                // 3. Đặt tên image là 'chat-server'
-                sh 'docker build -t chat-server:latest .'
+                echo "Checking out branch ${env.BRANCH_NAME}..."
+                checkout scm
             }
         }
 
-        stage('Security Scan (Trivy)') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                if ! command -v trivy &> /dev/null
-                then
-                    echo "Skipping scan: Trivy not installed"
-                else
-                    // 4. Scan image 'chat-server'
-                    trivy image chat-server:latest || true
-                fi
-                '''
+                echo "Building Docker image for chat-server..."
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                // 5. Nạp file .env
-                // 'chat-server-env' là ID tạo ở Bước 1
-                // '.env.prod' là tên file tạm thời tạo ra
-                withCredentials([file(credentialsId: 'chat-server-env', variable: 'DOT_ENV_FILE')]) {
-                    sh '''
-                    echo "Deploying Chat Server..."
-                    
-                    # 6. Dừng và xóa container tên 'chat-server' (nếu có)
-                    docker rm -f chat-server || true
-                    
-                    # 7. Chạy container mới
-                    # --name chat-server (tên mới)
-                    # -p 3000:3000 (port mới, khớp với .env)
-                    # --env-file $DOT_ENV_FILE (nạp file .env bí mật)
-                    # chat-server:latest (image mới)
-                    docker run -d --name chat-server -p 3000:3000 --env-file $DOT_ENV_FILE chat-server:latest
-                    
-                    echo "Deployment complete."
-                    '''
+                echo "Deploying chat-server container..."
+                script {
+                    // Stop & remove container nếu tồn tại
+                    sh """
+                        if [ \$(docker ps -aq -f name=${CONTAINER_NAME}) ]; then
+                            docker stop ${CONTAINER_NAME} || true
+                            docker rm ${CONTAINER_NAME} || true
+                        fi
+                    """
+
+                    // Kiểm tra env file
+                    sh """
+                        if [ ! -f ${ENV_FILE} ]; then
+                            echo "${ENV_FILE} not found! Please provide it."
+                            exit 1
+                        fi
+                    """
+
+                    // Chạy container
+                    sh """
+                        docker run -d \
+                        --name ${CONTAINER_NAME} \
+                        --env-file ${ENV_FILE} \
+                        -p ${PORT}:${PORT} \
+                        ${IMAGE_NAME}:${IMAGE_TAG}
+                    """
                 }
             }
+        }
+
+        stage('Post-Deploy Check') {
+            steps {
+                echo "Verifying container is running..."
+                sh "docker ps -f name=${CONTAINER_NAME}"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Chat-server deployed successfully!"
+        }
+        failure {
+            echo "Chat-server deployment FAILED!"
         }
     }
 }
