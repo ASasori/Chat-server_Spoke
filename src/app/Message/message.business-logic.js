@@ -1,17 +1,15 @@
 import { HttpStatusCode } from "../../utils/status-code.js"
 import { ErrorCode } from "../../utils/error-code.js"
 import { messageRoles } from "./message.enum.js"
-import { env } from "../../utils/env-loader.js"
 import ChatSessionLogic from "../ChatSession/chat-session.business-logic.js"
 import ChatSession from "../ChatSession/chat-session.model.js"
 import AppError from "../../utils/custom-throw-error.js"
 import Message from "./message.model.js"
 
 import mongoose from "mongoose"
-import axios from "axios"
 
 class MessageLogic {
-    getAnswer = async (question, chatSessionId, userId) => {
+    getAnswer = async (question, chatSessionId, userId, aiSocket) => {
         try {
             if (!question) {
                 throw new AppError(
@@ -22,23 +20,14 @@ class MessageLogic {
             }
             console.log(`Question: ${question}`)
 
-            // const api = env.SPOKE_AGENT_URL
-            // if (!api || !api.startsWith('http')){
-            //     throw new AppError(
-            //         "The URL is invalid",
-            //         HttpStatusCode.INTERNAL_SERVER_ERROR,
-            //         ErrorCode.INVALID_URL
-            //     )
-            // }
-            // const response = await axios.post(
-            //     api,
-            //     {prompt: question}
-            // )
+            let chatHistory = []
+            if (chatSessionId) {
+                chatHistory = await this.#getAllChatMessagesBySession(chatSessionId)
+            }
 
-            // const answer = response.data?.answer
-            const answer = "this is a mock answer"
+            const answer = await this.#callAIServer(question, chatHistory, aiSocket)
             if (!answer) {
-                 throw new AppError(
+                throw new AppError(
                     "Could not generate an answer",
                     HttpStatusCode.NOT_FOUND,
                     ErrorCode.NO_ANSWER_FOUND
@@ -51,15 +40,6 @@ class MessageLogic {
                 const chatSession = await ChatSessionLogic.createNewChatSession(userId, newTitle)
                 chatSessionId = chatSession._id
             }
-
-            if(!mongoose.isValidObjectId(chatSessionId)) {
-                throw new AppError(
-                    "Invalid chat session ID",
-                    HttpStatusCode.BAD_REQUEST,
-                    ErrorCode.INVALID_FIELD
-                )
-            }
-
             const userMessage = await Message.create({
                 chatSessionId: chatSessionId,
                 role: messageRoles.USER,
@@ -78,13 +58,6 @@ class MessageLogic {
                 messages: [userMessage.toObject(), botAnswer.toObject()]
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                throw new AppError(
-                    error.message,
-                    HttpStatusCode.INTERNAL_SERVER_ERROR,
-                    ErrorCode.EXTERNAL_API_FAILURE
-                )
-            }
             throw error
         }
     }
@@ -99,7 +72,7 @@ class MessageLogic {
                 )
             }
             
-            page = Math.max(1, page) 
+            page = Math.max(1, page)
             limit = Math.min(Math.max(limit, 1), 100)
             const skip = (page - 1) * limit
             const totalItems = await Message.countDocuments({chatSessionId})
@@ -114,6 +87,7 @@ class MessageLogic {
                                     .limit(limit)
             
             return {
+                // reverse the list to return the item by choronological order
                 chatMessages: chatMessages.map(msg => msg.toObject()).reverse(),
                 metadata: {
                     currentPage: page,
@@ -128,6 +102,60 @@ class MessageLogic {
         } catch (error) {
             throw error
         }
+    }
+
+    #getAllChatMessagesBySession = async (chatSessionId) => {
+        try {
+            if(!mongoose.isValidObjectId(chatSessionId)) {
+                throw new AppError(
+                    "Invalid chat session ID",
+                    HttpStatusCode.BAD_REQUEST,
+                    ErrorCode.INVALID_FIELD
+                )
+            }
+            const chatMessages = await Message
+                                    .find({chatSessionId: chatSessionId})
+                                    .sort({createdAt: 1})
+                                    .select("role content -_id")
+            return chatMessages.map(msg => msg.toObject())
+        } catch (error) {
+            throw error
+        }
+    }
+
+    #callAIServer = async (question, history, aiSocket) => {
+        return new Promise((resolve, reject) => {
+            const cleanup = () => {
+                aiSocket.removeListener("message", messageListener)
+                aiSocket.removeListener("error", errorListener)
+                aiSocket.removeListener("close", closeListener)
+            }
+            const messageListener = (data) => {
+                cleanup()
+                try {
+                    const response = JSON.parse(data)
+                    if (response.error) {
+                        reject(new Error(response.error))
+                    } else {
+                        resolve(response.answer)
+                    }
+                } catch (err) {
+                    reject(new Error("Invalid response format from AI Server"))
+                }
+            }
+            const errorListener = (err) => {
+                cleanup()
+                reject(new Error("AI Server connection error while waiting for response"))
+            }
+            const closeListener = () => {
+                cleanup()
+                reject(new Error("AI Server connection closed unexpectedly"))
+            }
+            aiSocket.once("message", messageListener)
+            aiSocket.once("error", errorListener)
+            aiSocket.once("close", closeListener)
+            aiSocket.send(JSON.stringify({question: question, history: history}))
+        })
     }
 }
 

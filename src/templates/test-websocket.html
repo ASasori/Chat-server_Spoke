@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebSocket Chat Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0; padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    #main-layout {
+        display: flex;
+        width: 900px;
+        height: 90vh;
+        gap: 20px;
+    }
+
+    /* Cột trái: Chat UI */
+    .chat-container {
+      flex: 2;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    #chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      word-wrap: break-word;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .user { align-self: flex-end; background: #007bff; color: #fff; border-bottom-right-radius: 0; }
+    .bot { align-self: flex-start; background: #e5e5ea; color: #000; border-bottom-left-radius: 0; }
+    .system { align-self: center; background: #fff3cd; color: #856404; font-size: 13px; padding: 5px 10px; border-radius: 20px; }
+
+    #input-section {
+      display: flex; padding: 10px; background: #f0f0f0; border-top: 1px solid #ddd;
+    }
+    #input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+    button {
+      margin-left: 10px; padding: 10px 20px; border: none; background: #28a745; color: white;
+      border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s;
+    }
+    button:hover { background: #218838; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+
+    /* Cột phải: Debug & Controls */
+    .debug-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .control-panel, .log-panel {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .log-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #log-box {
+        flex: 1;
+        background: #1e1e1e;
+        color: #00ff00;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12px;
+        padding: 10px;
+        overflow-y: auto;
+        border-radius: 5px;
+        white-space: pre-wrap;
+    }
+
+    .form-group { margin-bottom: 10px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; color: #555; }
+    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    #btn-connect { width: 100%; background: #007bff; }
+    #btn-connect.connected { background: #dc3545; }
+
+  </style>
+</head>
+<body>
+
+  <div id="main-layout">
+      <div class="chat-container">
+        <div id="chat-box"></div>
+        <div id="input-section">
+          <input id="input" type="text" placeholder="Type your message..." disabled />
+          <button id="send" disabled>Send</button>
+        </div>
+      </div>
+
+      <div class="debug-container">
+          <div class="control-panel">
+              <h3>Connection Settings</h3>
+              <div class="form-group">
+                  <label for="token">JWT Token (Required for Auth):</label>
+                  <input type="text" id="token" placeholder="Paste your Bearer token here" />
+              </div>
+              <button id="btn-connect">Connect Socket</button>
+          </div>
+
+          <div class="control-panel">
+            <h3>Message Options</h3>
+            <div class="form-group">
+                <label for="sessionId">Chat Session ID (Optional):</label>
+                <input type="text" id="sessionId" placeholder="Leave empty for new session" />
+            </div>
+        </div>
+
+          <div class="log-panel">
+              <h3>Raw Events Log</h3>
+              <div id="log-box">Logs will appear here...</div>
+          </div>
+      </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const input = document.getElementById('input');
+    const sendBtn = document.getElementById('send');
+    const connectBtn = document.getElementById('btn-connect');
+    const tokenInput = document.getElementById('token');
+    const sessionInput = document.getElementById('sessionId');
+    const logBox = document.getElementById('log-box');
+
+    let socket;
+
+    function appendMessage(role, text) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', role);
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function logRaw(event, data) {
+        const time = new Date().toLocaleTimeString();
+        const json = data ? JSON.stringify(data, null, 2) : '';
+        logBox.textContent += `[${time}] <${event}>\n${json}\n\n`;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function toggleChat(enable) {
+        input.disabled = !enable;
+        sendBtn.disabled = !enable;
+        tokenInput.disabled = enable; // Disable token input while connected
+    }
+
+    connectBtn.addEventListener('click', () => {
+        if (socket && socket.connected) {
+            socket.disconnect();
+            return;
+        }
+
+        const token = tokenInput.value.trim();
+        if (!token) {
+            alert("Please enter a JWT Token first!");
+            return;
+        }
+
+        // --- SOCKET CONNECTION ---
+        socket = io({
+            auth: { token: token },
+            transports: ['websocket', 'polling']
+        });
+
+        // --- EVENT LISTENERS ---
+        socket.on('connect', () => {
+            appendMessage('system', 'System: Connected to server.');
+            logRaw('CONNECT', { id: socket.id });
+            connectBtn.textContent = 'Disconnect';
+            connectBtn.classList.add('connected');
+            toggleChat(true);
+        });
+
+        socket.on('disconnect', () => {
+            appendMessage('system', 'System: Disconnected.');
+            logRaw('DISCONNECT', {});
+            connectBtn.textContent = 'Connect Socket';
+            connectBtn.classList.remove('connected');
+            toggleChat(false);
+        });
+
+        socket.on('connect_error', (err) => {
+             appendMessage('system', `Error: Connection failed - ${err.message}`);
+             logRaw('CONNECT_ERROR', { message: err.message });
+             toggleChat(false);
+        });
+
+        // Nhận ACK từ server (khi server bắt đầu xử lý)
+        socket.on('server-ack', (data) => {
+            logRaw('server-ack', data);
+            // Có thể hiển thị trạng thái "typing..." ở đây
+        });
+
+        // Nhận câu trả lời cuối cùng
+        socket.on('receive-answer', (data) => {
+            logRaw('receive-answer', data);
+            if (data.answer) {
+                appendMessage('bot', data.answer);
+            }
+            // Tự động điền Session ID mới nhận được vào ô input để tiện chat tiếp
+            if (data.chatSessionId && !sessionInput.value) {
+                sessionInput.value = data.chatSessionId;
+                logRaw('INFO', { msg: 'Auto-filled new Session ID' });
+            }
+        });
+
+        // Nhận lỗi nghiệp vụ từ server
+        socket.on('error-message', (data) => {
+            logRaw('error-message', data);
+            appendMessage('bot', 'Error: ' + data.message);
+        });
+    });
+
+    function sendMessage() {
+      const question = input.value.trim();
+      const chatSessionId = sessionInput.value.trim() || null;
+
+      if (!question || !socket || !socket.connected) return;
+
+      appendMessage('user', question);
+      input.value = '';
+
+      // Gửi event lên server
+      const payload = { question, chatSessionId };
+      logRaw('EMIT: ask-question', payload);
+      socket.emit('ask-question', payload);
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>

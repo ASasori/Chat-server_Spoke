@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 class Authentication {
     userAuth = async(req, res, next) => {
         try{
-            const authorization = req.headers.authorization;
+            const authorization = req.headers.authorization
 
             if (!authorization) {
                 return res.status(HttpStatusCode.UNAUTHORIZED).json({
