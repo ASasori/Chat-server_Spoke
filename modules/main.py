@@ -38,14 +38,7 @@ def main():
         llm_client=main_llm_client, # Pass client to enable pruning
         pruning_threshold=15
     )
-    # ---
-    # TO REDUCE LLM CALLS, disable pruning by passing llm_client=None:
-    # executor = SpokeExecutor(
-    #     llm_client=None, 
-    #     pruning_threshold=15
-    # )
-    # ---
-
+    
     # Module 3: Answer Generator (needs LLM)
     answer_module = AnswerGenerator(llm_client=main_llm_client)
     

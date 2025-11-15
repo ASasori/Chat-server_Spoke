@@ -2,6 +2,7 @@
 
 import os
 import json
+import time
 import logging
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from dotenv import load_dotenv
@@ -9,6 +10,7 @@ from contextlib import asynccontextmanager
 
 # Import your class modules
 from modules.llm_client import GeminiLLMClient
+from modules.query_writing import QueryWriting
 from modules.smart_search import SmartSearch
 from modules.spoke_executor import SpokeExecutor
 from modules.generate_answer import AnswerGenerator
@@ -18,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("ai_server.log"),  # Ghi ra file
+        logging.FileHandler("ai_server.log", encoding="utf-8"),  # Ghi ra file
         logging.StreamHandler()              # Ghi ra console
     ]
 )
@@ -27,6 +29,7 @@ logging.basicConfig(
 
 # We will use global variables to hold the module instances
 # This ensures they are initialized only once
+query_writing: QueryWriting = None
 search_module: SmartSearch = None
 executor: SpokeExecutor = None
 answer_module: AnswerGenerator = None
@@ -37,7 +40,7 @@ async def lifespan(app: FastAPI):
     This function will run once when the server starts.
     It loads the API key and initializes all necessary modules.
     """
-    global search_module, executor, answer_module
+    global query_writing, search_module, executor, answer_module
     
     logging.info("Server is starting up...")
     
@@ -50,7 +53,10 @@ async def lifespan(app: FastAPI):
     try:
         # Initialize the shared LLM client
         main_llm_client = GeminiLLMClient(api_key=gemini_key)
-
+        
+        query_writing = QueryWriting(
+            llm_client=main_llm_client
+        )
         # Module 1: Planner (SmartSearch)
         search_module = SmartSearch(
             llm_client=main_llm_client,
@@ -93,15 +99,14 @@ async def run_full_pipeline(question: str, history: list) -> str:
     Otherwise, FastAPI will automatically run them in a separate thread pool.
     """
     try:
+        start_time = time.time()
+        logging.info(f"Start time: {start_time}")
         logging.info(f"Pipeline started for question: '{question}'")
         
-        # TODO: Step A - Rewrite query based on history (as discussed)
-        # standalone_question = await rewrite_query_based_on_history(question, history)
-        # Currently, we are using the original question
-        standalone_question = question
+        # Step 0: Rewrite query based on query and history
+        standalone_question = await query_writing.get_standalone_question(question, history)
 
         # Step 1: PLAN - Create execution plan
-        # Assuming `get_execution_plan` is an async function
         plan = await search_module.get_execution_plan(standalone_question)
         if plan.get("error"):
             logging.error(f"Planning failed: {plan.get('error')}")
@@ -110,13 +115,12 @@ async def run_full_pipeline(question: str, history: list) -> str:
         logging.info(f"Plan created: {json.dumps(plan, indent=2)}")
 
         # Step 2: EXECUTE - Execute the plan and fetch data
-        # Assuming `execute_plan` is an async function
         context_store = await executor.execute_plan(plan, standalone_question)
         
+        # logging.info(f"Plan created: {json.dumps(context_store, indent=2)}")
         logging.info("Execution completed. Final Context Store is ready.")
 
         # Step 3: GENERATE (RAG) - Generate answer from data
-        # Assuming `generate_final_answer` is an async function
         final_answer = await answer_module.generate_final_answer(
             nlq=standalone_question,
             context_store=context_store,
@@ -124,6 +128,10 @@ async def run_full_pipeline(question: str, history: list) -> str:
         )
         
         logging.info("Final answer generated.")
+        end_time = time.time()
+        logging.info(f"End time: {end_time}")
+        logging.info(f"Total time for entire processing: {end_time - start_time}")
+
         return final_answer
 
     except Exception as e:
@@ -166,4 +174,4 @@ async def websocket_endpoint(websocket: WebSocket):
         try:
             await websocket.send_json({"error": f"Server error: {str(e)}"})
         except RuntimeError:
-            pass # Connection is already closed
+            pass

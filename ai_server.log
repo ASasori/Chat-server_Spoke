@@ -1,23 +1,95 @@
-2025-11-03 00:58:35,248 - INFO - Server is starting up...
-2025-11-03 00:58:35,253 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 00:59:01,865 - INFO - WebSocket connection established.
-2025-11-03 00:59:01,870 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
-2025-11-03 00:59:13,937 - ERROR - An error occurred in the AI pipeline: object dict can't be used in 'await' expression
-Traceback (most recent call last):
-  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 105, in run_full_pipeline
-    plan = await search_module.get_execution_plan(standalone_question)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: object dict can't be used in 'await' expression
-2025-11-03 00:59:13,937 - INFO - WebSocket connection closed.
-2025-11-03 01:00:12,063 - INFO - Server is shutting down...
-2025-11-03 01:06:34,395 - INFO - Server is starting up...
-2025-11-03 01:06:34,397 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 01:06:35,306 - INFO - Server is shutting down...
-2025-11-03 01:21:09,031 - INFO - Server is starting up...
-2025-11-03 01:21:09,033 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 01:21:18,165 - INFO - WebSocket connection established.
-2025-11-03 01:21:18,173 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
-2025-11-03 01:21:28,461 - INFO - Plan created: {
+2025-11-14 23:09:43,872 - INFO - Server is starting up...
+2025-11-14 23:09:43,877 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:10:17,884 - INFO - Server is shutting down...
+2025-11-14 23:11:22,393 - INFO - Server is starting up...
+2025-11-14 23:11:22,398 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:11:30,189 - INFO - WebSocket connection established.
+2025-11-14 23:11:30,199 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
+2025-11-14 23:11:30,651 - ERROR - Planning failed: Gemini API call failed
+2025-11-14 23:12:11,197 - INFO - WebSocket connection closed.
+2025-11-14 23:12:11,301 - INFO - Server is shutting down...
+2025-11-14 23:12:53,046 - INFO - Server is starting up...
+2025-11-14 23:12:53,048 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:13:16,709 - INFO - WebSocket connection established.
+2025-11-14 23:13:16,714 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
+2025-11-14 23:14:13,152 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find 'Symptoms' it presents.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-14 23:14:49,297 - INFO - Execution completed. Final Context Store is ready.
+2025-11-14 23:15:09,480 - INFO - Final answer generated.
+2025-11-14 23:20:58,268 - INFO - WebSocket connection closed.
+2025-11-14 23:20:58,383 - INFO - Server is shutting down...
+2025-11-14 23:21:04,427 - INFO - Server is starting up...
+2025-11-14 23:21:04,433 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:21:14,989 - INFO - Server is shutting down...
+2025-11-14 23:21:20,316 - INFO - Server is starting up...
+2025-11-14 23:21:20,323 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:21:23,387 - INFO - WebSocket connection established.
+2025-11-14 23:21:23,394 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
+2025-11-14 23:21:40,453 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find presented 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-14 23:26:39,464 - INFO - Server is starting up...
+2025-11-14 23:26:39,468 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-14 23:26:44,678 - INFO - WebSocket connection established.
+2025-11-14 23:26:44,681 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
+2025-11-14 23:26:59,930 - INFO - Plan created: {
   "query_type": "path",
   "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find the 'Symptoms' they present.",
   "entities": [
@@ -48,57 +120,162 @@ TypeError: object dict can't be used in 'await' expression
     }
   ]
 }
-2025-11-03 01:22:45,685 - INFO - Execution completed. Final Context Store is ready.
-2025-11-03 01:22:45,685 - ERROR - An error occurred in the AI pipeline: AnswerGenerator.generate_final_answer() got an unexpected keyword argument 'history'
-Traceback (most recent call last):
-  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 120, in run_full_pipeline
-    final_answer = await answer_module.generate_final_answer(
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: AnswerGenerator.generate_final_answer() got an unexpected keyword argument 'history'
-2025-11-03 01:22:45,691 - INFO - WebSocket connection closed.
-2025-11-03 01:23:55,518 - INFO - Server is shutting down...
-2025-11-03 01:23:58,641 - INFO - Server is starting up...
-2025-11-03 01:23:58,642 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 01:27:39,484 - INFO - Server is shutting down...
-2025-11-03 01:27:40,613 - INFO - Server is starting up...
-2025-11-03 01:27:40,614 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 01:30:59,060 - INFO - Server is shutting down...
-2025-11-03 01:31:00,177 - INFO - Server is starting up...
-2025-11-03 01:31:00,177 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-11-03 01:31:18,909 - INFO - WebSocket connection established.
-2025-11-03 01:31:18,913 - INFO - Pipeline started for question: 'What symptoms are presented by diseases that are treated by Fulvestrant?'
-2025-11-03 01:31:29,107 - INFO - Plan created: {
-  "query_type": "path",
-  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find the 'Symptoms' they present.",
+2025-11-14 23:27:18,320 - INFO - Execution completed. Final Context Store is ready.
+2025-11-14 23:27:26,819 - INFO - Final answer generated.
+2025-11-14 23:28:05,786 - INFO - WebSocket connection closed.
+2025-11-14 23:28:05,888 - INFO - Server is shutting down...
+2025-11-15 13:02:39,197 - INFO - Server is starting up...
+2025-11-15 13:02:39,199 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:04:30,085 - INFO - Server is shutting down...
+2025-11-15 13:04:31,154 - INFO - Server is starting up...
+2025-11-15 13:04:31,154 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:04:53,544 - INFO - WebSocket connection established.
+2025-11-15 13:04:53,550 - INFO - Start time: 1763186693.5504036
+2025-11-15 13:05:04,990 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for the symptoms of breast cancer in Vietnamese. This translates to a one-hop query from the disease 'breast cancer' to the node type 'Symptom'. The edge connecting them is PRESENTS_DpS.",
   "entities": [
     {
-      "name_in_query": "Fulvestrant",
-      "normalized_type": "Compound",
-      "id_placeholder": "fulvestrant_entity"
+      "name_in_query": "breast cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "disease_entity"
     }
   ],
   "plan": [
     {
       "step": 1,
-      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
-      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "description": "Get symptoms presented by 'breast cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/breast cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
       "logic": null,
       "inputs": null,
-      "store_as": "disease_list"
-    },
-    {
-      "step": 2,
-      "description": "Hop 2: Get symptoms presented by those diseases",
-      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
-      "logic": null,
-      "inputs": [
-        "disease_list"
-      ],
       "store_as": "final_result"
     }
   ]
 }
-2025-11-03 01:32:42,298 - INFO - Execution completed. Final Context Store is ready.
-2025-11-03 01:32:42,300 - INFO - Final answer generated.
-2025-11-03 01:32:42,301 - ERROR - An error occurred in the WebSocket connection: Object of type coroutine is not JSON serializable
-2025-11-03 01:35:37,622 - INFO - Server is shutting down...
+2025-11-15 13:05:06,721 - INFO - Execution completed. Final Context Store is ready.
+2025-11-15 13:05:21,336 - INFO - Final answer generated.
+2025-11-15 13:05:21,337 - INFO - End time: 1763186721.3376715
+2025-11-15 13:05:21,337 - INFO - Total time for entire processing: 27.787267923355103
+2025-11-15 13:05:21,341 - INFO - WebSocket connection closed.
+2025-11-15 13:05:21,451 - INFO - Server is shutting down...
+2025-11-15 13:06:28,238 - INFO - Server is starting up...
+2025-11-15 13:06:28,245 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:06:31,609 - INFO - WebSocket connection established.
+2025-11-15 13:06:31,617 - INFO - Start time: 1763186791.6178389
+2025-11-15 13:06:49,601 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for the symptoms of breast cancer. This is a one-hop query. I need to find the 'Disease' node for 'breast cancer' and then find its neighboring 'Symptom' nodes connected by the 'PRESENTS_DpS' edge.",
+  "entities": [
+    {
+      "name_in_query": "ung th\u01b0 v\u00fa",
+      "normalized_type": "Disease",
+      "id_placeholder": "disease_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by the disease 'breast cancer'.",
+      "api_call": "/api/v1/neighborhood/Disease/name/breast cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-15 13:06:51,230 - INFO - Execution completed. Final Context Store is ready.
+2025-11-15 13:07:11,603 - INFO - Final answer generated.
+2025-11-15 13:07:11,603 - INFO - End time: 1763186831.6034572
+2025-11-15 13:07:11,606 - INFO - Total time for entire processing: 39.985618352890015
+2025-11-15 13:07:11,607 - INFO - WebSocket connection closed.
+2025-11-15 13:10:52,427 - INFO - Server is shutting down...
+2025-11-15 13:10:55,475 - INFO - Server is starting up...
+2025-11-15 13:10:55,476 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:11:10,878 - INFO - Server is shutting down...
+2025-11-15 13:12:08,528 - INFO - Server is starting up...
+2025-11-15 13:12:08,530 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:12:14,268 - INFO - WebSocket connection established.
+2025-11-15 13:12:14,273 - INFO - Start time: 1763187134.2734196
+2025-11-15 13:15:19,414 - INFO - WebSocket connection closed.
+2025-11-15 13:15:19,530 - INFO - Server is shutting down...
+2025-11-15 13:22:08,108 - INFO - Server is starting up...
+2025-11-15 13:22:08,115 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:22:09,955 - INFO - Server is shutting down...
+2025-11-15 13:22:31,670 - INFO - Server is starting up...
+2025-11-15 13:22:31,670 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:22:36,439 - INFO - WebSocket connection established.
+2025-11-15 13:22:36,451 - INFO - Start time: 1763187756.4515474
+2025-11-15 13:22:36,452 - INFO - Pipeline started for question: 'Triệu chứng của nó là gì?'
+2025-11-15 13:23:58,187 - INFO - WebSocket connection closed.
+2025-11-15 13:23:58,281 - INFO - Server is shutting down...
+2025-11-15 13:24:01,309 - INFO - Server is starting up...
+2025-11-15 13:24:01,315 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:24:07,494 - INFO - Server is shutting down...
+2025-11-15 13:24:08,513 - INFO - Server is starting up...
+2025-11-15 13:24:08,513 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:24:09,312 - INFO - Server is shutting down...
+2025-11-15 13:24:10,436 - INFO - Server is starting up...
+2025-11-15 13:24:10,442 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:24:24,211 - INFO - WebSocket connection established.
+2025-11-15 13:24:24,220 - INFO - Start time: 1763187864.2205708
+2025-11-15 13:24:24,220 - INFO - Pipeline started for question: 'Triệu chứng của nó là gì?'
+2025-11-15 13:24:38,187 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for the symptoms of breast cancer in Vietnamese ('Tri\u1ec7u ch\u1ee9ng c\u1ee7a ung th\u01b0 v\u00fa'). This translates to a one-hop query from the Disease 'breast cancer' to the Symptom node type. The plan is to use the /neighborhood API to find all Symptom nodes connected to the 'breast cancer' Disease node via the 'PRESENTS_DpS' edge.",
+  "entities": [
+    {
+      "name_in_query": "ung th\u01b0 v\u00fa",
+      "normalized_type": "Disease",
+      "id_placeholder": "disease_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by 'breast cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/breast cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-15 13:24:39,355 - INFO - Execution completed. Final Context Store is ready.
+2025-11-15 13:24:53,408 - INFO - Final answer generated.
+2025-11-15 13:24:53,409 - INFO - End time: 1763187893.409276
+2025-11-15 13:24:53,409 - INFO - Total time for entire processing: 29.18870520591736
+2025-11-15 13:26:55,086 - INFO - WebSocket connection closed.
+2025-11-15 13:26:55,189 - INFO - Server is shutting down...
+2025-11-15 13:27:12,149 - INFO - Server is starting up...
+2025-11-15 13:27:12,151 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:29:27,924 - INFO - Server is shutting down...
+2025-11-15 13:29:29,019 - INFO - Server is starting up...
+2025-11-15 13:29:29,025 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-15 13:29:38,830 - INFO - WebSocket connection established.
+2025-11-15 13:29:38,831 - INFO - Start time: 1763188178.8316665
+2025-11-15 13:29:38,831 - INFO - Pipeline started for question: 'And what are their symptoms?'
+2025-11-15 13:29:48,023 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for symptoms of a compound. I will find the 'Compound' node for 'Aspirin' and then find its neighboring 'Symptom' nodes connected by the 'CAUSES_CcSE' edge.",
+  "entities": [
+    {
+      "name_in_query": "Aspirin",
+      "normalized_type": "Compound",
+      "id_placeholder": "aspirin_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms caused by 'Aspirin'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Aspirin?edge_filters=CAUSES_CcSE&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-15 13:29:49,793 - INFO - Execution completed. Final Context Store is ready.
+2025-11-15 13:29:49,793 - INFO - Final answer generated.
+2025-11-15 13:29:49,796 - INFO - End time: 1763188189.7965055
+2025-11-15 13:29:49,796 - INFO - Total time for entire processing: 10.964838981628418

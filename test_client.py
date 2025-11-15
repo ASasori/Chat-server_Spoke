@@ -10,18 +10,53 @@ async def run_test():
     Kết nối đến AI Server WebSocket, gửi một câu hỏi, và in ra câu trả lời.
     """
     uri = "ws://localhost:8001/ws/query"
+    
+    # test_payload = {
+    #     "question": "Triệu chứng của nó là gì?",
+    #     "history": [
+    #         {"role": "user", "content": "Bệnh nào..."},
+    #         {"role": "assistant", "content": "Ung thư vú."}
+    #     ]
+    # }
 
     test_payload = {
-        "question": "What symptoms are presented by diseases that are treated by Fulvestrant?",
-        "history": []
-    }
-
+        "question": "And what are their symptoms?",
+        "history": [
+            {
+            "role": "user",
+            "content": "I want to know about Fulvestrant."
+            },
+            {
+            "role": "assistant",
+            "content": "Fulvestrant is a drug used to treat hormone receptor-positive breast cancer. It works by blocking estrogen receptors."
+            },
+            {
+            "role": "user",
+            "content": "Great. So which diseases are treated with it?"
+            },
+            {
+            "role": "assistant",
+            "content": "Besides breast cancer, it is also used to treat some forms of ovarian tumors and colorectal cancer."
+            },
+            {
+            "role": "user",
+            "content": "That's good information. Now, let's talk about Aspirin. It's a basic pain reliever, right?"
+            },
+            {
+            "role": "assistant",
+            "content": "Aspirin is a non-steroidal anti-inflammatory drug (NSAID), mainly used for pain relief, fever reduction, and blood thinning."
+            },
+            {
+            "role": "user",
+            "content": "And what are their symptoms?"
+            }
+        ]
+        }
     print(f"Connecting to AI Server at {uri}...")
 
     try:
         start_time = time.time()
 
-        # ⚙️ Tăng timeout để không bị ngắt kết nối sớm
         async with websockets.connect(
             uri,
             ping_interval=60,   # gửi ping mỗi 60s (mặc định là 20s)

@@ -167,7 +167,7 @@ class SpokeExecutor:
             if not self.llm_client:
                 return node_list
                 
-            raw_json_string = await self.llm_client.generate(pruning_prompt)
+            raw_json_string = await self.llm_client.filter_nodes(pruning_prompt)
             print(f"    -> [PRUNING] LLM raw response: {raw_json_string[:100]}...")
             
             parsed_response = json.loads(raw_json_string)
