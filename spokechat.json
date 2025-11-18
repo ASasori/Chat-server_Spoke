@@ -1,0 +1,164 @@
+{
+  "collections": {
+    "SPOKEChat.chatsessions": {
+      "ns": "SPOKEChat.chatsessions",
+      "jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "__v",
+          "createdAt",
+          "isDeleted",
+          "title",
+          "updatedAt",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "__v": {
+            "bsonType": "int"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "isDeleted": {
+            "bsonType": "bool"
+          },
+          "title": {
+            "bsonType": "string"
+          },
+          "updatedAt": {
+            "bsonType": "date"
+          },
+          "userId": {
+            "bsonType": "objectId"
+          }
+        }
+      }
+    },
+    "SPOKEChat.messages": {
+      "ns": "SPOKEChat.messages",
+      "jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "__v",
+          "chatSessionId",
+          "content",
+          "createdAt",
+          "role",
+          "updatedAt"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "__v": {
+            "bsonType": "int"
+          },
+          "chatSessionId": {
+            "bsonType": "objectId"
+          },
+          "content": {
+            "bsonType": "string"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "role": {
+            "bsonType": "string"
+          },
+          "updatedAt": {
+            "bsonType": "date"
+          }
+        }
+      }
+    },
+    "SPOKEChat.users": {
+      "ns": "SPOKEChat.users",
+      "jsonSchema": {
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "__v",
+          "createdAt",
+          "email",
+          "isDeleted",
+          "passwordHash",
+          "updatedAt",
+          "username"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "objectId"
+          },
+          "__v": {
+            "bsonType": "int"
+          },
+          "createdAt": {
+            "bsonType": "date"
+          },
+          "email": {
+            "bsonType": "string"
+          },
+          "isDeleted": {
+            "bsonType": "bool"
+          },
+          "passwordHash": {
+            "bsonType": "string"
+          },
+          "updatedAt": {
+            "bsonType": "date"
+          },
+          "username": {
+            "bsonType": "string"
+          }
+        }
+      }
+    }
+  },
+  "relationships": [
+    {
+      "id": "f6bca8b7-a92d-468f-af5f-e6620c45bff2",
+      "relationship": [
+        {
+          "ns": "SPOKEChat.messages",
+          "fields": [
+            "chatSessionId"
+          ],
+          "cardinality": 1
+        },
+        {
+          "ns": "SPOKEChat.chatsessions",
+          "fields": [
+            "_id"
+          ],
+          "cardinality": 1
+        }
+      ],
+      "isInferred": true
+    },
+    {
+      "id": "a3bab6e6-ba18-4a00-8fa0-8ed813e8d872",
+      "relationship": [
+        {
+          "ns": "SPOKEChat.chatsessions",
+          "fields": [
+            "userId"
+          ],
+          "cardinality": 1
+        },
+        {
+          "ns": "SPOKEChat.users",
+          "fields": [
+            "_id"
+          ],
+          "cardinality": 1
+        }
+      ],
+      "isInferred": true
+    }
+  ]
+}
