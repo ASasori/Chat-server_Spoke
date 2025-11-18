@@ -130,9 +130,7 @@ class GeminiLLMClient(BaseLLMClient):
                     print(f"Error: Max retries ({max_retries}) reached. API rate limit exceeded.")
                     raise e
                 
-                # --- LOGIC MỚI: Đọc thời gian chờ từ thông báo lỗi ---
                 error_message = str(e)
-                # Dùng regex để tìm chuỗi "Please retry in X.Ys"
                 match = re.search(r"Please retry in (\d+\.?\d*)s", error_message)
                 
                 # Đặt thời gian chờ mặc định (ví dụ 15s) nếu không tìm thấy
@@ -145,7 +143,7 @@ class GeminiLLMClient(BaseLLMClient):
                     except (ValueError, IndexError):
                         pass # Nếu thất bại, dùng 15s mặc định
 
-                print(f"Warning: Reactive retry (attempt {retries}/{max_retries_main}). "
+                print(f"Warning: Reactive retry (attempt {retries}/{max_retries}). "
                       f"API requested retry in {wait_time:.2f}s...")
                 time.sleep(wait_time)
                 # --- KẾT THÚC LOGIC MỚI ---

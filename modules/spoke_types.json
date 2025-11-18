@@ -421,10 +421,10 @@
       "description": "Disease-ASSOCIATES-Gene text mining z-score",
       "type": "float",
       "range": [
-        0.0,
-        5.0
+        0,
+        5
       ],
-      "default": 3.0,
+      "default": 3,
       "active": true
     },
     "cutoff_CtD_phase": {
@@ -516,10 +516,10 @@
       "description": "miRNA-targets-Gene prediction score (miRDB)",
       "type": "float",
       "range": [
-        50.0,
+        50,
         99.9
       ],
-      "default": 80.0,
+      "default": 80,
       "active": true
     },
     "cutoff_Disease_localizes_Anatomy": {

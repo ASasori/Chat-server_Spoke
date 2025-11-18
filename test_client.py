@@ -10,45 +10,37 @@ async def run_test():
     Kết nối đến AI Server WebSocket, gửi một câu hỏi, và in ra câu trả lời.
     """
     uri = "ws://localhost:8001/ws/query"
-    
-    # test_payload = {
-    #     "question": "Triệu chứng của nó là gì?",
-    #     "history": [
-    #         {"role": "user", "content": "Bệnh nào..."},
-    #         {"role": "assistant", "content": "Ung thư vú."}
-    #     ]
-    # }
 
     test_payload = {
         "question": "And what are their symptoms?",
         "history": [
             {
-            "role": "user",
-            "content": "I want to know about Fulvestrant."
+                "role": "user",
+                "content": "I want to know about Fulvestrant."
             },
             {
-            "role": "assistant",
-            "content": "Fulvestrant is a drug used to treat hormone receptor-positive breast cancer. It works by blocking estrogen receptors."
+                "role": "assistant",
+                "content": "Fulvestrant is a drug used to treat hormone receptor-positive breast cancer. It works by blocking estrogen receptors."
             },
             {
-            "role": "user",
-            "content": "Great. So which diseases are treated with it?"
+                "role": "user",
+                "content": "Great. So which diseases are treated with it?"
             },
             {
-            "role": "assistant",
-            "content": "Besides breast cancer, it is also used to treat some forms of ovarian tumors and colorectal cancer."
+                "role": "assistant",
+                "content": "Besides breast cancer, it is also used to treat some forms of ovarian tumors and colorectal cancer."
             },
             {
-            "role": "user",
-            "content": "That's good information. Now, let's talk about Aspirin. It's a basic pain reliever, right?"
+                "role": "user",
+                "content": "That's good information. Now, let's talk about Aspirin. It's a basic pain reliever, right?"
             },
             {
-            "role": "assistant",
-            "content": "Aspirin is a non-steroidal anti-inflammatory drug (NSAID), mainly used for pain relief, fever reduction, and blood thinning."
+                "role": "assistant",
+                "content": "Aspirin is a non-steroidal anti-inflammatory drug (NSAID), mainly used for pain relief, fever reduction, and blood thinning."
             },
             {
-            "role": "user",
-            "content": "And what are their symptoms?"
+                "role": "user",
+                "content": "What systoms of cancer?"
             }
         ]
         }
@@ -94,4 +86,15 @@ async def run_test():
         print(f"\n[ERROR] An error occurred: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(run_test())
+    # asyncio.run(run_test())
+    while True:
+        print("Selection: 1, 2 or 'exit'!")
+        selection = input("Enter selection: ")
+        if (selection == '1'):
+            asyncio.run(run_test())
+        elif (selection == '2'):
+            asyncio.run(run_test())
+        elif (selection == 'exit'):
+            break
+        else: 
+            print("Please enter correct format!")

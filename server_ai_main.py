@@ -117,7 +117,7 @@ async def run_full_pipeline(question: str, history: list) -> str:
         # Step 2: EXECUTE - Execute the plan and fetch data
         context_store = await executor.execute_plan(plan, standalone_question)
         
-        # logging.info(f"Plan created: {json.dumps(context_store, indent=2)}")
+        logging.info(f"Context store: {json.dumps(context_store, indent=2)}")
         logging.info("Execution completed. Final Context Store is ready.")
 
         # Step 3: GENERATE (RAG) - Generate answer from data
@@ -155,6 +155,7 @@ async def websocket_endpoint(websocket: WebSocket):
             data = await websocket.receive_json()
             question = data.get("question")
             history = data.get("history", [])
+            is_first_message = data.get("is_first", False)
 
             if not question:
                 await websocket.send_json({"error": "No question provided"})

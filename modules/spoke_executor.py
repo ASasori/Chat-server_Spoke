@@ -76,7 +76,8 @@ class SpokeExecutor:
                 
                 if (i + 1) < len(plan_steps): # If not the last step
                     for future_step in plan_steps[i+1:]:
-                        if step["store_as"] in future_step.get("inputs", []):
+                        future_inputs = future_step.get("inputs") or []
+                        if step["store_as"] in future_inputs:
                             is_intermediate = True
                             next_step_description = future_step.get("description", next_step_description)
                             break
