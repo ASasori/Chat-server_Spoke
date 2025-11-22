@@ -2223,3 +2223,2071 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-11-18 20:42:45,356 - INFO - Server is starting up...
 2025-11-18 20:42:45,356 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
 2025-11-18 20:42:57,488 - INFO - Server is shutting down...
+2025-11-18 20:50:22,477 - INFO - Server is starting up...
+2025-11-18 20:50:22,481 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-18 20:51:24,197 - INFO - WebSocket connection established.
+2025-11-18 20:56:45,813 - INFO - WebSocket connection closed.
+2025-11-18 20:57:25,661 - INFO - WebSocket connection established.
+2025-11-18 21:03:22,531 - INFO - WebSocket connection closed.
+2025-11-18 21:03:43,014 - INFO - WebSocket connection established.
+2025-11-18 21:07:47,133 - INFO - WebSocket connection closed.
+2025-11-18 21:13:43,264 - INFO - Server is shutting down...
+2025-11-18 21:13:53,509 - INFO - Server is starting up...
+2025-11-18 21:13:53,512 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-18 21:15:26,366 - INFO - WebSocket connection established.
+2025-11-18 21:25:37,365 - INFO - WebSocket connection closed.
+2025-11-18 21:26:03,690 - INFO - WebSocket connection established.
+2025-11-18 21:45:38,058 - INFO - WebSocket connection closed.
+2025-11-18 21:46:05,301 - INFO - WebSocket connection established.
+2025-11-18 21:49:24,392 - INFO - Start time: 1763477364.383669
+2025-11-18 21:49:24,406 - INFO - Pipeline started for question: 'what are side effects of Fulvestrant'
+2025-11-18 21:49:41,261 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for side effects of a compound. The plan is to use the /neighborhood endpoint to find 'SideEffect' nodes connected to the 'Compound' node 'Fulvestrant' via the 'CAUSES_CcSE' edge.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get side effects caused by the compound 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-18 21:49:43,269 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 27969904,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Venous thromboembolism",
+          "identifier": "C1861172",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968305,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Gastrointestinal pain",
+          "identifier": "C0687713",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968335,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Haemoglobin",
+          "identifier": "C0518015",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968382,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Angioedema",
+          "identifier": "C0002994",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969279,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Bone pain",
+          "identifier": "C0151825",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968358,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Urinary tract infection",
+          "identifier": "C0042029",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969211,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vulvovaginal candidiasis",
+          "identifier": "C0700345",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969210,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vaginal moniliasis",
+          "identifier": "C0006852",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969098,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hepatic enzyme increased",
+          "identifier": "C0235996",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968750,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Injection site haematoma",
+          "identifier": "C0542008",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969242,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Leukorrhea",
+          "identifier": "C0023533",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968333,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Headache",
+          "identifier": "C0018681",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968805,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Malnutrition",
+          "identifier": "C0162429",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968321,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Depression",
+          "identifier": "C0011570",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968451,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Infestation",
+          "identifier": "C1384353",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-18 21:49:43,271 - INFO - Execution completed. Final Context Store is ready.
+2025-11-18 21:51:08,609 - INFO - Final answer generated.
+2025-11-18 21:51:08,612 - INFO - End time: 1763477468.6125538
+2025-11-18 21:51:08,612 - INFO - Total time for entire processing: 104.22888493537903
+2025-11-18 21:51:08,645 - INFO - WebSocket connection closed.
+2025-11-19 07:30:04,893 - INFO - Server is starting up...
+2025-11-19 07:30:04,905 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-19 07:32:58,594 - INFO - WebSocket connection established.
+2025-11-19 08:11:05,187 - INFO - WebSocket connection closed.
+2025-11-19 08:12:07,737 - INFO - WebSocket connection established.
+2025-11-19 08:12:54,987 - INFO - Start time: 1763514774.9879436
+2025-11-19 08:12:54,987 - INFO - Pipeline started for question: 'where is the first to comment'
+2025-11-19 08:12:55,715 - ERROR - Planning failed: Gemini API call failed
+2025-11-19 08:17:11,566 - INFO - WebSocket connection closed.
+2025-11-19 08:19:12,304 - INFO - WebSocket connection established.
+2025-11-19 08:19:53,633 - INFO - Start time: 1763515193.6330404
+2025-11-19 08:19:53,633 - INFO - Pipeline started for question: 'what are side effects of Fulvestrant'
+2025-11-19 08:19:54,078 - ERROR - Planning failed: Gemini API call failed
+2025-11-19 08:21:33,418 - INFO - WebSocket connection closed.
+2025-11-19 08:26:55,640 - INFO - WebSocket connection established.
+2025-11-19 08:33:08,864 - INFO - WebSocket connection closed.
+2025-11-19 08:33:39,440 - INFO - WebSocket connection established.
+2025-11-19 08:33:43,760 - INFO - Start time: 1763516023.7598183
+2025-11-19 08:33:43,761 - INFO - Pipeline started for question: 'hiiii'
+2025-11-19 08:33:44,275 - ERROR - Planning failed: Gemini API call failed
+2025-11-19 08:34:29,641 - INFO - WebSocket connection closed.
+2025-11-19 08:34:29,767 - INFO - Server is shutting down...
+2025-11-19 08:35:18,238 - INFO - Server is starting up...
+2025-11-19 08:35:18,270 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-19 10:37:11,295 - INFO - Server is starting up...
+2025-11-19 10:37:11,323 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-19 11:00:12,166 - INFO - Server is shutting down...
+2025-11-19 11:00:18,667 - INFO - Server is starting up...
+2025-11-19 11:00:18,670 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-19 11:13:29,935 - INFO - Server is shutting down...
+2025-11-20 01:35:23,848 - INFO - Server is starting up...
+2025-11-20 01:35:23,859 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-20 01:41:01,080 - INFO - WebSocket connection established.
+2025-11-20 02:00:19,614 - INFO - WebSocket connection closed.
+2025-11-20 02:00:25,741 - INFO - WebSocket connection established.
+2025-11-20 02:14:52,049 - INFO - WebSocket connection closed.
+2025-11-20 02:14:58,219 - INFO - WebSocket connection established.
+2025-11-20 02:15:06,304 - INFO - WebSocket connection closed.
+2025-11-20 02:15:18,617 - INFO - WebSocket connection established.
+2025-11-20 02:22:47,876 - INFO - WebSocket connection closed.
+2025-11-20 02:22:55,379 - INFO - WebSocket connection established.
+2025-11-20 02:24:14,482 - INFO - WebSocket connection closed.
+2025-11-20 02:24:20,227 - INFO - WebSocket connection established.
+2025-11-20 02:26:29,050 - INFO - Start time: 1763580389.0507722
+2025-11-20 02:26:29,050 - INFO - Pipeline started for question: 'what are side effects of Fulvestrant'
+2025-11-20 02:26:40,716 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for the side effects of a specific compound. The plan is to use the /neighborhood API to find 'SideEffect' nodes connected to the 'Compound' node named 'Fulvestrant' via the 'CAUSES_CcSE' edge.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get side effects caused by the compound 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-20 02:26:42,500 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 27969904,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Venous thromboembolism",
+          "identifier": "C1861172",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968305,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Gastrointestinal pain",
+          "identifier": "C0687713",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968335,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Haemoglobin",
+          "identifier": "C0518015",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968382,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Angioedema",
+          "identifier": "C0002994",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969279,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Bone pain",
+          "identifier": "C0151825",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968358,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Urinary tract infection",
+          "identifier": "C0042029",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969211,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vulvovaginal candidiasis",
+          "identifier": "C0700345",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969210,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vaginal moniliasis",
+          "identifier": "C0006852",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969098,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hepatic enzyme increased",
+          "identifier": "C0235996",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968750,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Injection site haematoma",
+          "identifier": "C0542008",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969242,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Leukorrhea",
+          "identifier": "C0023533",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968333,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Headache",
+          "identifier": "C0018681",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968805,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Malnutrition",
+          "identifier": "C0162429",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968321,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Depression",
+          "identifier": "C0011570",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968451,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Infestation",
+          "identifier": "C1384353",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-20 02:26:42,504 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:26:57,097 - INFO - Final answer generated.
+2025-11-20 02:26:57,097 - INFO - End time: 1763580417.097916
+2025-11-20 02:26:57,097 - INFO - Total time for entire processing: 28.047143697738647
+2025-11-20 02:28:09,168 - INFO - Start time: 1763580489.168364
+2025-11-20 02:28:09,168 - INFO - Pipeline started for question: 'what are side effects of Fulvestrant'
+2025-11-20 02:28:20,030 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for the side effects of a specific compound. The plan is to use the /neighborhood API to find 'SideEffect' nodes connected to the 'Compound' node named 'Fulvestrant' via the 'CAUSES_CcSE' edge.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get side effects caused by the compound 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-20 02:28:21,696 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 27969904,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Venous thromboembolism",
+          "identifier": "C1861172",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968305,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Gastrointestinal pain",
+          "identifier": "C0687713",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968335,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Haemoglobin",
+          "identifier": "C0518015",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968382,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Angioedema",
+          "identifier": "C0002994",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969279,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Bone pain",
+          "identifier": "C0151825",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968358,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Urinary tract infection",
+          "identifier": "C0042029",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969211,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vulvovaginal candidiasis",
+          "identifier": "C0700345",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969210,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vaginal moniliasis",
+          "identifier": "C0006852",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969098,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hepatic enzyme increased",
+          "identifier": "C0235996",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968750,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Injection site haematoma",
+          "identifier": "C0542008",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27969242,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Leukorrhea",
+          "identifier": "C0023533",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968333,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Headache",
+          "identifier": "C0018681",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968805,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Malnutrition",
+          "identifier": "C0162429",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968321,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Depression",
+          "identifier": "C0011570",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 27968451,
+        "neo4j_type": "SideEffect",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Infestation",
+          "identifier": "C1384353",
+          "sources": [
+            "SIDER 4.1"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-20 02:28:21,698 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:28:29,023 - INFO - Final answer generated.
+2025-11-20 02:28:29,023 - INFO - End time: 1763580509.023402
+2025-11-20 02:28:29,023 - INFO - Total time for entire processing: 19.855037927627563
+2025-11-20 02:29:21,174 - INFO - Start time: 1763580561.174718
+2025-11-20 02:29:21,174 - INFO - Pipeline started for question: 'hii'
+2025-11-20 02:29:32,519 - INFO - Plan created: {
+  "query_type": "unsupported",
+  "thought": "The user provided a greeting ('Hii') instead of a biomedical question. I cannot parse any entities or relationships from this input, so I cannot generate a valid execution plan.",
+  "entities": [],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Cannot generate a plan. The user input is a greeting, not a valid biomedical query.",
+      "api_call": null,
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-20 02:29:32,523 - INFO - Context store: {
+  "final_result": []
+}
+2025-11-20 02:29:32,523 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:29:32,523 - INFO - Final answer generated.
+2025-11-20 02:29:32,525 - INFO - End time: 1763580572.525934
+2025-11-20 02:29:32,525 - INFO - Total time for entire processing: 11.351216077804565
+2025-11-20 02:37:56,251 - INFO - WebSocket connection closed.
+2025-11-20 02:38:02,594 - INFO - WebSocket connection established.
+2025-11-20 02:39:16,263 - INFO - Start time: 1763581156.2634358
+2025-11-20 02:39:16,263 - INFO - Pipeline started for question: 'hiii'
+2025-11-20 02:39:22,565 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's query is a greeting ('hiii') and not a biomedical question. It cannot be answered using the SPOKE API.",
+  "entities": [],
+  "plan": []
+}
+2025-11-20 02:39:22,565 - INFO - Context store: {}
+2025-11-20 02:39:22,573 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:39:22,573 - INFO - Final answer generated.
+2025-11-20 02:39:22,573 - INFO - End time: 1763581162.573233
+2025-11-20 02:39:22,575 - INFO - Total time for entire processing: 6.309797048568726
+2025-11-20 02:40:18,630 - INFO - Start time: 1763581218.6309776
+2025-11-20 02:40:18,630 - INFO - Pipeline started for question: 'hiiii'
+2025-11-20 02:40:30,239 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's input is a greeting ('hiiii') and not a biomedical question. I cannot generate a valid SPOKE API query plan from this input.",
+  "entities": [],
+  "plan": []
+}
+2025-11-20 02:40:30,254 - INFO - Context store: {}
+2025-11-20 02:40:30,256 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:40:30,256 - INFO - Final answer generated.
+2025-11-20 02:40:30,256 - INFO - End time: 1763581230.2560186
+2025-11-20 02:40:30,256 - INFO - Total time for entire processing: 11.625041007995605
+2025-11-20 02:45:35,756 - INFO - WebSocket connection closed.
+2025-11-20 02:45:46,984 - INFO - WebSocket connection established.
+2025-11-20 02:51:04,956 - INFO - WebSocket connection closed.
+2025-11-20 02:51:16,381 - INFO - WebSocket connection established.
+2025-11-20 02:51:43,280 - INFO - WebSocket connection closed.
+2025-11-20 02:51:49,086 - INFO - WebSocket connection established.
+2025-11-20 02:52:09,401 - INFO - WebSocket connection closed.
+2025-11-20 02:52:38,122 - INFO - WebSocket connection established.
+2025-11-20 02:53:32,872 - INFO - WebSocket connection closed.
+2025-11-20 02:53:38,408 - INFO - WebSocket connection established.
+2025-11-20 02:53:43,706 - INFO - Start time: 1763582023.70645
+2025-11-20 02:53:43,706 - INFO - Pipeline started for question: 'jsjs'
+2025-11-20 02:53:59,685 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's query 'What does \"jsjs\" mean?' is not a biomedical question and cannot be answered using the SPOKE API. The term 'jsjs' does not correspond to any known biomedical entity type in the schema (e.g., Gene, Disease, Compound). Therefore, no execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-20 02:53:59,686 - INFO - Context store: {}
+2025-11-20 02:53:59,688 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 02:53:59,689 - INFO - Final answer generated.
+2025-11-20 02:53:59,689 - INFO - End time: 1763582039.689836
+2025-11-20 02:53:59,689 - INFO - Total time for entire processing: 15.983386039733887
+2025-11-20 02:53:59,694 - INFO - WebSocket connection closed.
+2025-11-20 02:54:11,304 - INFO - WebSocket connection established.
+2025-11-20 03:00:18,961 - INFO - WebSocket connection closed.
+2025-11-20 03:00:25,713 - INFO - WebSocket connection established.
+2025-11-20 03:26:27,986 - INFO - WebSocket connection closed.
+2025-11-20 03:26:34,287 - INFO - WebSocket connection established.
+2025-11-20 03:27:17,473 - INFO - WebSocket connection closed.
+2025-11-20 03:27:23,677 - INFO - WebSocket connection established.
+2025-11-20 03:33:08,742 - INFO - WebSocket connection closed.
+2025-11-20 03:33:18,408 - INFO - WebSocket connection established.
+2025-11-20 03:34:14,042 - INFO - WebSocket connection closed.
+2025-11-20 03:34:20,210 - INFO - WebSocket connection established.
+2025-11-20 03:41:16,065 - INFO - WebSocket connection closed.
+2025-11-20 03:41:22,328 - INFO - WebSocket connection established.
+2025-11-20 03:42:14,166 - INFO - WebSocket connection closed.
+2025-11-20 03:42:19,770 - INFO - WebSocket connection established.
+2025-11-20 04:00:22,782 - INFO - WebSocket connection closed.
+2025-11-20 04:00:37,234 - INFO - WebSocket connection established.
+2025-11-20 04:00:57,106 - INFO - Start time: 1763586057.1065507
+2025-11-20 04:00:57,106 - INFO - Pipeline started for question: 'haks'
+2025-11-20 04:01:06,784 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's query 'haks' is not a well-formed question and cannot be translated into a valid execution plan. It does not contain any recognizable biomedical entities or relationships.",
+  "entities": [],
+  "plan": []
+}
+2025-11-20 04:01:06,784 - INFO - Context store: {}
+2025-11-20 04:01:06,784 - INFO - Execution completed. Final Context Store is ready.
+2025-11-20 04:01:06,799 - INFO - Final answer generated.
+2025-11-20 04:01:06,799 - INFO - End time: 1763586066.7993329
+2025-11-20 04:01:06,799 - INFO - Total time for entire processing: 9.692782163619995
+2025-11-20 04:10:08,202 - INFO - WebSocket connection closed.
+2025-11-20 04:27:25,318 - INFO - WebSocket connection established.
+2025-11-20 04:29:49,751 - INFO - WebSocket connection closed.
+2025-11-20 04:30:00,150 - INFO - WebSocket connection established.
+2025-11-20 04:38:17,223 - INFO - WebSocket connection closed.
+2025-11-20 04:38:23,655 - INFO - WebSocket connection established.
+2025-11-20 04:42:22,559 - INFO - WebSocket connection closed.
+2025-11-20 04:42:29,049 - INFO - WebSocket connection established.
+2025-11-20 04:42:29,375 - INFO - WebSocket connection closed.
+2025-11-20 04:42:41,705 - INFO - WebSocket connection established.
+2025-11-20 04:50:18,763 - INFO - WebSocket connection closed.
+2025-11-20 04:50:18,892 - INFO - Server is shutting down...
+2025-11-22 23:39:32,592 - INFO - Server is starting up...
+2025-11-22 23:39:32,621 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:39:37,478 - INFO - WebSocket connection established.
+2025-11-22 23:39:37,488 - INFO - Start time: 1763829577.4888756
+2025-11-22 23:39:37,493 - INFO - Pipeline started for question: 'And what are their symptoms?'
+2025-11-22 23:39:47,183 - INFO - Plan created: {
+  "query_type": "complex",
+  "thought": "The user is asking for symptoms of two different diseases, which implies an OR condition. The plan is to find the symptoms for 'ovarian tumors', then find the symptoms for 'colorectal cancer', and finally combine the two lists of symptoms using a UNION operation.",
+  "entities": [
+    {
+      "name_in_query": "ovarian tumors",
+      "normalized_type": "Disease",
+      "id_placeholder": "ovarian_tumors_entity"
+    },
+    {
+      "name_in_query": "colorectal cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "colorectal_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by 'ovarian tumors'",
+      "api_call": "/api/v1/neighborhood/Disease/name/ovarian tumors?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "symptoms_A"
+    },
+    {
+      "step": 2,
+      "description": "Get symptoms presented by 'colorectal cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/colorectal cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "symptoms_B"
+    },
+    {
+      "step": 3,
+      "description": "Combine the lists of symptoms",
+      "api_call": null,
+      "logic": "UNION",
+      "inputs": [
+        "symptoms_A",
+        "symptoms_B"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-22 23:39:51,803 - INFO - Context store: {
+  "symptoms_A": [],
+  "symptoms_B": [
+    {
+      "data": {
+        "id": 23932,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Fatigue",
+          "identifier": "D005221",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D005221"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24121,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Postoperative Nausea and Vomiting",
+          "identifier": "D020250",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D020250"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24158,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypercalciuria",
+          "identifier": "D053565",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D053565"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24000,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Nausea",
+          "identifier": "D009325",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D009325"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24072,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vomiting",
+          "identifier": "D014839",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D014839"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23822,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Procedural",
+          "identifier": "D000073818",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000073818"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23894,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Constipation",
+          "identifier": "D003248",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003248"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23858,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypoxia",
+          "identifier": "D000860",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000860"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24170,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcopenia",
+          "identifier": "D055948",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D055948"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24176,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Obesity, Abdominal",
+          "identifier": "D056128",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D056128"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24103,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cafe-au-Lait Spots",
+          "identifier": "D019080",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D019080"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23878,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cachexia",
+          "identifier": "D002100",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D002100"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24010,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Postoperative",
+          "identifier": "D010149",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D010149"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23902,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Diarrhea",
+          "identifier": "D003967",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003967"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24186,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Visceral Pain",
+          "identifier": "D059265",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D059265"
+        }
+      }
+    }
+  ],
+  "final_result": [
+    {
+      "data": {
+        "id": 23932,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Fatigue",
+          "identifier": "D005221",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D005221"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24121,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Postoperative Nausea and Vomiting",
+          "identifier": "D020250",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D020250"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24158,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypercalciuria",
+          "identifier": "D053565",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D053565"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24000,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Nausea",
+          "identifier": "D009325",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D009325"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24072,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vomiting",
+          "identifier": "D014839",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D014839"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23822,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Procedural",
+          "identifier": "D000073818",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000073818"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23894,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Constipation",
+          "identifier": "D003248",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003248"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23858,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypoxia",
+          "identifier": "D000860",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000860"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24170,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcopenia",
+          "identifier": "D055948",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D055948"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24176,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Obesity, Abdominal",
+          "identifier": "D056128",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D056128"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24103,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cafe-au-Lait Spots",
+          "identifier": "D019080",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D019080"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23878,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cachexia",
+          "identifier": "D002100",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D002100"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24010,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Postoperative",
+          "identifier": "D010149",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D010149"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23902,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Diarrhea",
+          "identifier": "D003967",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003967"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24186,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Visceral Pain",
+          "identifier": "D059265",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D059265"
+        }
+      }
+    }
+  ]
+}
+2025-11-22 23:39:51,809 - INFO - Execution completed. Final Context Store is ready.
+2025-11-22 23:40:04,972 - INFO - Final answer generated.
+2025-11-22 23:40:04,972 - INFO - End time: 1763829604.9723284
+2025-11-22 23:40:04,973 - INFO - Total time for entire processing: 27.483452796936035
+2025-11-22 23:41:29,229 - INFO - WebSocket connection closed.
+2025-11-22 23:41:29,345 - INFO - Server is shutting down...
+2025-11-22 23:41:32,454 - INFO - Server is starting up...
+2025-11-22 23:41:32,460 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:41:33,680 - INFO - Server is starting up...
+2025-11-22 23:41:33,687 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:41:38,315 - INFO - WebSocket connection established.
+2025-11-22 23:41:38,320 - INFO - Start time: 1763829698.3207407
+2025-11-22 23:41:38,320 - INFO - Pipeline started for question: 'And what are their symptoms?'
+2025-11-22 23:41:49,186 - INFO - Plan created: {
+  "query_type": "complex",
+  "thought": "This is a disjunctive (OR) query. The user wants to find symptoms for two different diseases. The plan is to find the symptoms for 'ovarian tumors', then find the symptoms for 'colorectal cancer', and finally combine the two lists using a UNION operation.",
+  "entities": [
+    {
+      "name_in_query": "ovarian tumors",
+      "normalized_type": "Disease",
+      "id_placeholder": "ovarian_tumors_entity"
+    },
+    {
+      "name_in_query": "colorectal cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "colorectal_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by 'ovarian tumors' (Set A)",
+      "api_call": "/api/v1/neighborhood/Disease/name/ovarian tumors?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "symptoms_A"
+    },
+    {
+      "step": 2,
+      "description": "Get symptoms presented by 'colorectal cancer' (Set B)",
+      "api_call": "/api/v1/neighborhood/Disease/name/colorectal cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "symptoms_B"
+    },
+    {
+      "step": 3,
+      "description": "Find the union of the two symptom lists",
+      "api_call": null,
+      "logic": "UNION",
+      "inputs": [
+        "symptoms_A",
+        "symptoms_B"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-22 23:41:53,187 - INFO - Context store: {
+  "symptoms_A": [],
+  "symptoms_B": [
+    {
+      "data": {
+        "id": 36677,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcoma",
+          "obsolete": true,
+          "identifier": "D012509",
+          "source": "HPO"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23932,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Fatigue",
+          "identifier": "D005221",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D005221"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24121,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Postoperative Nausea and Vomiting",
+          "identifier": "D020250",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D020250"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24158,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypercalciuria",
+          "identifier": "D053565",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D053565"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24000,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Nausea",
+          "identifier": "D009325",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D009325"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24072,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vomiting",
+          "identifier": "D014839",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D014839"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23822,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Procedural",
+          "identifier": "D000073818",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000073818"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23894,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Constipation",
+          "identifier": "D003248",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003248"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23858,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypoxia",
+          "identifier": "D000860",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000860"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24170,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcopenia",
+          "identifier": "D055948",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D055948"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24176,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Obesity, Abdominal",
+          "identifier": "D056128",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D056128"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23878,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cachexia",
+          "identifier": "D002100",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D002100"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24010,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Postoperative",
+          "identifier": "D010149",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D010149"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23902,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Diarrhea",
+          "identifier": "D003967",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003967"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24186,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Visceral Pain",
+          "identifier": "D059265",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D059265"
+        }
+      }
+    }
+  ],
+  "final_result": [
+    {
+      "data": {
+        "id": 36677,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcoma",
+          "obsolete": true,
+          "identifier": "D012509",
+          "source": "HPO"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23932,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Fatigue",
+          "identifier": "D005221",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D005221"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24121,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Postoperative Nausea and Vomiting",
+          "identifier": "D020250",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D020250"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24158,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypercalciuria",
+          "identifier": "D053565",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D053565"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24000,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Nausea",
+          "identifier": "D009325",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D009325"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24072,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Vomiting",
+          "identifier": "D014839",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D014839"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23822,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Procedural",
+          "identifier": "D000073818",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000073818"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23894,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Constipation",
+          "identifier": "D003248",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003248"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23858,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Hypoxia",
+          "identifier": "D000860",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D000860"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24170,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Sarcopenia",
+          "identifier": "D055948",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D055948"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24176,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Obesity, Abdominal",
+          "identifier": "D056128",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D056128"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23878,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Cachexia",
+          "identifier": "D002100",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D002100"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24010,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Pain, Postoperative",
+          "identifier": "D010149",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D010149"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 23902,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Diarrhea",
+          "identifier": "D003967",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D003967"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 24186,
+        "neo4j_type": "Symptom",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "Visceral Pain",
+          "identifier": "D059265",
+          "license": "CC0 1.0",
+          "source": "MeSH",
+          "url": "http://identifiers.org/mesh/D059265"
+        }
+      }
+    }
+  ]
+}
+2025-11-22 23:41:53,194 - INFO - Execution completed. Final Context Store is ready.
+2025-11-22 23:42:03,727 - INFO - Final answer generated.
+2025-11-22 23:42:03,727 - INFO - End time: 1763829723.7273784
+2025-11-22 23:42:03,727 - INFO - Total time for entire processing: 25.40663766860962
+2025-11-22 23:42:03,732 - INFO - WebSocket connection closed.
+2025-11-22 23:42:15,045 - INFO - Server is starting up...
+2025-11-22 23:42:15,045 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:42:31,275 - INFO - WebSocket connection established.
+2025-11-22 23:42:31,279 - INFO - Start time: 1763829751.279962
+2025-11-22 23:42:31,280 - INFO - Pipeline started for question: 'Tại sao bạn lại gọi cho tôi?'
+2025-11-22 23:42:38,264 - INFO - Plan created: {
+  "query_type": "unplannable",
+  "thought": "The user's question 'Why did you call me?' is not a biomedical query and does not contain any recognizable entities that can be queried against the SPOKE API. Therefore, no execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-22 23:42:38,265 - INFO - Context store: {}
+2025-11-22 23:42:38,265 - INFO - Execution completed. Final Context Store is ready.
+2025-11-22 23:42:39,823 - INFO - Final answer generated.
+2025-11-22 23:42:39,839 - INFO - End time: 1763829759.839249
+2025-11-22 23:42:39,839 - INFO - Total time for entire processing: 8.559286832809448
+2025-11-22 23:43:26,120 - INFO - WebSocket connection closed.
+2025-11-22 23:43:49,469 - INFO - Server is shutting down...
+2025-11-22 23:43:52,521 - INFO - Server is starting up...
+2025-11-22 23:43:52,521 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:54:08,480 - INFO - Server is shutting down...
+2025-11-22 23:54:09,501 - INFO - Server is starting up...
+2025-11-22 23:54:09,506 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:54:10,413 - INFO - Server is shutting down...
+2025-11-22 23:54:11,451 - INFO - Server is starting up...
+2025-11-22 23:54:11,454 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:54:32,544 - INFO - Server is shutting down...
+2025-11-22 23:54:33,607 - INFO - Server is starting up...
+2025-11-22 23:54:33,609 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:55:29,524 - INFO - Server is shutting down...
+2025-11-22 23:55:30,587 - INFO - Server is starting up...
+2025-11-22 23:55:30,590 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:56:23,291 - INFO - Server is shutting down...
+2025-11-22 23:56:24,424 - INFO - Server is starting up...
+2025-11-22 23:56:24,427 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:56:33,287 - INFO - Server is shutting down...
+2025-11-22 23:56:34,363 - INFO - Server is starting up...
+2025-11-22 23:56:34,369 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:59:37,580 - INFO - Server is shutting down...
+2025-11-22 23:59:38,647 - INFO - Server is starting up...
+2025-11-22 23:59:38,651 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-22 23:59:42,710 - INFO - Server is shutting down...
+2025-11-22 23:59:43,762 - INFO - Server is starting up...
+2025-11-22 23:59:43,763 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:00:06,123 - INFO - Server is shutting down...
+2025-11-23 00:00:07,461 - INFO - Server is starting up...
+2025-11-23 00:00:07,483 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:01:06,940 - INFO - Server is shutting down...
+2025-11-23 00:01:08,034 - INFO - Server is starting up...
+2025-11-23 00:01:08,037 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:01:17,921 - INFO - Server is shutting down...
+2025-11-23 00:01:19,052 - INFO - Server is starting up...
+2025-11-23 00:01:19,055 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:01:31,008 - INFO - Server is shutting down...
+2025-11-23 00:01:32,244 - INFO - Server is starting up...
+2025-11-23 00:01:32,246 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:07:42,750 - INFO - Server is shutting down...
+2025-11-23 00:07:43,861 - INFO - Server is starting up...
+2025-11-23 00:07:43,866 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:07:46,165 - INFO - Server is shutting down...
+2025-11-23 00:07:47,215 - INFO - Server is starting up...
+2025-11-23 00:07:47,219 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:07:55,923 - INFO - Server is shutting down...
+2025-11-23 00:07:56,933 - INFO - Server is starting up...
+2025-11-23 00:07:56,934 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:12:09,697 - INFO - Server is shutting down...
+2025-11-23 00:12:10,742 - INFO - Server is starting up...
+2025-11-23 00:12:10,748 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:12:11,883 - INFO - Server is starting up...
+2025-11-23 00:12:11,886 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:12:32,214 - INFO - Server is shutting down...
+2025-11-23 00:12:33,199 - INFO - Server is starting up...
+2025-11-23 00:12:33,200 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:12:59,310 - INFO - Server is shutting down...
+2025-11-23 00:13:00,316 - INFO - Server is starting up...
+2025-11-23 00:13:00,316 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:13:12,997 - INFO - Server is shutting down...
+2025-11-23 00:13:14,022 - INFO - Server is starting up...
+2025-11-23 00:13:14,022 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:13:21,081 - INFO - WebSocket connection established.
+2025-11-23 00:13:21,081 - INFO - Start time: 1763831601.0813844
+2025-11-23 00:13:21,081 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:13:21,090 - ERROR - An error occurred in the AI pipeline: 'QueryWriting' object has no attribute 'get_standalone_question'
+Traceback (most recent call last):
+  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 107, in run_full_pipeline
+    standalone_question = await query_writing.get_standalone_question(question, history)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QueryWriting' object has no attribute 'get_standalone_question'
+2025-11-23 00:14:19,378 - INFO - WebSocket connection closed.
+2025-11-23 00:14:19,493 - INFO - Server is shutting down...
+2025-11-23 00:14:20,498 - INFO - Server is starting up...
+2025-11-23 00:14:20,499 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:14:53,861 - INFO - WebSocket connection established.
+2025-11-23 00:14:53,863 - INFO - Start time: 1763831693.863464
+2025-11-23 00:14:53,863 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:14:53,863 - ERROR - An error occurred in the AI pipeline: 'QueryWriting' object has no attribute 'get_standalone_question'
+Traceback (most recent call last):
+  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 107, in run_full_pipeline
+    standalone_question = await query_writing.get_standalone_question(question, history)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QueryWriting' object has no attribute 'get_standalone_question'
+2025-11-23 00:15:18,671 - INFO - WebSocket connection closed.
+2025-11-23 00:15:18,787 - INFO - Server is shutting down...
+2025-11-23 00:15:19,812 - INFO - Server is starting up...
+2025-11-23 00:15:19,812 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:15:20,388 - INFO - Server is shutting down...
+2025-11-23 00:15:21,367 - INFO - Server is starting up...
+2025-11-23 00:15:21,367 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:15:22,443 - INFO - Server is starting up...
+2025-11-23 00:15:22,456 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:15:32,773 - INFO - Server is shutting down...
+2025-11-23 00:15:33,789 - INFO - Server is starting up...
+2025-11-23 00:15:33,789 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:15:50,520 - INFO - Server is shutting down...
+2025-11-23 00:15:53,017 - INFO - Server is starting up...
+2025-11-23 00:15:53,020 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:15:58,599 - INFO - WebSocket connection established.
+2025-11-23 00:15:58,599 - INFO - Start time: 1763831758.5992997
+2025-11-23 00:15:58,599 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:16:08,189 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's question is personal and cannot be answered using the biomedical knowledge graph. The SPOKE API does not contain personal information like birth dates. Therefore, no valid execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 00:16:08,189 - INFO - Context store: {}
+2025-11-23 00:16:08,189 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 00:16:09,512 - INFO - Final answer generated.
+2025-11-23 00:16:09,512 - INFO - End time: 1763831769.5129094
+2025-11-23 00:16:09,512 - INFO - Total time for entire processing: 10.913609743118286
+2025-11-23 00:17:43,960 - INFO - WebSocket connection closed.
+2025-11-23 00:17:44,064 - INFO - Server is shutting down...
+2025-11-23 00:17:47,105 - INFO - Server is starting up...
+2025-11-23 00:17:47,108 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:17:58,527 - INFO - Server is shutting down...
+2025-11-23 00:17:59,600 - INFO - Server is starting up...
+2025-11-23 00:17:59,600 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:21:09,851 - INFO - Server is shutting down...
+2025-11-23 00:21:10,886 - INFO - Server is starting up...
+2025-11-23 00:21:10,897 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:21:13,832 - INFO - Server is shutting down...
+2025-11-23 00:21:14,890 - INFO - Server is starting up...
+2025-11-23 00:21:14,890 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:21:32,452 - INFO - WebSocket connection established.
+2025-11-23 00:21:32,452 - INFO - Start time: 1763832092.4523468
+2025-11-23 00:21:32,452 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:22:55,675 - INFO - Server is starting up...
+2025-11-23 00:22:55,678 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:23:08,745 - INFO - WebSocket connection established.
+2025-11-23 00:23:08,748 - INFO - Start time: 1763832188.748052
+2025-11-23 00:23:08,748 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:28:17,263 - INFO - Server is starting up...
+2025-11-23 00:28:17,296 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:28:34,998 - INFO - WebSocket connection established.
+2025-11-23 00:28:35,009 - INFO - Start time: 1763832515.0099494
+2025-11-23 00:28:35,010 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:28:46,263 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's question 'When was I born?' is a personal question and cannot be answered using the SPOKE biomedical knowledge graph. The API schema does not contain personal data or concepts related to individual birth dates. Therefore, no valid execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 00:28:46,267 - INFO - Context store: {}
+2025-11-23 00:28:46,268 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 00:28:47,079 - INFO - Final answer generated.
+2025-11-23 00:28:47,079 - INFO - End time: 1763832527.079375
+2025-11-23 00:28:47,081 - INFO - Total time for entire processing: 12.069425582885742
+2025-11-23 00:29:17,314 - INFO - WebSocket connection closed.
+2025-11-23 00:29:17,429 - INFO - Server is shutting down...
+2025-11-23 00:29:20,467 - INFO - Server is starting up...
+2025-11-23 00:29:20,467 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 00:29:21,565 - INFO - WebSocket connection established.
+2025-11-23 00:29:21,569 - INFO - Start time: 1763832561.569368
+2025-11-23 00:29:21,569 - INFO - Pipeline started for question: 'Tôi sinh vào năm nào?'
+2025-11-23 00:29:27,440 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's question is personal and cannot be answered using the SPOKE biomedical knowledge graph. The query does not contain any recognizable biomedical entities or relationships defined in the SPOKE API schema.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 00:29:27,440 - INFO - Context store: {}
+2025-11-23 00:29:27,440 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 00:29:28,231 - INFO - Final answer generated.
+2025-11-23 00:29:28,231 - INFO - End time: 1763832568.2315524
+2025-11-23 00:29:28,231 - INFO - Total time for entire processing: 6.662184476852417
+2025-11-23 00:29:30,481 - INFO - WebSocket connection closed.
+2025-11-23 00:29:35,141 - INFO - WebSocket connection established.
+2025-11-23 00:29:35,146 - INFO - Start time: 1763832575.1462812
+2025-11-23 00:29:35,146 - INFO - Pipeline started for question: 'when i was born?'
+2025-11-23 00:29:41,261 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's question is personal and cannot be answered using the SPOKE biomedical knowledge graph. The query does not contain any recognizable biomedical entities or relationships defined in the SPOKE API schema.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 00:29:41,268 - INFO - Context store: {}
+2025-11-23 00:29:41,268 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 00:29:42,154 - INFO - Final answer generated.
+2025-11-23 00:29:42,154 - INFO - End time: 1763832582.154999
+2025-11-23 00:29:42,154 - INFO - Total time for entire processing: 7.008717775344849
+2025-11-23 00:29:50,530 - INFO - WebSocket connection closed.
+2025-11-23 00:29:57,324 - INFO - Server is shutting down...

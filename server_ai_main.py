@@ -122,6 +122,7 @@ async def run_full_pipeline(question: str, history: list) -> str:
 
         # Step 3: GENERATE (RAG) - Generate answer from data
         final_answer = await answer_module.generate_final_answer(
+            original_question=question,
             nlq=standalone_question,
             context_store=context_store,
             # history=history # Pass history as well so the LLM has context

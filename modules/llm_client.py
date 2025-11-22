@@ -38,6 +38,13 @@ class BaseLLMClient(ABC):
         pass
 
     @abstractmethod
+    def generate_failed_text(self, prompt: str) -> str:
+        """
+        Takes a full prompt string and returns a plain text answer.
+        """
+        pass
+
+    @abstractmethod
     def generate_text(self, prompt: str) -> str:
         """
         Takes a full prompt string and returns a plain text answer.
@@ -212,6 +219,18 @@ class GeminiLLMClient(BaseLLMClient):
         except Exception as e:
             print(f"Error in generate(): {e}")
             return '{"error": "Gemini API call failed"}'
+        
+    async def generate_failed_text(self, prompt: str) -> str:
+        """
+        Generates a plain text response with retry logic.
+        """
+        
+        print(f"[LLM_TEXT_INPUT] (Length: {len(prompt)} chars)")
+        try:
+            return await self._generate_with_retry(self.model_sub, self.max_retries_sub, prompt, is_json=False)
+        except Exception as e:
+            print(f"Error in query_writing(): {e}")
+            return "An error occurred while trying to generate a response."
         
     async def generate_text(self, prompt: str) -> str:
         """

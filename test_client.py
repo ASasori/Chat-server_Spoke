@@ -12,36 +12,36 @@ async def run_test():
     uri = "ws://localhost:8001/ws/query"
 
     test_payload = {
-        "question": "And what are their symptoms?",
+        "question": "when i was born?",
         "history": [
-            {
-                "role": "user",
-                "content": "I want to know about Fulvestrant."
-            },
-            {
-                "role": "assistant",
-                "content": "Fulvestrant is a drug used to treat hormone receptor-positive breast cancer. It works by blocking estrogen receptors."
-            },
-            {
-                "role": "user",
-                "content": "Great. So which diseases are treated with it?"
-            },
-            {
-                "role": "assistant",
-                "content": "Besides breast cancer, it is also used to treat some forms of ovarian tumors and colorectal cancer."
-            },
-            {
-                "role": "user",
-                "content": "That's good information. Now, let's talk about Aspirin. It's a basic pain reliever, right?"
-            },
-            {
-                "role": "assistant",
-                "content": "Aspirin is a non-steroidal anti-inflammatory drug (NSAID), mainly used for pain relief, fever reduction, and blood thinning."
-            },
-            {
-                "role": "user",
-                "content": "What systoms of cancer?"
-            }
+            # {
+            #     "role": "user",
+            #     "content": "I want to know about Fulvestrant."
+            # },
+            # {
+            #     "role": "assistant",
+            #     "content": "Fulvestrant is a drug used to treat hormone receptor-positive breast cancer. It works by blocking estrogen receptors."
+            # },
+            # {
+            #     "role": "user",
+            #     "content": "Great. So which diseases are treated with it?"
+            # },
+            # {
+            #     "role": "assistant",
+            #     "content": "Besides breast cancer, it is also used to treat some forms of ovarian tumors and colorectal cancer."
+            # },
+            # {
+            #     "role": "user",
+            #     "content": "That's good information. Now, let's talk about Aspirin. It's a basic pain reliever, right?"
+            # },
+            # {
+            #     "role": "assistant",
+            #     "content": "Aspirin is a non-steroidal anti-inflammatory drug (NSAID), mainly used for pain relief, fever reduction, and blood thinning."
+            # },
+            # {
+            #     "role": "user",
+            #     "content": "What systoms of cancer?"
+            # }
         ]
         }
     print(f"Connecting to AI Server at {uri}...")
