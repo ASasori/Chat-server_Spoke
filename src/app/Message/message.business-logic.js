@@ -1,3 +1,4 @@
+// import { LanguageMap, DEFAULT_LANG_CODE } from "../../utils/language-mapper.js"
 import { HttpStatusCode } from "../../utils/status-code.js"
 import { ErrorCode } from "../../utils/error-code.js"
 import { messageRoles } from "./message.enum.js"
@@ -18,14 +19,20 @@ class MessageLogic {
                     ErrorCode.MISSING_FIELD
                 )
             }
+            // const language = this.#detectLanguage(question)
+            // console.log(`Question: ${question} | Language: ${language}`)
             console.log(`Question: ${question}`)
 
+            const isFirst = !chatSessionId
             let chatHistory = []
-            if (chatSessionId) {
+            if (!isFirst) {
                 chatHistory = await this.#getAllChatMessagesBySession(chatSessionId)
             }
 
-            const answer = await this.#callAIServer(question, chatHistory, aiSocket)
+            const responseData = await this.#callAIServer(question, chatHistory, aiSocket, isFirst)
+            const answer = responseData?.answer
+            const title = responseData?.title
+
             if (!answer) {
                 throw new AppError(
                     "Could not generate an answer",
@@ -35,8 +42,8 @@ class MessageLogic {
             }
             console.log(`Answer: ${answer}`)
 
-            if(!chatSessionId) {
-                const newTitle = "new chat"
+            if(isFirst) {
+                const newTitle = title || "new chat"
                 const chatSession = await ChatSessionLogic.createNewChatSession(userId, newTitle)
                 chatSessionId = chatSession._id
             }
@@ -123,7 +130,7 @@ class MessageLogic {
         }
     }
 
-    #callAIServer = async (question, history, aiSocket) => {
+    #callAIServer = async (question, history, aiSocket, isFirst) => {
         return new Promise((resolve, reject) => {
             const cleanup = () => {
                 aiSocket.removeListener("message", messageListener)
@@ -137,7 +144,7 @@ class MessageLogic {
                     if (response.error) {
                         reject(new Error(response.error))
                     } else {
-                        resolve(response.answer)
+                        resolve(response)
                     }
                 } catch (err) {
                     reject(new Error("Invalid response format from AI Server"))
@@ -154,9 +161,35 @@ class MessageLogic {
             aiSocket.once("message", messageListener)
             aiSocket.once("error", errorListener)
             aiSocket.once("close", closeListener)
-            aiSocket.send(JSON.stringify({question: question, history: history}))
+            aiSocket.send(JSON.stringify({
+                question: question,
+                history: history,
+                // language: language,
+                is_first: isFirst
+            }))
         })
     }
+
+    // #detectLanguage = (text) => {
+    //     const fallbackLang = LanguageMap[DEFAULT_LANG_CODE]
+    //     try {
+    //         if (!text || typeof text !== 'string' || !text.trim()) {
+    //             return fallbackLang
+    //         }
+
+    //         const result = eld.detect(text)
+
+    //         if (result && result.language) {
+    //             return LanguageMap[result.language] || fallbackLang
+    //         }
+
+    //         return fallbackLang
+    //     } catch (error) {
+    //         console.error("Language detection error:", error)
+    //         console.log(`default to English ${fallbackLang}`)
+    //         return fallbackLang
+    //     }
+    // }
 }
 
 export default new MessageLogic()

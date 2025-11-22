@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log*
+*.log
+
+.env
+.git
+.gitignore
+
+Dockerfile
+docker-compose.yml
+.dockerignore
+Jenkinsfile
