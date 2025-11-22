@@ -4,12 +4,14 @@ import os
 import json
 import time
 import logging
+import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
 # Import your class modules
 from modules.llm_client import GeminiLLMClient
+from modules.generate_topic import TopicGenerator
 from modules.query_writing import QueryWriting
 from modules.smart_search import SmartSearch
 from modules.spoke_executor import SpokeExecutor
@@ -29,6 +31,7 @@ logging.basicConfig(
 
 # We will use global variables to hold the module instances
 # This ensures they are initialized only once
+topic_module: TopicGenerator = None
 query_writing: QueryWriting = None
 search_module: SmartSearch = None
 executor: SpokeExecutor = None
@@ -40,7 +43,7 @@ async def lifespan(app: FastAPI):
     This function will run once when the server starts.
     It loads the API key and initializes all necessary modules.
     """
-    global query_writing, search_module, executor, answer_module
+    global topic_module, query_writing, search_module, executor, answer_module
     
     logging.info("Server is starting up...")
     
@@ -54,6 +57,9 @@ async def lifespan(app: FastAPI):
         # Initialize the shared LLM client
         main_llm_client = GeminiLLMClient(api_key=gemini_key)
         
+        topic_module = TopicGenerator(
+            llm_client=main_llm_client
+        )
         query_writing = QueryWriting(
             llm_client=main_llm_client
         )
@@ -92,7 +98,7 @@ app = FastAPI(
 )
 # --- 2. DEFINE THE COMPLETE PROCESSING PIPELINE ---
 
-async def run_full_pipeline(question: str, history: list) -> str:
+async def run_full_pipeline(question: str, history: list, is_first: bool) -> str:
     """
     This function executes the entire pipeline from question to final answer.
     Note: For best performance, the methods in your classes should be `async def`.
@@ -102,38 +108,59 @@ async def run_full_pipeline(question: str, history: list) -> str:
         start_time = time.time()
         logging.info(f"Start time: {start_time}")
         logging.info(f"Pipeline started for question: '{question}'")
-        
-        # Step 0: Rewrite query based on query and history
-        standalone_question = await query_writing.get_standalone_question(question, history)
+        logging.info(f"Is fisrt: {is_first}")
 
-        # Step 1: PLAN - Create execution plan
-        plan = await search_module.get_execution_plan(standalone_question)
-        if plan.get("error"):
-            logging.error(f"Planning failed: {plan.get('error')}")
-            return f"Sorry, I encountered an error during planning: {plan.get('error')}"
-        
-        logging.info(f"Plan created: {json.dumps(plan, indent=2)}")
+        async def generate_main_answer():
+            # Step 0: Rewrite query based on query and history
+            standalone_question = await query_writing.get_standalone_question(question, history)
 
-        # Step 2: EXECUTE - Execute the plan and fetch data
-        context_store = await executor.execute_plan(plan, standalone_question)
-        
-        logging.info(f"Context store: {json.dumps(context_store, indent=2)}")
-        logging.info("Execution completed. Final Context Store is ready.")
+            # Step 1: PLAN - Create execution plan
+            plan = await search_module.get_execution_plan(standalone_question)
+            if plan.get("error"):
+                logging.error(f"Planning failed: {plan.get('error')}")
+                return f"Sorry, I encountered an error during planning: {plan.get('error')}"
+            
+            logging.info(f"Plan created: {json.dumps(plan, indent=2)}")
 
-        # Step 3: GENERATE (RAG) - Generate answer from data
-        final_answer = await answer_module.generate_final_answer(
-            original_question=question,
-            nlq=standalone_question,
-            context_store=context_store,
-            # history=history # Pass history as well so the LLM has context
+            # Step 2: EXECUTE - Execute the plan and fetch data
+            context_store = await executor.execute_plan(plan, standalone_question)
+            
+            logging.info(f"Context store: {json.dumps(context_store, indent=2)}")
+            logging.info("Execution completed. Final Context Store is ready.")
+
+            # Step 3: GENERATE (RAG) - Generate answer from data
+            final_answer = await answer_module.generate_final_answer(
+                original_question=question,
+                nlq=standalone_question,
+                context_store=context_store,
+                # history=history # Pass history as well so the LLM has context
+            )
+            logging.info("Final answer generated.")
+            return final_answer
+        
+        async def generate_topic_title():
+            if is_first:
+                try:
+                    logging.info("Final topic generated.")
+                    return await topic_module.generate_topic(question)
+                except Exception as e:
+                    logging.error(f"Error generating topic: {e}")
+                    return "New Chat" # Fallback title nếu lỗi
+            return None
+        
+        logging.info("Running tasks in parallel...")
+        answer_result, title_result = await asyncio.gather(
+            generate_main_answer(), 
+            generate_topic_title()
         )
+        logging.info(f"Final answer: {answer_result}")
+        logging.info(f"Final title: {title_result}")
         
-        logging.info("Final answer generated.")
         end_time = time.time()
         logging.info(f"End time: {end_time}")
         logging.info(f"Total time for entire processing: {end_time - start_time}")
 
-        return final_answer
+        return answer_result, title_result
 
     except Exception as e:
         logging.error(f"An error occurred in the AI pipeline: {e}", exc_info=True)
@@ -156,17 +183,17 @@ async def websocket_endpoint(websocket: WebSocket):
             data = await websocket.receive_json()
             question = data.get("question")
             history = data.get("history", [])
-            is_first_message = data.get("is_first", False)
+            is_first = data.get("is_first", False)
 
             if not question:
                 await websocket.send_json({"error": "No question provided"})
                 continue
 
             # 2. Call the AI processing pipeline
-            answer = await run_full_pipeline(question, history)
-            
+            answer, title = await run_full_pipeline(question, history, is_first)
+        
             # 3. Send the result back to the Normal Server
-            await websocket.send_json({"answer": answer})
+            await websocket.send_json({"answer": answer, "title": title})
             
     except WebSocketDisconnect:
         logging.info("WebSocket connection closed.")

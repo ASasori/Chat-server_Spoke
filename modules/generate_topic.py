@@ -1,6 +1,6 @@
 from modules.llm_client import BaseLLMClient
 
-class GenerateTopic:
+class TopicGenerator:
     def __init__(
         self,
         llm_client: BaseLLMClient
@@ -14,35 +14,43 @@ class GenerateTopic:
         print("\n ---- Generate Topic ---- \n")
 
         final_prompt = f"""
-        You are a Topic Name Generator.  
-        Your task is to read the user’s question or message and generate a short, clear, descriptive topic name for a new chat.  
+        You are a Topic Name Generator.
+        Your task is to read the user’s question or message and generate a short, clear, descriptive topic name for a new chat.
 
         User's question:
         {question}
 
         Rules:
-        1. The topic name must summarize the core subject of the user’s query.  
-        2. Keep it concise: 3–7 words.  
-        3. Do NOT answer the question or provide explanations.  
-        4. Avoid filler words (such as “about”, “regarding”, “question of”).  
-        5. Capitalize the topic name appropriately.  
-        6. If the question is ambiguous, choose the most likely or general topic.  
+        1. **Language Matching (CRITICAL):** The generated topic name MUST be in the **SAME LANGUAGE** as the user's question.
+        - If the user asks in Vietnamese, the topic name must be in Vietnamese.
+        - If the user asks in English, the topic name must be in English.
+        2. The topic name must summarize the core subject of the user’s query.
+        3. Keep it concise: 3–7 words.
+        4. Do NOT answer the question or provide explanations.
+        5. Avoid filler words (e.g., "about", "regarding", "về việc", "câu hỏi về").
+        6. Capitalize the topic name appropriately (Title Case for English, Sentence case/Proper Nouns for Vietnamese).
+        7. If the question is ambiguous, choose the most likely or general topic.
 
         Examples:
-        - User: “What are the symptoms of Aspirin?”  
-        → Topic Name: “Aspirin Side Effects”
+        - User (English): "What are the symptoms of Aspirin?"
+        → Topic Name: "Aspirin Side Effects"
 
-        - User: “How do I improve my Node.js server performance?”  
-        → Topic Name: “Optimizing Node.js Performance”
+        - User (Vietnamese): "Làm sao để tối ưu hóa hiệu suất Node.js?"
+        → Topic Name: "Tối ưu hóa Node.js"
 
-        - User: “Give me Git commands to create a new branch.”  
-        → Topic Name: “Git Branch Creation”
+        - User (English): "Give me Git commands to create a new branch."
+        → Topic Name: "Git Branch Creation"
 
-        - User: “Explain how transformers work in NLP.”  
-        → Topic Name: “NLP Transformer Architecture”
+        - User (Vietnamese): "Triệu chứng của bệnh sốt xuất huyết là gì?"
+        → Topic Name: "Triệu chứng Sốt xuất huyết"
+
+        - User (Vietnamese): "Giải thích cơ chế Attention trong mô hình Transformer."
+        → Topic Name: "Cơ chế Attention Transformer"
+
+        - User: "Why?" or "Alo"
+        → Topic Name: "General Discussion" (or "Trò chuyện chung" if Vietnamese context implies)
 
         Return ONLY the topic name.
-
         """
         try:
             # Use the LLM client (which now has retry logic)

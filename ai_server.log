@@ -4291,3 +4291,5841 @@ AttributeError: 'QueryWriting' object has no attribute 'get_standalone_question'
 2025-11-23 00:29:42,154 - INFO - Total time for entire processing: 7.008717775344849
 2025-11-23 00:29:50,530 - INFO - WebSocket connection closed.
 2025-11-23 00:29:57,324 - INFO - Server is shutting down...
+2025-11-23 01:37:46,498 - INFO - Server is starting up...
+2025-11-23 01:37:46,529 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:37:58,459 - INFO - WebSocket connection established.
+2025-11-23 01:37:58,471 - INFO - Start time: 1763836678.4712412
+2025-11-23 01:37:58,472 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:37:58,472 - INFO - Running tasks in parallel...
+2025-11-23 01:38:06,290 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for 'medications' that 'treat' a specific disease, 'lung cancer'. This translates to a one-hop query from a Disease node to Compound nodes. I will use the /neighborhood API to find Compounds connected to the Disease 'lung cancer' via the TREATS_CtD edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that are used to treat 'lung cancer'.",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 01:38:08,310 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 01:38:08,320 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 01:39:13,974 - INFO - Final answer generated.
+2025-11-23 01:39:13,974 - INFO - End time: 1763836753.9747577
+2025-11-23 01:39:13,974 - INFO - Total time for entire processing: 75.50351643562317
+2025-11-23 01:44:56,369 - INFO - WebSocket connection closed.
+2025-11-23 01:44:56,484 - INFO - Server is shutting down...
+2025-11-23 01:44:59,566 - INFO - Server is starting up...
+2025-11-23 01:44:59,567 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:45:01,787 - INFO - Server is shutting down...
+2025-11-23 01:45:02,860 - INFO - Server is starting up...
+2025-11-23 01:45:02,864 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:45:04,949 - INFO - Server is shutting down...
+2025-11-23 01:45:06,006 - INFO - Server is starting up...
+2025-11-23 01:45:06,008 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:45:26,121 - INFO - WebSocket connection established.
+2025-11-23 01:45:26,123 - INFO - Start time: 1763837126.1231577
+2025-11-23 01:45:26,123 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:45:34,997 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for medications (Compounds) that treat a specific disease (lung cancer). I will use the /neighborhood API to find Compound neighbors of the Disease 'lung cancer' connected by the 'TREATS_CtD' edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that treat 'lung cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 01:45:36,858 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 01:45:36,866 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 01:45:49,728 - INFO - Final answer generated.
+2025-11-23 01:45:49,728 - INFO - End time: 1763837149.7281053
+2025-11-23 01:45:49,729 - INFO - Total time for entire processing: 23.604947566986084
+2025-11-23 01:46:43,081 - INFO - WebSocket connection closed.
+2025-11-23 01:46:43,197 - INFO - Server is shutting down...
+2025-11-23 01:46:46,231 - INFO - Server is starting up...
+2025-11-23 01:46:46,231 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:46:47,279 - INFO - Server is shutting down...
+2025-11-23 01:46:48,340 - INFO - Server is starting up...
+2025-11-23 01:46:48,340 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:46:57,079 - INFO - Server is shutting down...
+2025-11-23 01:47:06,429 - INFO - Server is starting up...
+2025-11-23 01:47:06,429 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:47:11,915 - INFO - WebSocket connection established.
+2025-11-23 01:47:11,917 - INFO - Start time: 1763837231.917668
+2025-11-23 01:47:11,917 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:47:11,917 - INFO - Is fisrt: False
+2025-11-23 01:47:19,747 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for 'medications' that 'treat' a specific disease, 'lung cancer'. This translates to a one-hop query from a Disease node to Compound nodes. I will use the /neighborhood API to find Compounds connected to the Disease 'lung cancer' via the TREATS_CtD edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that are used to treat 'lung cancer'.",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 01:47:21,646 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 01:47:21,657 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 01:47:39,595 - INFO - Final answer generated.
+2025-11-23 01:47:39,595 - INFO - End time: 1763837259.5951834
+2025-11-23 01:47:39,595 - INFO - Total time for entire processing: 27.677515268325806
+2025-11-23 01:50:03,552 - INFO - WebSocket connection closed.
+2025-11-23 01:50:03,668 - INFO - Server is shutting down...
+2025-11-23 01:50:06,765 - INFO - Server is starting up...
+2025-11-23 01:50:06,767 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:50:14,268 - INFO - WebSocket connection established.
+2025-11-23 01:50:14,268 - INFO - Start time: 1763837414.268766
+2025-11-23 01:50:14,268 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:50:14,268 - INFO - Is fisrt: False
+2025-11-23 01:50:22,319 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for medications (Compounds) that treat a specific disease (lung cancer). I will use the /neighborhood endpoint to find Compound neighbors of the Disease 'lung cancer' connected by the 'TREATS_CtD' edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that treat 'lung cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 01:50:23,997 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 01:50:24,006 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 01:50:36,710 - INFO - Final answer generated.
+2025-11-23 01:50:36,711 - INFO - End time: 1763837436.7114854
+2025-11-23 01:50:36,711 - INFO - Total time for entire processing: 22.44271945953369
+2025-11-23 01:50:36,716 - INFO - WebSocket connection closed.
+2025-11-23 01:50:36,718 - INFO - WebSocket connection established.
+2025-11-23 01:50:36,722 - INFO - Start time: 1763837436.722571
+2025-11-23 01:50:36,722 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:50:36,723 - INFO - Is fisrt: True
+2025-11-23 01:50:36,723 - ERROR - An error occurred in the AI pipeline: 'NoneType' object has no attribute 'generate_topic'
+Traceback (most recent call last):
+  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 113, in run_full_pipeline
+    title = await topic_module.generate_topic(question)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'generate_topic'
+2025-11-23 01:50:36,727 - ERROR - An error occurred in the WebSocket connection: too many values to unpack (expected 2)
+2025-11-23 01:50:42,601 - INFO - Server is shutting down...
+2025-11-23 01:50:50,803 - INFO - Server is starting up...
+2025-11-23 01:50:50,803 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:50:54,060 - INFO - WebSocket connection established.
+2025-11-23 01:50:54,060 - INFO - Start time: 1763837454.0606077
+2025-11-23 01:50:54,060 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:50:54,060 - INFO - Is fisrt: True
+2025-11-23 01:50:54,067 - ERROR - An error occurred in the AI pipeline: 'NoneType' object has no attribute 'generate_topic'
+Traceback (most recent call last):
+  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 113, in run_full_pipeline
+    title = await topic_module.generate_topic(question)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'generate_topic'
+2025-11-23 01:50:54,070 - ERROR - An error occurred in the WebSocket connection: too many values to unpack (expected 2)
+2025-11-23 01:51:15,146 - INFO - Server is shutting down...
+2025-11-23 01:51:25,198 - INFO - Server is starting up...
+2025-11-23 01:51:25,198 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:51:30,559 - INFO - WebSocket connection established.
+2025-11-23 01:51:30,559 - INFO - Start time: 1763837490.5597157
+2025-11-23 01:51:30,559 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:51:30,559 - INFO - Is fisrt: True
+2025-11-23 01:51:30,559 - ERROR - An error occurred in the AI pipeline: 'NoneType' object has no attribute 'generate_topic'
+Traceback (most recent call last):
+  File "E:\HOCTAPCNTT\HOC KI 9\PROJECT\AKE\server_ai_main.py", line 113, in run_full_pipeline
+    title = await topic_module.generate_topic(question)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'generate_topic'
+2025-11-23 01:51:30,573 - ERROR - An error occurred in the WebSocket connection: too many values to unpack (expected 2)
+2025-11-23 01:54:11,884 - INFO - Server is shutting down...
+2025-11-23 01:54:12,953 - INFO - Server is starting up...
+2025-11-23 01:54:12,953 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:54:14,087 - INFO - Server is starting up...
+2025-11-23 01:54:14,090 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:54:33,244 - INFO - WebSocket connection established.
+2025-11-23 01:54:33,252 - INFO - Start time: 1763837673.2520556
+2025-11-23 01:54:33,252 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 01:54:33,253 - INFO - Is fisrt: True
+2025-11-23 01:54:41,724 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for 'medications' that 'treat' a specific disease, 'lung cancer'. This translates to a one-hop query from a Disease node to Compound nodes. I will use the /neighborhood API to find Compounds connected to the Disease 'lung cancer' via the TREATS_CtD edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that are used to treat 'lung cancer'.",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 01:54:42,630 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 01:54:42,635 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 01:54:57,483 - INFO - Final answer generated.
+2025-11-23 01:54:57,483 - INFO - End time: 1763837697.4831376
+2025-11-23 01:54:57,491 - INFO - Total time for entire processing: 24.23108196258545
+2025-11-23 01:55:32,914 - INFO - WebSocket connection closed.
+2025-11-23 01:55:33,030 - INFO - Server is shutting down...
+2025-11-23 01:55:44,691 - INFO - Server is starting up...
+2025-11-23 01:55:44,693 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:55:56,846 - INFO - Server is shutting down...
+2025-11-23 01:55:57,869 - INFO - Server is starting up...
+2025-11-23 01:55:57,871 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:56:11,516 - INFO - Server is shutting down...
+2025-11-23 01:56:12,521 - INFO - Server is starting up...
+2025-11-23 01:56:12,523 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:58:08,270 - INFO - Server is shutting down...
+2025-11-23 01:58:09,360 - INFO - Server is starting up...
+2025-11-23 01:58:09,361 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:58:38,170 - INFO - Server is shutting down...
+2025-11-23 01:58:39,215 - INFO - Server is starting up...
+2025-11-23 01:58:39,216 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:59:10,085 - INFO - Server is shutting down...
+2025-11-23 01:59:11,112 - INFO - Server is starting up...
+2025-11-23 01:59:11,112 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:59:25,948 - INFO - Server is shutting down...
+2025-11-23 01:59:27,016 - INFO - Server is starting up...
+2025-11-23 01:59:27,018 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 01:59:59,478 - INFO - Server is shutting down...
+2025-11-23 02:00:00,549 - INFO - Server is starting up...
+2025-11-23 02:00:00,550 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:01,629 - INFO - Server is starting up...
+2025-11-23 02:00:01,631 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:03,067 - INFO - Server is shutting down...
+2025-11-23 02:00:04,112 - INFO - Server is starting up...
+2025-11-23 02:00:04,112 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:24,694 - INFO - Server is shutting down...
+2025-11-23 02:00:25,740 - INFO - Server is starting up...
+2025-11-23 02:00:25,743 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:29,976 - INFO - Server is shutting down...
+2025-11-23 02:00:30,976 - INFO - Server is starting up...
+2025-11-23 02:00:30,979 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:35,062 - INFO - Server is shutting down...
+2025-11-23 02:00:37,458 - INFO - Server is starting up...
+2025-11-23 02:00:37,458 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:00:42,299 - INFO - WebSocket connection established.
+2025-11-23 02:00:42,303 - INFO - Start time: 1763838042.3035626
+2025-11-23 02:00:42,303 - INFO - Pipeline started for question: 'các thuốc chữa bệnh ung thư phổi?'
+2025-11-23 02:00:42,303 - INFO - Is fisrt: True
+2025-11-23 02:00:42,305 - INFO - Running tasks in parallel...
+2025-11-23 02:00:49,887 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "The user is asking for 'medications' that 'treat' a specific disease, 'lung cancer'. This translates to a one-hop query from a Disease node to Compound nodes. I will use the /neighborhood API to find Compounds connected to the Disease 'lung cancer' via the TREATS_CtD edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get medications (Compounds) that are used to treat 'lung cancer'.",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 02:00:51,809 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 02:00:51,818 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:01:06,345 - INFO - Final answer generated.
+2025-11-23 02:01:06,345 - INFO - Final topic generated.
+2025-11-23 02:01:07,330 - INFO - Final answer: Dựa trên dữ liệu được cung cấp, các loại thuốc sau đây có liên quan đến việc điều trị ung thư phổi:
+
+*   (R)-Nicotine
+*   Bupropion
+*   Olanzapine
+*   Fludeoxyglucose F-18
+*   Bupivacaine
+*   Budesonide
+*   Ropivacaine
+*   NIVOLUMAB (còn được biết đến với tên Opdivo)
+*   Prednisone
+*   ATEZOLIZUMAB (còn được biết đến với tên Tecentriq)
+*   Alectinib
+*   Amifostine
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-11-23 02:01:07,330 - INFO - Final title: Các thuốc chữa bệnh ung thư phổi
+2025-11-23 02:01:07,332 - INFO - End time: 1763838067.332947
+2025-11-23 02:01:07,332 - INFO - Total time for entire processing: 25.02938437461853
+2025-11-23 02:09:25,699 - INFO - WebSocket connection closed.
+2025-11-23 02:09:25,812 - INFO - Server is shutting down...
+2025-11-23 02:09:28,930 - INFO - Server is starting up...
+2025-11-23 02:09:28,932 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:10:03,561 - INFO - Server is shutting down...
+2025-11-23 02:10:04,629 - INFO - Server is starting up...
+2025-11-23 02:10:04,630 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:10:20,605 - INFO - WebSocket connection established.
+2025-11-23 02:10:20,605 - INFO - Start time: 1763838620.6052577
+2025-11-23 02:10:20,605 - INFO - Pipeline started for question: 'tôi muốn biết thông tin về ung thư phổi, cụ thể là những thuốc nào có thể chữa ung thư phổi?'
+2025-11-23 02:10:20,605 - INFO - Is fisrt: True
+2025-11-23 02:10:20,605 - INFO - Running tasks in parallel...
+2025-11-23 02:10:28,177 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for drugs (Compounds) that treat a specific disease (lung cancer). I will use the /neighborhood endpoint to find Compound neighbors of the Disease 'lung cancer' connected by the 'TREATS_CtD' edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get drugs (Compounds) that treat 'lung cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 02:10:30,095 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 02:10:30,104 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:10:41,502 - INFO - Final answer generated.
+2025-11-23 02:10:41,510 - INFO - Final topic generated.
+2025-11-23 02:10:42,215 - INFO - Final answer: Dựa trên dữ liệu được cung cấp, đây là danh sách các hợp chất/thuốc đã được tìm thấy:
+
+*   (R)-Nicotine
+*   Bupropion
+*   Olanzapine
+*   Fludeoxyglucose F-18
+*   Bupivacaine
+*   Budesonide
+*   Ropivacaine
+*   NIVOLUMAB (còn được biết đến với tên Opdivo)
+*   Prednisone
+*   ATEZOLIZUMAB (còn được biết đến với tên Tecentriq)
+*   Alectinib
+*   Amifostine
+
+Tuy nhiên, thông tin được cung cấp không nêu rõ mối liên hệ điều trị của các loại thuốc này đối với bệnh ung thư phổi.
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-11-23 02:10:42,215 - INFO - Final title: Thuốc điều trị ung thư phổi
+2025-11-23 02:10:42,215 - INFO - End time: 1763838642.2159038
+2025-11-23 02:10:42,215 - INFO - Total time for entire processing: 21.61064600944519
+2025-11-23 02:11:57,190 - INFO - WebSocket connection closed.
+2025-11-23 02:11:57,305 - INFO - Server is shutting down...
+2025-11-23 02:12:00,357 - INFO - Server is starting up...
+2025-11-23 02:12:00,362 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:12:08,019 - INFO - WebSocket connection established.
+2025-11-23 02:12:08,024 - INFO - Start time: 1763838728.0247462
+2025-11-23 02:12:08,024 - INFO - Pipeline started for question: 'tôi muốn biết thông tin về ung thư phổi, cụ thể là những thuốc nào có thể chữa ung thư phổi?'
+2025-11-23 02:12:08,024 - INFO - Is fisrt: False
+2025-11-23 02:12:08,026 - INFO - Running tasks in parallel...
+2025-11-23 02:12:16,716 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for compounds (drugs) that treat a specific disease (lung cancer). The plan is to use the /neighborhood endpoint to find 'Compound' neighbors of the 'Disease' node named 'lung cancer' via the 'TREATS_CtD' edge.",
+  "entities": [
+    {
+      "name_in_query": "lung cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "lung_cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get compounds that treat 'lung cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/lung cancer?edge_filters=TREATS_CtD&node_filters=Compound",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-11-23 02:12:17,665 - INFO - Context store: {
+  "final_result": [
+    {
+      "data": {
+        "id": 416873,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CN1CCC[C@@H]1c1cccnc1",
+          "identifier": "inchikey:SNICXCGAKADSCV-SNVBAGLBSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CN1CCC[C@@H]1C2=CN=CC=C2",
+          "synonyms": [
+            "(+)-Nicotine",
+            "(R)-(+)-Nicotine",
+            "(R)-3-(1-Methyl-2-pyrrolidinyl)pyridine",
+            "(R)-nicotine",
+            "157672",
+            "2'-beta-H-Nicotine",
+            "25162-00-9",
+            "3-[(2R)-1-methylpyrrolidin-2-yl]pyridine",
+            "C16386",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "CHEMBL9732",
+            "D-Nicotine",
+            "Pseudonicotine",
+            "R-NICOTINE"
+          ],
+          "name": "(R)-Nicotine",
+          "xrefs": [
+            "biocyc:R-NICOTINE",
+            "CHEBI:39162",
+            "CHEBI:79008",
+            "chembl.compound:CHEMBL9732",
+            "kegg.compound:C16386",
+            "pubchem.compound:157672"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385055,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1",
+          "identifier": "inchikey:SNPPWIUOZRMYNY-UHFFFAOYSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC(C(=O)C1=CC(=CC=C1)Cl)NC(C)(C)C",
+          "synonyms": [
+            "(+-)-Bupropion",
+            "2-(tert-butylamino)-1-(3-chlorophenyl)propan-1-one",
+            "34841-39-9",
+            "34911-55-2",
+            "444",
+            "Amfebutamona",
+            "Amfebutamone",
+            "Bupropion (INN)",
+            "Bupropion extended release",
+            "Bupropion slow release",
+            "C06860",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "CHEMBL1201735",
+            "CHEMBL1698",
+            "CHEMBL894",
+            "CPD-3481",
+            "D00817",
+            "D07591",
+            "D07938",
+            "DB01156",
+            "HMDB0001510",
+            "NSC-758686",
+            "Wellbatrin",
+            "Wellbutrin",
+            "Zyban",
+            "amfebutamonum",
+            "bupropion",
+            "bupropione"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupropion",
+          "xrefs": [
+            "biocyc:CPD-3481",
+            "CHEBI:3219",
+            "CHEBI:3220",
+            "chembl.compound:CHEMBL1201735",
+            "chembl.compound:CHEMBL1698",
+            "chembl.compound:CHEMBL894",
+            "drugbank:DB01156",
+            "hmdb:HMDB0001510",
+            "kegg.compound:C06860",
+            "kegg.drug:D00817",
+            "kegg.drug:D07591",
+            "kegg.drug:D07938",
+            "pubchem.compound:444"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1623343,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "Cc1cc2c(s1)Nc1ccccc1N=C2N1CCN(C)CC1",
+          "identifier": "inchikey:KVWDHTXUZHCGIO-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CC1=CC2=C(S1)NC3=CC=CC=C3N=C2N4CCN(CC4)C",
+          "synonyms": [
+            "132539-06-1",
+            "135398745",
+            "2-Methyl-4-(4-methyl-1-piperazinyl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine",
+            "C07322",
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "CHEMBL715",
+            "D00454",
+            "DB00334",
+            "HMDB0005012",
+            "LY-170053",
+            "LY170053",
+            "Lanzac",
+            "Olansek",
+            "Olanzapin",
+            "Olanzapine (JAN/USP/INN)",
+            "Olanzapine Glenmark",
+            "Olanzapine Mylan",
+            "Olanzapine Teva",
+            "Olanzapine apotex",
+            "Olanzapine cipla",
+            "Olazax",
+            "Olazax Disperzi",
+            "Zyprexa",
+            "Zyprexa (TN)",
+            "Zyprexa Intramuscular",
+            "Zyprexa Velotab",
+            "Zyprexa Zydis",
+            "olanzapina",
+            "olanzapine",
+            "olanzapinum"
+          ],
+          "max_phase": 4.0,
+          "name": "Olanzapine",
+          "xrefs": [
+            "CHEBI:7735",
+            "CHEBI:94534",
+            "chembl.compound:CHEMBL715",
+            "drugbank:DB00334",
+            "hmdb:HMDB0005012",
+            "kegg.compound:C07322",
+            "kegg.drug:D00454",
+            "pubchem.compound:135398745"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 401890,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "O=C[C@H]([18F])[C@@H](O)[C@H](O)[C@H](O)CO",
+          "identifier": "inchikey:AOYNUTHNTBLRMT-MXWOLSILSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "PubChem"
+          ],
+          "smiles": "C([C@H]([C@H]([C@@H]([C@H](C=O)[18F])O)O)O)O",
+          "synonyms": [
+            "(18F)-FDG",
+            "18-F FDG",
+            "18F-FDG",
+            "2-deoxy-2-((18)F)fluoro-aldehydo-D-glucose",
+            "68614",
+            "CHEBI:49136",
+            "CHEMBL1808698",
+            "DB09502",
+            "FLUDEOXYGLUCOSE F-18",
+            "Fludeoxyglucose (18F)",
+            "Fludeoxyglucose F 18",
+            "Fludeoxyglucose, F-18"
+          ],
+          "name": "Fludeoxyglucose F-18",
+          "xrefs": [
+            "CHEBI:49136",
+            "chembl.compound:CHEMBL1808698",
+            "drugbank:DB09502",
+            "pubchem.compound:68614"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 386149,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:LEBVLXFERQHONN-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCCN1CCCCC1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(+-)-Bupivacaine",
+            "(+/-)-Bupivacaine",
+            "(RS)-bupivacaine",
+            "1-Butyl-2',6'-pipecoloxylidide",
+            "1-Butyl-N-(2,6-dimethylphenyl)-2-piperidinecarboxamide",
+            "1-butyl-N-(2,6-dimethylphenyl)piperidine-2-carboxamide",
+            "2180-92-9",
+            "2474",
+            "38396-39-3",
+            "Bloqueina",
+            "Bucaine",
+            "Bucaine (TN)",
+            "Bupivacaina",
+            "Bupivacaina [INN-Spanish]",
+            "Bupivacaine (USAN/INN)",
+            "Bupivacaine HCL",
+            "Bupivacaine HCL KIT",
+            "Bupivacaine liposome",
+            "Bupivacainum",
+            "Bupivacainum [INN-Latin]",
+            "C07529",
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "CHEMBL1098",
+            "CHEMBL1200396",
+            "D01450",
+            "D07552",
+            "DB00297",
+            "DL-Bupivacaine",
+            "DUR-843",
+            "Exparel (TN)",
+            "HMDB0014442",
+            "LAC-43",
+            "LIQ-865",
+            "LIQ865",
+            "Liposomal bupivacaine",
+            "Marcaine",
+            "Ropivacaine hydrochloride impurity, bupivacaine-",
+            "SKY-0402",
+            "SKY0402",
+            "Sensorcaine",
+            "bupivacaine",
+            "cBupivacaine",
+            "dl-1-Butyl-2',6'-pipecoloxylidide",
+            "racemic bupivacaine"
+          ],
+          "max_phase": 4.0,
+          "name": "Bupivacaine",
+          "xrefs": [
+            "CHEBI:31322",
+            "CHEBI:60789",
+            "CHEBI:77431",
+            "CHEBI:77441",
+            "CHEBI:77449",
+            "CHEBI:77455",
+            "CHEBI:77457",
+            "chembl.compound:CHEMBL1098",
+            "chembl.compound:CHEMBL1200396",
+            "drugbank:DB00297",
+            "hmdb:HMDB0014442",
+            "kegg.compound:C07529",
+            "kegg.drug:D01450",
+            "kegg.drug:D07552",
+            "pubchem.compound:2474"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 2277918,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+          "identifier": "inchikey:VOVIALXJUBGFJZ-KWVAZRHASA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCC1O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)C=C[C@@]5([C@H]4[C@H](C[C@@]3([C@@]2(O1)C(=O)CO)C)O)C",
+          "synonyms": [
+            "(11beta,16alpha)-16,17-(Butylidenebis(oxy))-11,21-dihydroxypregna-1,4-diene-3,20-dione",
+            "11beta,21-dihydroxy-16alpha,17alpha-(butane-1,1-diyldioxy)pregna-1,4-diene-3,20-dione",
+            "51333-22-3",
+            "5281004",
+            "Budesonida",
+            "Budesonide (JP18/USP/INN)",
+            "CHEBI:3207",
+            "CHEMBL1370",
+            "D00246",
+            "DB01222",
+            "Entocort EC (TN)",
+            "HMDB0015353",
+            "MAP-0010",
+            "MAP0010",
+            "NSC-757788",
+            "Pulmicort (TN)",
+            "R01AD05",
+            "Rhinocort (TN)",
+            "S-1320",
+            "Uceris (TN)",
+            "budesonide"
+          ],
+          "max_phase": 4.0,
+          "name": "Budesonide",
+          "xrefs": [
+            "CHEBI:3207",
+            "chembl.compound:CHEMBL1370",
+            "drugbank:DB01222",
+            "hmdb:HMDB0015353",
+            "kegg.drug:D00246",
+            "pubchem.compound:5281004"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 418916,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCCN1CCCC[C@H]1C(=O)Nc1c(C)cccc1C",
+          "identifier": "inchikey:ZKMNUMMKYBVTFN-HNNXBMFYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "CCCN1CCCC[C@H]1C(=O)NC2=C(C=CC=C2C)C",
+          "synonyms": [
+            "(-)-1-Propyl-2',6'-pipecoloxylidide",
+            "(-)-1-propyl-2',6'-dimethyl-2-piperidylcarboxyanilide",
+            "(2S)-N-(2,6-dimethylphenyl)-1-propylpiperidine-2-carboxamide",
+            "(S)-(-)-1-propyl-2',6'-pipecoloxylidide",
+            "(S)-Ropivacaine",
+            "175805",
+            "84057-95-4",
+            "C07532",
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "CHEMBL1077896",
+            "CHEMBL1889140",
+            "D04048",
+            "D08490",
+            "DB00296",
+            "HMDB0014441",
+            "L-N-n-propylpipecolic acid-2,6-xylidide",
+            "Naropin (TN)",
+            "Ropivacaina",
+            "Ropivacaina [INN-Spanish]",
+            "Ropivacaina [Spanish]",
+            "Ropivacaine",
+            "Ropivacaine (INN)",
+            "Ropivacaine [INN]",
+            "Ropivacainum",
+            "Ropivacainum [INN-Latin]",
+            "Ropivicaine",
+            "S-Ropivacaine",
+            "TLC-590",
+            "TLC590"
+          ],
+          "max_phase": 4.0,
+          "name": "Ropivacaine",
+          "xrefs": [
+            "CHEBI:34954",
+            "CHEBI:60803",
+            "CHEBI:8890",
+            "chembl.compound:CHEMBL1077896",
+            "chembl.compound:CHEMBL1889140",
+            "drugbank:DB00296",
+            "hmdb:HMDB0014441",
+            "kegg.compound:C07532",
+            "kegg.drug:D04048",
+            "kegg.drug:D08490",
+            "pubchem.compound:175805"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28122850,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "NIVOLUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL2108738",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "Opdivo",
+            "MDX1106",
+            "MDX-1106",
+            "ONO-4538",
+            "Nivolumab",
+            "BMS-986298",
+            "BMS-936558"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 388142,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "C[C@]12C=CC(=O)C=C1CC[C@@H]1[C@@H]2C(=O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+          "identifier": "inchikey:XOFYZVNMUHMLCC-ZPOLXVRWSA-N",
+          "sources": [
+            "BioCyc",
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C[C@]12CC(=O)[C@H]3[C@H]([C@@H]1CC[C@@]2(C(=O)CO)O)CCC4=CC(=O)C=C[C@]34C",
+          "synonyms": [
+            "1,2-Dehydrocortisone",
+            "1,4-Pregnadiene-17alpha,21-diol-3,11,20-trione",
+            "17,21-Dihydroxypregna-1,4-diene-3,11,20-trione",
+            "3en3hg4wsw",
+            "53-03-2",
+            "5865",
+            "C07370",
+            "CHEBI:8382",
+            "CHEMBL635",
+            "CPD-22917",
+            "D00473",
+            "DB00635",
+            "Decortin",
+            "Dehydrocortisone",
+            "HMDB0014773",
+            "Metacortandracin",
+            "NSC-10023",
+            "Prednison",
+            "Prednisona",
+            "Prednisona [INN-Spanish]",
+            "Prednisone tablets",
+            "Prednisonum",
+            "Prednisonum [INN-Latin]",
+            "Supercortil",
+            "prednisone",
+            "prednisone anhydrous"
+          ],
+          "max_phase": 4.0,
+          "name": "Prednisone",
+          "xrefs": [
+            "biocyc:CPD-22917",
+            "CHEBI:8382",
+            "chembl.compound:CHEMBL635",
+            "drugbank:DB00635",
+            "hmdb:HMDB0014773",
+            "kegg.compound:C07370",
+            "kegg.drug:D00473",
+            "pubchem.compound:5865"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28126416,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "name": "ATEZOLIZUMAB",
+          "max_phase": 4.0,
+          "identifier": "chembl.compound:CHEMBL3707227",
+          "sources": [
+            "ChEMBL"
+          ],
+          "synonyms": [
+            "RG7446",
+            "RG-7446",
+            "MPDL3280A",
+            "Tecentriq",
+            "Anti-PDL1",
+            "Anti-PD-L1",
+            "0ine2sfd9e",
+            "MPDL-3280A",
+            "Atezolizumab"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 1034329,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "CCc1cc2c(cc1N1CCC(N3CCOCC3)CC1)C(C)(C)c1[nH]c3cc(C#N)ccc3c1C2=O",
+          "identifier": "inchikey:KDGFLJKFZUIJMX-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "Protein Data Bank in Europe (PDBe)",
+            "PubChem"
+          ],
+          "smiles": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+          "synonyms": [
+            "1256580-46-7",
+            "49806720",
+            "9-Ethyl-6,6-Dimethyl-8-[4-(Morpholin-4-Yl)piperidin-1-Yl]-11-Oxo-6,11-Dihydro-5h-Benzo[b]carbazole-3-Carbonitrile",
+            "AF 802",
+            "AF-802",
+            "AF802",
+            "Alectinib",
+            "Alectinib (USAN/INN)",
+            "CH 5424802",
+            "CH-5424802",
+            "CH5424802",
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "CHEMBL1738797",
+            "CHEMBL3707320",
+            "D10450",
+            "D10542",
+            "DB11363",
+            "EMH",
+            "HMDB0248129",
+            "RO-5424802",
+            "RO5424802"
+          ],
+          "max_phase": 4.0,
+          "name": "Alectinib",
+          "xrefs": [
+            "CHEBI:62268",
+            "CHEBI:90936",
+            "CHEBI:90937",
+            "chembl.compound:CHEMBL1738797",
+            "chembl.compound:CHEMBL3707320",
+            "drugbank:DB11363",
+            "hmdb:HMDB0248129",
+            "kegg.drug:D10450",
+            "kegg.drug:D10542",
+            "pdb.ligand:EMH",
+            "pubchem.compound:49806720"
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 385941,
+        "neo4j_type": "Compound",
+        "neo4j_root": 0,
+        "properties": {
+          "standardized_smiles": "NCCCNCCSP(=O)(O)O",
+          "identifier": "inchikey:JKOQGQFVAUAYPM-UHFFFAOYSA-N",
+          "sources": [
+            "ChEBI",
+            "ChEMBL",
+            "DrugBank",
+            "Human Metabolome Database (HMDB)",
+            "KEGG",
+            "PubChem"
+          ],
+          "smiles": "C(CN)CNCCSP(=O)(O)O",
+          "synonyms": [
+            "20537-88-6",
+            "2141",
+            "Amifostina",
+            "Amifostine Anhydrous",
+            "Amifostine Ethiofos",
+            "Amifostine disulfide",
+            "Amifostine trihydrate",
+            "Amifostinum",
+            "Aminopropylaminoethyl thiophosphate",
+            "Apaetp",
+            "C06819",
+            "CHEBI:2636",
+            "CHEMBL1006",
+            "D00226",
+            "DB01143",
+            "Ethiofos",
+            "Ethiofos Anhydrous",
+            "Ethyol",
+            "Gammaphos",
+            "HMDB0015274",
+            "NSC-296961",
+            "NSC-758236",
+            "S-{2-[(3-aminopropyl)amino]ethyl} dihydrogen thiophosphate",
+            "Sapep",
+            "WR-1065",
+            "WR-2721",
+            "WR-2721 TRIHYDRATE",
+            "YM-08310",
+            "amifostine"
+          ],
+          "name": "Amifostine",
+          "max_phase": 4.0,
+          "xrefs": [
+            "CHEBI:2636",
+            "chembl.compound:CHEMBL1006",
+            "drugbank:DB01143",
+            "hmdb:HMDB0015274",
+            "kegg.compound:C06819",
+            "kegg.drug:D00226",
+            "pubchem.compound:2141"
+          ]
+        }
+      }
+    }
+  ]
+}
+2025-11-23 02:12:17,674 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:12:29,027 - INFO - Final answer generated.
+2025-11-23 02:12:29,027 - INFO - Final answer: Dựa trên dữ liệu được cung cấp, đây là danh sách các hợp chất/thuốc đã được tìm thấy:
+
+*   (R)-Nicotine
+*   Bupropion
+*   Olanzapine
+*   Fludeoxyglucose F-18
+*   Bupivacaine
+*   Budesonide
+*   Ropivacaine
+*   NIVOLUMAB (còn được biết đến với tên Opdivo)
+*   Prednisone
+*   ATEZOLIZUMAB (còn được biết đến với tên Tecentriq)
+*   Alectinib
+*   Amifostine
+
+Tuy nhiên, thông tin được cung cấp không nêu rõ mối liên hệ điều trị của các loại thuốc này đối với bệnh ung thư phổi.
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-11-23 02:12:29,033 - INFO - Final title: None
+2025-11-23 02:12:29,033 - INFO - End time: 1763838749.0333047
+2025-11-23 02:12:29,033 - INFO - Total time for entire processing: 21.00855851173401
+2025-11-23 02:12:56,056 - INFO - WebSocket connection closed.
+2025-11-23 02:13:12,601 - INFO - Server is shutting down...
+2025-11-23 02:13:15,707 - INFO - Server is starting up...
+2025-11-23 02:13:15,707 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:13:16,684 - INFO - Server is starting up...
+2025-11-23 02:13:16,684 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:13:17,691 - INFO - Server is starting up...
+2025-11-23 02:13:17,691 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:13:23,202 - INFO - WebSocket connection established.
+2025-11-23 02:13:23,205 - INFO - Start time: 1763838803.205751
+2025-11-23 02:13:23,205 - INFO - Pipeline started for question: 'Whyyy ?'
+2025-11-23 02:13:23,205 - INFO - Is fisrt: False
+2025-11-23 02:13:23,205 - INFO - Running tasks in parallel...
+2025-11-23 02:13:31,613 - INFO - Plan created: {
+  "query_type": "unplannable",
+  "thought": "The user's query 'Why?' is too ambiguous and does not contain any recognizable biomedical entities (like genes, diseases, compounds, etc.) that can be used to query the SPOKE database. Therefore, no execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 02:13:31,613 - INFO - Context store: {}
+2025-11-23 02:13:31,618 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:13:32,443 - INFO - Final answer generated.
+2025-11-23 02:13:32,443 - INFO - Final answer: Tôi xin lỗi, nhưng tôi không tìm thấy thông tin nào về câu hỏi "Why?".
+2025-11-23 02:13:32,443 - INFO - Final title: None
+2025-11-23 02:13:32,443 - INFO - End time: 1763838812.4434502
+2025-11-23 02:13:32,443 - INFO - Total time for entire processing: 9.237699270248413
+2025-11-23 02:13:43,035 - INFO - WebSocket connection closed.
+2025-11-23 02:13:43,149 - INFO - Server is shutting down...
+2025-11-23 02:13:46,163 - INFO - Server is starting up...
+2025-11-23 02:13:46,163 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:13:51,280 - INFO - WebSocket connection established.
+2025-11-23 02:13:51,280 - INFO - Start time: 1763838831.2801816
+2025-11-23 02:13:51,280 - INFO - Pipeline started for question: 'Whyyy ?'
+2025-11-23 02:13:51,285 - INFO - Is fisrt: True
+2025-11-23 02:13:51,286 - INFO - Running tasks in parallel...
+2025-11-23 02:14:03,066 - INFO - Plan created: {
+  "query_type": "unplannable",
+  "thought": "The user's query 'Why?' is too ambiguous and does not contain any recognizable biomedical entities (like genes, diseases, compounds, etc.) that can be used to query the SPOKE database. Therefore, no execution plan can be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 02:14:03,070 - INFO - Context store: {}
+2025-11-23 02:14:03,071 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:14:03,883 - INFO - Final answer generated.
+2025-11-23 02:14:03,883 - INFO - Final topic generated.
+2025-11-23 02:14:04,608 - INFO - Final answer: Tôi xin lỗi, nhưng tôi không tìm thấy thông tin nào về câu hỏi "Why?".
+2025-11-23 02:14:04,608 - INFO - Final title: General Discussion
+2025-11-23 02:14:04,622 - INFO - End time: 1763838844.6221058
+2025-11-23 02:14:04,622 - INFO - Total time for entire processing: 13.34192419052124
+2025-11-23 02:14:35,762 - INFO - WebSocket connection closed.
+2025-11-23 02:14:35,864 - INFO - Server is shutting down...
+2025-11-23 02:14:38,959 - INFO - Server is starting up...
+2025-11-23 02:14:38,962 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-11-23 02:14:43,292 - INFO - WebSocket connection established.
+2025-11-23 02:14:43,299 - INFO - Start time: 1763838883.2990074
+2025-11-23 02:14:43,299 - INFO - Pipeline started for question: 'Tại sao, tôi không hiểu ?'
+2025-11-23 02:14:43,300 - INFO - Is fisrt: True
+2025-11-23 02:14:43,300 - INFO - Running tasks in parallel...
+2025-11-23 02:14:52,594 - INFO - Plan created: {
+  "query_type": "unanswerable",
+  "thought": "The user's query 'I don't understand why?' is too vague and does not contain any recognizable biomedical entities (like genes, diseases, compounds) or relationships that can be mapped to the SPOKE API. Therefore, a query plan cannot be generated.",
+  "entities": [],
+  "plan": []
+}
+2025-11-23 02:14:52,594 - INFO - Context store: {}
+2025-11-23 02:14:52,598 - INFO - Execution completed. Final Context Store is ready.
+2025-11-23 02:14:53,429 - INFO - Final answer generated.
+2025-11-23 02:14:53,430 - INFO - Final topic generated.
+2025-11-23 02:14:54,234 - INFO - Final answer: Chào bạn, rất tiếc, tôi không tìm thấy thông tin nào liên quan đến câu hỏi "Tại sao, tôi không hiểu ?" trong cơ sở dữ liệu của mình.
+2025-11-23 02:14:54,236 - INFO - Final title: Không hiểu vấn đề gì?
+2025-11-23 02:14:54,236 - INFO - End time: 1763838894.236295
+2025-11-23 02:14:54,236 - INFO - Total time for entire processing: 10.93728756904602
+2025-11-23 02:15:20,127 - INFO - WebSocket connection closed.
+2025-11-23 02:15:22,308 - INFO - Server is shutting down...

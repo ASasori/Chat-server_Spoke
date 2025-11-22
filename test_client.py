@@ -12,7 +12,9 @@ async def run_test():
     uri = "ws://localhost:8001/ws/query"
 
     test_payload = {
-        "question": "when i was born?",
+        "is_first": True,
+        "question":"Tại sao, tôi không hiểu ?",
+        # "question": "tôi muốn biết thông tin về ung thư phổi, cụ thể là những thuốc nào có thể chữa ung thư phổi?",
         "history": [
             # {
             #     "role": "user",
