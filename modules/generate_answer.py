@@ -121,7 +121,7 @@ class AnswerGenerator:
 
             INPUTS:
             1. **User's Original Question:** "{original_question}" 
-            (Use this to determine the **OUTPUT LANGUAGE** and tone).
+            (Use this to determine the **OUTPUT LANGUAGE** and **TONE**).
             2. **System Processed Query:** "{nlq}" 
             (Use this to understand the **LOGIC** and match with the Data Context).
 
@@ -131,16 +131,18 @@ class AnswerGenerator:
             ```
 
             Instructions:
-            1.  **LANGUAGE DETECTION:** Identify the language used in "User's Original Question" (Input 1). (e.g., Vietnamese, English, French).
+            1.  **LANGUAGE DETECTION:** Identify the language used in "User's Original Question" (Input 1).
             2.  **OUTPUT GENERATION:** Generate the entire response **IN THAT EXACT SAME LANGUAGE**.
-            3.  **ANALYSIS:** Analyze the "final_result" and intermediate keys ("diseases_list", etc.) in the JSON to answer the query.
-            4.  **REASONING:** Explain *how* you found the answer by referencing the intermediate steps found in the Data Context. 
-                - Do not add outside knowledge. 
-                - Ensure the explanation logic matches the "System Processed Query" but is expressed in the target language.
+            3.  **NATURAL REASONING (CRITICAL):** - Analyze the connection between the intermediate data (e.g., "diseases_list") and the "final_result".
+                - **Weave this reasoning into a clear, natural narrative.** Explain *how* one entity leads to another based on the data.
+                - **PROHIBITION:** Do NOT mention technical terms like "JSON", "keys", "dictionaries", "lists", or "variables" in your final answer. Instead, use natural phrases like "associated with", "leads to", "causes", "treats".
+                - Example style (English): "The drug Aspirin is shown to treat Headache, which is why..."
+                - Example style (Vietnamese): "Dựa trên dữ liệu, thuốc Aspirin được tìm thấy là có điều trị chứng Đau đầu, điều này giải thích..."
+            4.  **ACCURACY:** Your explanation must *only* reflect the data connections shown in the context. Do not add external knowledge.
             5.  **DISCLAIMER:** Conclude with a disclaimer translated into the target language. 
                 (English template: "Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.")
 
-            If the "final_result" is valid, explain the findings clearly in the target language.
+            If the "final_result" is valid, explain the findings clearly and naturally in the target language.
             """
             
             # Gọi LLM xử lý câu trả lời chính
