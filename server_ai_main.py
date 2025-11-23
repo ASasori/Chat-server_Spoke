@@ -98,7 +98,7 @@ app = FastAPI(
 )
 # --- 2. DEFINE THE COMPLETE PROCESSING PIPELINE ---
 
-async def run_full_pipeline(question: str, history: list, is_first: bool) -> str:
+async def run_full_pipeline(question: str, history: list, is_first: bool, websocket: WebSocket) -> str:
     """
     This function executes the entire pipeline from question to final answer.
     Note: For best performance, the methods in your classes should be `async def`.
@@ -111,9 +111,17 @@ async def run_full_pipeline(question: str, history: list, is_first: bool) -> str
         logging.info(f"Is fisrt: {is_first}")
 
         async def generate_main_answer():
+            await websocket.send_json({
+                "event": "ai-report",
+                "data": {"report": "AI server is processing your question..."}
+            })
             # Step 0: Rewrite query based on query and history
             standalone_question = await query_writing.get_standalone_question(question, history)
 
+            await websocket.send_json({
+                "event": "ai-report",
+                "data": {"report": "Creating excution plan..."}
+            })
             # Step 1: PLAN - Create execution plan
             plan = await search_module.get_execution_plan(standalone_question)
             if plan.get("error"):
@@ -122,12 +130,20 @@ async def run_full_pipeline(question: str, history: list, is_first: bool) -> str
             
             logging.info(f"Plan created: {json.dumps(plan, indent=2)}")
 
+            await websocket.send_json({
+                "event": "ai-report",
+                "data": {"report": "Executing the plan and fetching data..."}
+            })
             # Step 2: EXECUTE - Execute the plan and fetch data
             context_store = await executor.execute_plan(plan, standalone_question)
             
             logging.info(f"Context store: {json.dumps(context_store, indent=2)}")
             logging.info("Execution completed. Final Context Store is ready.")
 
+            await websocket.send_json({
+                "event": "ai-report",
+                "data": {"report": "Generating final answer from collected data. This may take a while..."}
+            })
             # Step 3: GENERATE (RAG) - Generate answer from data
             final_answer = await answer_module.generate_final_answer(
                 original_question=question,
@@ -180,20 +196,34 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             # 1. Receive data from Normal Server
-            data = await websocket.receive_json()
-            question = data.get("question")
-            history = data.get("history", [])
-            is_first = data.get("is_first", False)
+            msg = await websocket.receive_json()
+            event_type = msg.get("event")
+            data = msg.get("data", {})
+
+            question=None
+            history=[]
+            is_first=False
+
+            if (event_type=="ask-ai"):
+                question = data.get("question")
+                history = data.get("history", [])
+                is_first = data.get("is_first", False)
 
             if not question:
                 await websocket.send_json({"error": "No question provided"})
                 continue
 
             # 2. Call the AI processing pipeline
-            answer, title = await run_full_pipeline(question, history, is_first)
-        
+            answer, title = await run_full_pipeline(question, history, is_first, websocket)
+            payload={
+                "answer": answer, 
+                "title": title
+            }
             # 3. Send the result back to the Normal Server
-            await websocket.send_json({"answer": answer, "title": title})
+            await websocket.send_json({
+                "event":"ai-response",
+                "data": payload
+            })
             
     except WebSocketDisconnect:
         logging.info("WebSocket connection closed.")
