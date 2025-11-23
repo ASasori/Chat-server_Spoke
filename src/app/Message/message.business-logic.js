@@ -1,4 +1,5 @@
 // import { LanguageMap, DEFAULT_LANG_CODE } from "../../utils/language-mapper.js"
+import { AIRequestCommand } from "./socket/ai-request.command.js"
 import { HttpStatusCode } from "../../utils/status-code.js"
 import { ErrorCode } from "../../utils/error-code.js"
 import { messageRoles } from "./message.enum.js"
@@ -10,7 +11,7 @@ import Message from "./message.model.js"
 import mongoose from "mongoose"
 
 class MessageLogic {
-    getAnswer = async (question, chatSessionId, userId, aiSocket) => {
+    getAnswer = async (question, chatSessionId, userId, aiSocket, onReport) => {
         try {
             if (!question) {
                 throw new AppError(
@@ -29,7 +30,7 @@ class MessageLogic {
                 chatHistory = await this.#getAllChatMessagesBySession(chatSessionId)
             }
 
-            const responseData = await this.#callAIServer(question, chatHistory, aiSocket, isFirst)
+            const responseData = await this.#callAIServer(question, chatHistory, isFirst, aiSocket, onReport)
             const answer = responseData?.answer
             const title = responseData?.title
 
@@ -43,6 +44,7 @@ class MessageLogic {
             console.log(`Answer: ${answer}`)
 
             if(isFirst) {
+                console.log(`Title: ${title}`)
                 const newTitle = title || "new chat"
                 const chatSession = await ChatSessionLogic.createNewChatSession(userId, newTitle)
                 chatSessionId = chatSession._id
@@ -130,44 +132,17 @@ class MessageLogic {
         }
     }
 
-    #callAIServer = async (question, history, aiSocket, isFirst) => {
-        return new Promise((resolve, reject) => {
-            const cleanup = () => {
-                aiSocket.removeListener("message", messageListener)
-                aiSocket.removeListener("error", errorListener)
-                aiSocket.removeListener("close", closeListener)
-            }
-            const messageListener = (data) => {
-                cleanup()
-                try {
-                    const response = JSON.parse(data)
-                    if (response.error) {
-                        reject(new Error(response.error))
-                    } else {
-                        resolve(response)
-                    }
-                } catch (err) {
-                    reject(new Error("Invalid response format from AI Server"))
-                }
-            }
-            const errorListener = (err) => {
-                cleanup()
-                reject(new Error("AI Server connection error while waiting for response"))
-            }
-            const closeListener = () => {
-                cleanup()
-                reject(new Error("AI Server connection closed unexpectedly"))
-            }
-            aiSocket.once("message", messageListener)
-            aiSocket.once("error", errorListener)
-            aiSocket.once("close", closeListener)
-            aiSocket.send(JSON.stringify({
+    #callAIServer = async (question, history, isFirst, aiSocket, onReport) => {
+        const command = new AIRequestCommand(aiSocket, onReport)
+        const payload = {
+            event: "ask-ai", 
+            data: {
                 question: question,
                 history: history,
-                // language: language,
                 is_first: isFirst
-            }))
-        })
+            }
+        }
+        return await command.execute(payload)
     }
 
     // #detectLanguage = (text) => {

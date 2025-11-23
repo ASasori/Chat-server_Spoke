@@ -9,8 +9,12 @@ class MessageSocketHandler {
             }
 
             socket.emit("server-ack", {status: "processing..."})
+
+            const onReport = (reportData) => {
+                socket.emit("server-report", reportData)
+            }
             
-            const result = await MessageLogic.getAnswer(question, chatSessionId, socket.user._id, aiSocket)
+            const result = await MessageLogic.getAnswer(question, chatSessionId, socket.user._id, aiSocket, onReport)
             
             io.to(socket.user._id.toString()).emit("receive-answer", result)
         } catch (error) {
