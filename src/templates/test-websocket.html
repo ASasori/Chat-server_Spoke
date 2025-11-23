@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spoke AI Chat - Auto Demo</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -78,7 +81,29 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .user { align-self: flex-end; background: #007bff; color: #fff; border-bottom-right-radius: 4px; }
-    .bot { align-self: flex-start; background: #f1f0f0; color: #333; border-bottom-left-radius: 4px; }
+    
+    /* Bot message specific styling for Markdown content */
+    .bot { 
+        align-self: flex-start; 
+        background: #f1f0f0; 
+        color: #333; 
+        border-bottom-left-radius: 4px; 
+    }
+    
+    /* Markdown Styles within Bot Bubble */
+    .bot p { margin: 0 0 10px 0; }
+    .bot p:last-child { margin: 0; }
+    .bot ul, .bot ol { margin: 5px 0 10px 20px; padding: 0; }
+    .bot li { margin-bottom: 5px; }
+    .bot code { background: #e0e0e0; padding: 2px 4px; border-radius: 4px; font-family: monospace; font-size: 13px; }
+    .bot pre { background: #2d2d2d; color: #fff; padding: 10px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
+    .bot pre code { background: transparent; color: inherit; padding: 0; }
+    .bot strong { font-weight: 700; color: #000; }
+    .bot h1, .bot h2, .bot h3 { margin: 10px 0 5px 0; font-weight: 600; line-height: 1.2; }
+    .bot h1 { font-size: 1.4em; }
+    .bot h2 { font-size: 1.2em; }
+    .bot h3 { font-size: 1.1em; }
+
     .system { align-self: center; color: #6c757d; font-size: 12px; margin: 5px 0; }
     .error-msg { align-self: center; background: #f8d7da; color: #721c24; padding: 8px 12px; border-radius: 8px; font-size: 14px; }
 
@@ -150,7 +175,6 @@
     #btn-connect.connected { background: #dc3545; }
     #btn-connect.connected:hover { background: #c82333; }
 
-    /* New User Info Styles */
     .user-info-box {
         background: #e3f2fd;
         color: #0d47a1;
@@ -215,8 +239,8 @@
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
-
-  <script>
+<script>
+    // ... (Các biến DOM giữ nguyên) ...
     const chatBox = document.getElementById('chat-box');
     const input = document.getElementById('input');
     const sendBtn = document.getElementById('send');
@@ -231,190 +255,201 @@
 
     let socket;
     let activeBotActivity = null; 
-    let typingInterval = null;
+    let reportTypingInterval = null;
 
-    // --- AUTO LOGIN FUNCTION ---
+    // ... (autoLogin, updateStatus, toggleChat giữ nguyên) ...
     async function autoLogin() {
+        // ... (Code cũ)
         logRaw('SYSTEM', 'Attempting auto-login with test@gmail.com...');
-        
         try {
             const response = await fetch('/users/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: "test@gmail.com",
-                    password: "1234"
-                })
+                body: JSON.stringify({ email: "test@gmail.com", password: "1234" })
             });
-
             const data = await response.json();
-
             if (response.ok && data.token) {
-                // 1. Fill Token
                 tokenInput.value = data.token;
-                
-                // 2. Update User Info UI
                 userDisplay.style.display = 'flex';
                 const email = data.user.email || "test@gmail.com";
                 userEmailText.textContent = `Logged in as: ${email}`;
                 logRaw('SYSTEM', `Login Successful! User: ${email}`);
-
-                // 3. Auto Connect Socket
                 connectBtn.click(); 
             } else {
                 logRaw('ERROR', `Login Failed: ${data.error || 'Unknown error'}`);
-                alert("Auto-login failed. Check if user exists in DB.");
+                alert("Auto-login failed.");
             }
-        } catch (error) {
-            logRaw('ERROR', `Login Network Error: ${error.message}`);
-        }
+        } catch (error) { logRaw('ERROR', `Login Network Error: ${error.message}`); }
     }
 
     function updateStatus(connected) {
         if (connected) {
-            statusDot.classList.add('online');
-            statusText.textContent = 'Connected';
-            connectBtn.textContent = 'Disconnect';
-            connectBtn.classList.add('connected');
-            toggleChat(true);
+            statusDot.classList.add('online'); statusText.textContent = 'Connected';
+            connectBtn.textContent = 'Disconnect'; connectBtn.classList.add('connected'); toggleChat(true);
         } else {
-            statusDot.classList.remove('online');
-            statusText.textContent = 'Disconnected';
-            connectBtn.textContent = 'Connect Socket';
-            connectBtn.classList.remove('connected');
-            toggleChat(false);
+            statusDot.classList.remove('online'); statusText.textContent = 'Disconnected';
+            connectBtn.textContent = 'Connect Socket'; connectBtn.classList.remove('connected'); toggleChat(false);
         }
     }
-
     function toggleChat(enable) {
-        input.disabled = !enable;
-        sendBtn.disabled = !enable;
-        // tokenInput.disabled = enable; // Keep token visible
-        if(enable) input.focus();
+        input.disabled = !enable; sendBtn.disabled = !enable; if(enable) input.focus();
     }
 
-    function appendMessage(type, text) {
+    // Advanced Typewriter for HTML content
+    async function typeHtml(element, htmlContent, speed = 10) {
+        return new Promise((resolve) => {
+            element.innerHTML = ''; // Clear first
+            
+            // Tạm thời render full HTML vào một div ẩn để lấy cấu trúc text node
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlContent;
+            
+            // Chuyển cấu trúc DOM thành list các "bước gõ" (Text Step vs Tag Step)
+            const steps = [];
+            
+            function walk(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent;
+                    for (let i = 0; i < text.length; i++) {
+                        steps.push({ type: 'char', char: text[i] });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tag = node.cloneNode(false); // Clone tag vỏ (vd: <b></b>)
+                    steps.push({ type: 'open', element: tag });
+                    
+                    // Duyệt con
+                    node.childNodes.forEach(child => walk(child));
+                    
+                    steps.push({ type: 'close' }); // Đánh dấu để lùi lại cha
+                }
+            }
+            
+            // Bắt đầu duyệt từ các node con của tempDiv
+            tempDiv.childNodes.forEach(child => walk(child));
+
+            // Thực thi animation
+            let currentParent = element;
+            let parentStack = [element];
+            let i = 0;
+
+            function run() {
+                if (i >= steps.length) {
+                    resolve();
+                    return;
+                }
+
+                // Chạy vòng lặp nhỏ để render nhanh hơn (tránh setInterval quá chậm cho thẻ)
+                // Xử lý nhiều bước tag liên tiếp trong 1 frame
+                let chunk = 0;
+                while (i < steps.length && chunk < 1) { // Gõ 1 ký tự mỗi lần gọi
+                    const step = steps[i];
+                    i++;
+
+                    if (step.type === 'open') {
+                        currentParent.appendChild(step.element);
+                        parentStack.push(step.element);
+                        currentParent = step.element;
+                    } 
+                    else if (step.type === 'close') {
+                        parentStack.pop();
+                        currentParent = parentStack[parentStack.length - 1];
+                    } 
+                    else if (step.type === 'char') {
+                        currentParent.append(step.char);
+                        chunk++; // Đã gõ 1 ký tự, dừng để chờ frame sau
+                    }
+                }
+                
+                chatBox.scrollTop = chatBox.scrollHeight;
+                setTimeout(run, speed);
+            }
+
+            run();
+        });
+    }
+
+    function appendMessage(type, content) {
       const msg = document.createElement('div');
       msg.classList.add('message');
-      
       if (type === 'user') msg.classList.add('user');
       else if (type === 'bot') msg.classList.add('bot');
       else if (type === 'error') msg.classList.add('error-msg');
       else msg.classList.add('system');
 
-      msg.textContent = text;
+      // If user/system, just show text immediately
+      if (type !== 'bot') {
+          msg.textContent = content;
+      }
+      // If bot, we will fill it later with typeHtml
+      
       chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
+      return msg;
     }
 
-    // --- BOT ACTIVITY (Typing + Report) ---
+    // ... (showBotActivity, updateReport, removeBotActivity giữ nguyên) ...
     function showBotActivity() {
         if (activeBotActivity) return; 
-
-        const container = document.createElement('div');
-        container.classList.add('bot-activity');
-
-        const bubble = document.createElement('div');
-        bubble.classList.add('typing-bubble');
+        const container = document.createElement('div'); container.classList.add('bot-activity');
+        const bubble = document.createElement('div'); bubble.classList.add('typing-bubble');
         bubble.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
         container.appendChild(bubble);
-
-        const report = document.createElement('div');
-        report.classList.add('report-status', 'hidden');
+        const report = document.createElement('div'); report.classList.add('report-status', 'hidden');
         container.appendChild(report);
-
-        chatBox.appendChild(container);
-        chatBox.scrollTop = chatBox.scrollHeight;
-        
+        chatBox.appendChild(container); chatBox.scrollTop = chatBox.scrollHeight;
         activeBotActivity = { container, report };
     }
-
     function updateReport(text) {
         if (!activeBotActivity) showBotActivity();
-        
-        const { report } = activeBotActivity;
-        report.classList.remove('hidden');
-        
-        if (typingInterval) clearInterval(typingInterval);
-
-        const prefix = "🔍 ";
-        report.textContent = prefix; 
-        
+        const { report } = activeBotActivity; report.classList.remove('hidden');
+        if (reportTypingInterval) clearInterval(reportTypingInterval);
+        const prefix = "🔍 "; report.textContent = prefix; 
         let i = 0;
-        typingInterval = setInterval(() => {
-            report.textContent += text.charAt(i);
-            i++;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            if (i >= text.length) clearInterval(typingInterval);
+        reportTypingInterval = setInterval(() => {
+            report.textContent += text.charAt(i); i++; chatBox.scrollTop = chatBox.scrollHeight;
+            if (i >= text.length) clearInterval(reportTypingInterval);
         }, 30); 
     }
-
     function removeBotActivity() {
-        if (typingInterval) clearInterval(typingInterval);
-        if (activeBotActivity) {
-            activeBotActivity.container.remove();
-            activeBotActivity = null;
-        }
+        if (reportTypingInterval) clearInterval(reportTypingInterval);
+        if (activeBotActivity) { activeBotActivity.container.remove(); activeBotActivity = null; }
     }
-
     function logRaw(event, data) {
-        const time = new Date().toLocaleTimeString();
-        let json = '';
+        const time = new Date().toLocaleTimeString(); let json = '';
         try { json = data && typeof data === 'object' ? JSON.stringify(data, null, 2) : data; } catch (e) {}
-        
-        // Append to top or bottom? Usually logs go bottom.
-        const entry = `[${time}] <${event}>\n${json}\n\n`;
-        logBox.textContent += entry;
-        logBox.scrollTop = logBox.scrollHeight;
+        logBox.textContent += `[${time}] <${event}>\n${json}\n\n`; logBox.scrollTop = logBox.scrollHeight;
     }
 
     // --- SOCKET LOGIC ---
     connectBtn.addEventListener('click', () => {
-        if (socket && socket.connected) {
-            socket.disconnect();
-            return;
-        }
-
+        if (socket && socket.connected) { socket.disconnect(); return; }
         const token = tokenInput.value.trim();
         if (!token) { alert("Waiting for token..."); return; }
 
-        socket = io({
-            auth: { token: token },
-            transports: ['websocket', 'polling']
-        });
+        socket = io({ auth: { token: token }, transports: ['websocket', 'polling'] });
 
-        socket.on('connect', () => {
-            updateStatus(true);
-            logRaw('CONNECT', { id: socket.id });
-        });
+        socket.on('connect', () => { updateStatus(true); logRaw('CONNECT', { id: socket.id }); });
+        socket.on('disconnect', () => { updateStatus(false); logRaw('DISCONNECT', {}); removeBotActivity(); });
+        socket.on('connect_error', (err) => { updateStatus(false); appendMessage('error', `Connection failed: ${err.message}`); logRaw('CONNECT_ERROR', { message: err.message }); });
 
-        socket.on('disconnect', () => {
-            updateStatus(false);
-            logRaw('DISCONNECT', {});
-            removeBotActivity();
-        });
+        socket.on('server-ack', (data) => { logRaw('server-ack', data); showBotActivity(); });
+        socket.on('server-report', (data) => { logRaw('server-report', data); updateReport(data.report || "Processing..."); });
 
-        socket.on('connect_error', (err) => {
-             updateStatus(false);
-             appendMessage('error', `Connection failed: ${err.message}`);
-             logRaw('CONNECT_ERROR', { message: err.message });
-        });
-
-        socket.on('server-ack', (data) => {
-            logRaw('server-ack', data);
-            showBotActivity();
-        });
-
-        socket.on('server-report', (data) => {
-            logRaw('server-report', data);
-            updateReport(data.report || "Processing...");
-        });
-
-        socket.on('receive-answer', (data) => {
+        socket.on('receive-answer', async (data) => {
             removeBotActivity();
             logRaw('receive-answer', data);
             
-            if (data.answer) appendMessage('bot', data.answer);
+            if (data.answer) {
+                // 1. Parse Markdown to HTML
+                const htmlContent = marked.parse(data.answer);
+                
+                // 2. Create empty bubble
+                const msgElement = appendMessage('bot', '');
+                
+                // 3. Use Smart Typewriter for HTML
+                // Speed: 5ms per char (very fast to feel responsive)
+                await typeHtml(msgElement, htmlContent, 5); 
+            }
             
             if (data.chatSessionId && !sessionInput.value) {
                 sessionInput.value = data.chatSessionId;
@@ -423,31 +458,21 @@
         });
 
         socket.on('error-message', (data) => {
-            removeBotActivity();
-            logRaw('error-message', data);
-            appendMessage('error', data.message);
+            removeBotActivity(); logRaw('error-message', data); appendMessage('error', data.message);
         });
     });
 
     function sendMessage() {
-      const question = input.value.trim();
-      const chatSessionId = sessionInput.value.trim() || null;
+      const question = input.value.trim(); const chatSessionId = sessionInput.value.trim() || null;
       if (!question || !socket || !socket.connected) return;
-
-      appendMessage('user', question);
-      input.value = '';
-
+      appendMessage('user', question); input.value = '';
       const payload = { question, chatSessionId };
-      logRaw('EMIT: ask-question', payload);
-      socket.emit('ask-question', payload);
+      logRaw('EMIT: ask-question', payload); socket.emit('ask-question', payload);
     }
 
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
-
-    // --- RUN AUTO LOGIN ON LOAD ---
     window.onload = autoLogin;
-
-  </script>
+</script>
 </body>
 </html>

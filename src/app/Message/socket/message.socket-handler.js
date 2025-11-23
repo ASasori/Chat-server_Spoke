@@ -11,6 +11,7 @@ class MessageSocketHandler {
             socket.emit("server-ack", {status: "processing..."})
 
             const onReport = (reportData) => {
+                console.log(reportData)
                 socket.emit("server-report", reportData)
             }
             
