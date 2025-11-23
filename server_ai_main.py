@@ -110,18 +110,22 @@ async def run_full_pipeline(question: str, history: list, is_first: bool, websoc
         logging.info(f"Pipeline started for question: '{question}'")
         logging.info(f"Is fisrt: {is_first}")
 
-        async def generate_main_answer():
+        async def send_report(message):
             await websocket.send_json({
                 "event": "ai-report",
-                "data": {"report": "AI server is processing your question..."}
+                "data": {"report": message}
             })
+            await asyncio.sleep(0.05)
+
+        async def generate_main_answer():
+
+            await send_report("AI server is processing your question...")
+
             # Step 0: Rewrite query based on query and history
             standalone_question = await query_writing.get_standalone_question(question, history)
 
-            await websocket.send_json({
-                "event": "ai-report",
-                "data": {"report": "Creating excution plan..."}
-            })
+            await send_report("Creating excution plan...")
+
             # Step 1: PLAN - Create execution plan
             plan = await search_module.get_execution_plan(standalone_question)
             if plan.get("error"):
@@ -130,20 +134,16 @@ async def run_full_pipeline(question: str, history: list, is_first: bool, websoc
             
             logging.info(f"Plan created: {json.dumps(plan, indent=2)}")
 
-            await websocket.send_json({
-                "event": "ai-report",
-                "data": {"report": "Executing the plan and fetching data..."}
-            })
+            await send_report("Executing the plan and fetching data...")
+
             # Step 2: EXECUTE - Execute the plan and fetch data
             context_store = await executor.execute_plan(plan, standalone_question)
             
             logging.info(f"Context store: {json.dumps(context_store, indent=2)}")
             logging.info("Execution completed. Final Context Store is ready.")
 
-            await websocket.send_json({
-                "event": "ai-report",
-                "data": {"report": "Generating final answer from collected data. This may take a while..."}
-            })
+            await send_report("Generating final answer from collected data. This may take a while...")
+
             # Step 3: GENERATE (RAG) - Generate answer from data
             final_answer = await answer_module.generate_final_answer(
                 original_question=question,
