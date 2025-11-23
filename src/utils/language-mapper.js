@@ -59,6 +59,6 @@ export const LanguageMap = Object.freeze({
     "vi": "Vietnamese",
     "yo": "Yoruba",
     "zh": "Chinese"
-});
+})
 
 export const DEFAULT_LANG_CODE = 'en'

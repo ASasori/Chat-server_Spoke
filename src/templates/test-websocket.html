@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WebSocket Chat Test</title>
+  <title>Spoke AI Chat - Auto Demo</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #e9ecef;
       margin: 0; padding: 20px;
       display: flex;
       justify-content: center;
@@ -18,94 +18,152 @@
 
     #main-layout {
         display: flex;
-        width: 900px;
+        width: 1000px;
         height: 90vh;
         gap: 20px;
     }
 
-    /* Cột trái: Chat UI */
+    /* --- LEFT COLUMN: CHAT UI --- */
     .chat-container {
       flex: 2;
       background: #fff;
       display: flex;
       flex-direction: column;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       overflow: hidden;
     }
 
+    .chat-header {
+        padding: 15px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status-indicator { font-size: 12px; color: #666; }
+    .status-dot {
+        height: 10px; width: 10px; background-color: #bbb; border-radius: 50%;
+        display: inline-block; margin-right: 5px;
+    }
+    .status-dot.online { background-color: #28a745; }
+
     #chat-box {
       flex: 1;
-      padding: 15px;
+      padding: 20px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       scroll-behavior: smooth;
+      background: #fff;
     }
 
+    /* Message Styles */
     .message {
-      max-width: 75%;
-      padding: 10px 14px;
-      border-radius: 12px;
+      max-width: 80%;
+      padding: 10px 16px;
+      border-radius: 18px;
       word-wrap: break-word;
       font-size: 15px;
-      line-height: 1.4;
+      line-height: 1.5;
+      position: relative;
+      animation: fadeIn 0.3s ease;
     }
-    .user { align-self: flex-end; background: #007bff; color: #fff; border-bottom-right-radius: 0; }
-    .bot { align-self: flex-start; background: #e5e5ea; color: #000; border-bottom-left-radius: 0; }
-    .system { align-self: center; background: #fff3cd; color: #856404; font-size: 13px; padding: 5px 10px; border-radius: 20px; }
 
-    #input-section {
-      display: flex; padding: 10px; background: #f0f0f0; border-top: 1px solid #ddd;
-    }
-    #input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
-    button {
-      margin-left: 10px; padding: 10px 20px; border: none; background: #28a745; color: white;
-      border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s;
-    }
-    button:hover { background: #218838; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Cột phải: Debug & Controls */
-    .debug-container {
-        flex: 1;
+    .user { align-self: flex-end; background: #007bff; color: #fff; border-bottom-right-radius: 4px; }
+    .bot { align-self: flex-start; background: #f1f0f0; color: #333; border-bottom-left-radius: 4px; }
+    .system { align-self: center; color: #6c757d; font-size: 12px; margin: 5px 0; }
+    .error-msg { align-self: center; background: #f8d7da; color: #721c24; padding: 8px 12px; border-radius: 8px; font-size: 14px; }
+
+    /* --- TYPING & REPORT CONTAINER --- */
+    .bot-activity {
+        align-self: flex-start;
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        max-width: 80%;
+        animation: fadeIn 0.3s ease;
     }
 
-    .control-panel, .log-panel {
-        background: #fff;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .log-panel {
-        flex: 1;
+    .typing-bubble {
+        background: #f1f0f0;
+        padding: 10px 16px;
+        border-radius: 18px;
+        border-bottom-left-radius: 4px;
+        color: #333;
+        width: fit-content;
         display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        align-items: center;
+        gap: 4px;
+        min-height: 24px;
     }
 
-    #log-box {
-        flex: 1;
-        background: #1e1e1e;
-        color: #00ff00;
-        font-family: 'Courier New', Courier, monospace;
+    .dot {
+        width: 6px; height: 6px; background: #888; border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+    .report-status {
+        margin-top: 6px;
+        margin-left: 8px;
         font-size: 12px;
-        padding: 10px;
-        overflow-y: auto;
-        border-radius: 5px;
-        white-space: pre-wrap;
+        color: #888;
+        background-color: #f8f9fa;
+        border: 1px solid #eee;
+        padding: 4px 10px;
+        border-radius: 12px;
+        width: fit-content;
+        font-style: italic;
+        transition: all 0.3s ease;
     }
+    .report-status.hidden { display: none; }
 
-    .form-group { margin-bottom: 10px; }
-    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; color: #555; }
-    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-    #btn-connect { width: 100%; background: #007bff; }
+    /* --- INPUT SECTION --- */
+    #input-section { display: flex; padding: 15px; background: #f8f9fa; border-top: 1px solid #ddd; }
+    #input { flex: 1; padding: 12px; border: 1px solid #ced4da; border-radius: 25px; font-size: 15px; outline: none; }
+    #input:focus { border-color: #80bdff; }
+    button#send { margin-left: 10px; padding: 0 20px; border: none; background: #007bff; color: white; border-radius: 25px; cursor: pointer; font-weight: 600; }
+    button#send:hover { background: #0056b3; }
+    button:disabled { background: #ccc !important; cursor: not-allowed; }
+
+    /* --- RIGHT COLUMN: DEBUG --- */
+    .debug-container { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+    .panel { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .log-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    #log-box { flex: 1; background: #212529; color: #00ff88; font-family: 'Consolas', monospace; font-size: 12px; padding: 12px; overflow-y: auto; border-radius: 6px; white-space: pre-wrap; }
+    
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
+    .form-group input { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box; }
+    
+    #btn-connect { width: 100%; padding: 10px; border: none; background: #28a745; color: white; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    #btn-connect:hover { background: #218838; }
     #btn-connect.connected { background: #dc3545; }
+    #btn-connect.connected:hover { background: #c82333; }
+
+    /* New User Info Styles */
+    .user-info-box {
+        background: #e3f2fd;
+        color: #0d47a1;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        border: 1px solid #bbdefb;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .user-icon { font-size: 16px; }
 
   </style>
 </head>
@@ -113,34 +171,45 @@
 
   <div id="main-layout">
       <div class="chat-container">
+        <div class="chat-header">
+            <span>Spoke AI Assistant</span>
+            <div class="status-indicator">
+                <span id="status-dot" class="status-dot"></span>
+                <span id="status-text">Disconnected</span>
+            </div>
+        </div>
         <div id="chat-box"></div>
         <div id="input-section">
-          <input id="input" type="text" placeholder="Type your message..." disabled />
+          <input id="input" type="text" placeholder="Type a message..." disabled />
           <button id="send" disabled>Send</button>
         </div>
       </div>
 
       <div class="debug-container">
-          <div class="control-panel">
-              <h3>Connection Settings</h3>
+          <div class="panel">
+              <h3>Connection Info</h3> <div id="user-display" class="user-info-box" style="display: none;">
+                  <span class="user-icon">👤</span> 
+                  <span id="user-email-text">Not logged in</span>
+              </div>
+
               <div class="form-group">
-                  <label for="token">JWT Token (Required for Auth):</label>
-                  <input type="text" id="token" placeholder="Paste your Bearer token here" />
+                  <label for="token">JWT Token:</label>
+                  <input type="text" id="token" placeholder="Waiting for auto-login..." />
               </div>
               <button id="btn-connect">Connect Socket</button>
           </div>
 
-          <div class="control-panel">
+          <div class="panel">
             <h3>Message Options</h3>
             <div class="form-group">
-                <label for="sessionId">Chat Session ID (Optional):</label>
+                <label for="sessionId">Chat Session ID:</label>
                 <input type="text" id="sessionId" placeholder="Leave empty for new session" />
             </div>
         </div>
 
-          <div class="log-panel">
+          <div class="panel log-panel">
               <h3>Raw Events Log</h3>
-              <div id="log-box">Logs will appear here...</div>
+              <div id="log-box">Initializing...</div>
           </div>
       </div>
   </div>
@@ -155,30 +224,151 @@
     const tokenInput = document.getElementById('token');
     const sessionInput = document.getElementById('sessionId');
     const logBox = document.getElementById('log-box');
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+    const userDisplay = document.getElementById('user-display');
+    const userEmailText = document.getElementById('user-email-text');
 
     let socket;
+    let activeBotActivity = null; 
+    let typingInterval = null;
 
-    function appendMessage(role, text) {
-      const msg = document.createElement('div');
-      msg.classList.add('message', role);
-      msg.textContent = text;
-      chatBox.appendChild(msg);
-      chatBox.scrollTop = chatBox.scrollHeight;
+    // --- AUTO LOGIN FUNCTION ---
+    async function autoLogin() {
+        logRaw('SYSTEM', 'Attempting auto-login with test@gmail.com...');
+        
+        try {
+            const response = await fetch('/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: "test@gmail.com",
+                    password: "1234"
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.token) {
+                // 1. Fill Token
+                tokenInput.value = data.token;
+                
+                // 2. Update User Info UI
+                userDisplay.style.display = 'flex';
+                const email = data.user.email || "test@gmail.com";
+                userEmailText.textContent = `Logged in as: ${email}`;
+                logRaw('SYSTEM', `Login Successful! User: ${email}`);
+
+                // 3. Auto Connect Socket
+                connectBtn.click(); 
+            } else {
+                logRaw('ERROR', `Login Failed: ${data.error || 'Unknown error'}`);
+                alert("Auto-login failed. Check if user exists in DB.");
+            }
+        } catch (error) {
+            logRaw('ERROR', `Login Network Error: ${error.message}`);
+        }
     }
 
-    function logRaw(event, data) {
-        const time = new Date().toLocaleTimeString();
-        const json = data ? JSON.stringify(data, null, 2) : '';
-        logBox.textContent += `[${time}] <${event}>\n${json}\n\n`;
-        logBox.scrollTop = logBox.scrollHeight;
+    function updateStatus(connected) {
+        if (connected) {
+            statusDot.classList.add('online');
+            statusText.textContent = 'Connected';
+            connectBtn.textContent = 'Disconnect';
+            connectBtn.classList.add('connected');
+            toggleChat(true);
+        } else {
+            statusDot.classList.remove('online');
+            statusText.textContent = 'Disconnected';
+            connectBtn.textContent = 'Connect Socket';
+            connectBtn.classList.remove('connected');
+            toggleChat(false);
+        }
     }
 
     function toggleChat(enable) {
         input.disabled = !enable;
         sendBtn.disabled = !enable;
-        tokenInput.disabled = enable; // Disable token input while connected
+        // tokenInput.disabled = enable; // Keep token visible
+        if(enable) input.focus();
     }
 
+    function appendMessage(type, text) {
+      const msg = document.createElement('div');
+      msg.classList.add('message');
+      
+      if (type === 'user') msg.classList.add('user');
+      else if (type === 'bot') msg.classList.add('bot');
+      else if (type === 'error') msg.classList.add('error-msg');
+      else msg.classList.add('system');
+
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // --- BOT ACTIVITY (Typing + Report) ---
+    function showBotActivity() {
+        if (activeBotActivity) return; 
+
+        const container = document.createElement('div');
+        container.classList.add('bot-activity');
+
+        const bubble = document.createElement('div');
+        bubble.classList.add('typing-bubble');
+        bubble.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+        container.appendChild(bubble);
+
+        const report = document.createElement('div');
+        report.classList.add('report-status', 'hidden');
+        container.appendChild(report);
+
+        chatBox.appendChild(container);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        
+        activeBotActivity = { container, report };
+    }
+
+    function updateReport(text) {
+        if (!activeBotActivity) showBotActivity();
+        
+        const { report } = activeBotActivity;
+        report.classList.remove('hidden');
+        
+        if (typingInterval) clearInterval(typingInterval);
+
+        const prefix = "🔍 ";
+        report.textContent = prefix; 
+        
+        let i = 0;
+        typingInterval = setInterval(() => {
+            report.textContent += text.charAt(i);
+            i++;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            if (i >= text.length) clearInterval(typingInterval);
+        }, 30); 
+    }
+
+    function removeBotActivity() {
+        if (typingInterval) clearInterval(typingInterval);
+        if (activeBotActivity) {
+            activeBotActivity.container.remove();
+            activeBotActivity = null;
+        }
+    }
+
+    function logRaw(event, data) {
+        const time = new Date().toLocaleTimeString();
+        let json = '';
+        try { json = data && typeof data === 'object' ? JSON.stringify(data, null, 2) : data; } catch (e) {}
+        
+        // Append to top or bottom? Usually logs go bottom.
+        const entry = `[${time}] <${event}>\n${json}\n\n`;
+        logBox.textContent += entry;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // --- SOCKET LOGIC ---
     connectBtn.addEventListener('click', () => {
         if (socket && socket.connected) {
             socket.disconnect();
@@ -186,85 +376,78 @@
         }
 
         const token = tokenInput.value.trim();
-        if (!token) {
-            alert("Please enter a JWT Token first!");
-            return;
-        }
+        if (!token) { alert("Waiting for token..."); return; }
 
-        // --- SOCKET CONNECTION ---
         socket = io({
             auth: { token: token },
             transports: ['websocket', 'polling']
         });
 
-        // --- EVENT LISTENERS ---
         socket.on('connect', () => {
-            appendMessage('system', 'System: Connected to server.');
+            updateStatus(true);
             logRaw('CONNECT', { id: socket.id });
-            connectBtn.textContent = 'Disconnect';
-            connectBtn.classList.add('connected');
-            toggleChat(true);
         });
 
         socket.on('disconnect', () => {
-            appendMessage('system', 'System: Disconnected.');
+            updateStatus(false);
             logRaw('DISCONNECT', {});
-            connectBtn.textContent = 'Connect Socket';
-            connectBtn.classList.remove('connected');
-            toggleChat(false);
+            removeBotActivity();
         });
 
         socket.on('connect_error', (err) => {
-             appendMessage('system', `Error: Connection failed - ${err.message}`);
+             updateStatus(false);
+             appendMessage('error', `Connection failed: ${err.message}`);
              logRaw('CONNECT_ERROR', { message: err.message });
-             toggleChat(false);
         });
 
-        // Nhận ACK từ server (khi server bắt đầu xử lý)
         socket.on('server-ack', (data) => {
             logRaw('server-ack', data);
-            // Có thể hiển thị trạng thái "typing..." ở đây
+            showBotActivity();
         });
 
-        // Nhận câu trả lời cuối cùng
+        socket.on('server-report', (data) => {
+            logRaw('server-report', data);
+            updateReport(data.report || "Processing...");
+        });
+
         socket.on('receive-answer', (data) => {
+            removeBotActivity();
             logRaw('receive-answer', data);
-            if (data.answer) {
-                appendMessage('bot', data.answer);
-            }
-            // Tự động điền Session ID mới nhận được vào ô input để tiện chat tiếp
+            
+            if (data.answer) appendMessage('bot', data.answer);
+            
             if (data.chatSessionId && !sessionInput.value) {
                 sessionInput.value = data.chatSessionId;
-                logRaw('INFO', { msg: 'Auto-filled new Session ID' });
+                logRaw('INFO', { msg: 'New Session ID saved', id: data.chatSessionId });
             }
         });
 
-        // Nhận lỗi nghiệp vụ từ server
         socket.on('error-message', (data) => {
+            removeBotActivity();
             logRaw('error-message', data);
-            appendMessage('bot', 'Error: ' + data.message);
+            appendMessage('error', data.message);
         });
     });
 
     function sendMessage() {
       const question = input.value.trim();
       const chatSessionId = sessionInput.value.trim() || null;
-
       if (!question || !socket || !socket.connected) return;
 
       appendMessage('user', question);
       input.value = '';
 
-      // Gửi event lên server
       const payload = { question, chatSessionId };
       logRaw('EMIT: ask-question', payload);
       socket.emit('ask-question', payload);
     }
 
     sendBtn.addEventListener('click', sendMessage);
-    input.addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
+    input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+    // --- RUN AUTO LOGIN ON LOAD ---
+    window.onload = autoLogin;
+
   </script>
 </body>
 </html>
