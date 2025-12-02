@@ -225,9 +225,11 @@ class GeminiLLMClient(BaseLLMClient):
         Generates a plain text response with retry logic.
         """
         
+        self._wait_for_rate_limit()
+
         print(f"[LLM_TEXT_INPUT] (Length: {len(prompt)} chars)")
         try:
-            return await self._generate_with_retry(self.model_sub, self.max_retries_sub, prompt, is_json=False)
+            return await self._generate_with_retry(self.model_main, self.max_retries_main, prompt, is_json=False)
         except Exception as e:
             print(f"Error in query_writing(): {e}")
             return "An error occurred while trying to generate a response."

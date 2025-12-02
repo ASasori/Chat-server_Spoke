@@ -1,5 +1,5 @@
 # server_ai_main.py
-
+# uvicorn server_ai_main:app --host 0.0.0.0 --port 8001 --reload
 import os
 import json
 import time
@@ -14,7 +14,8 @@ from modules.llm_client import GeminiLLMClient
 from modules.generate_topic import TopicGenerator
 from modules.query_writing import QueryWriting
 from modules.smart_search import SmartSearch
-from modules.spoke_executor import SpokeExecutor
+# from modules.spoke_executor import SpokeExecutor
+from modules.spoke_executor_v2 import SpokeExecutor2
 from modules.generate_answer import AnswerGenerator
 
 # Configure logging for easy debugging
@@ -34,7 +35,7 @@ logging.basicConfig(
 topic_module: TopicGenerator = None
 query_writing: QueryWriting = None
 search_module: SmartSearch = None
-executor: SpokeExecutor = None
+executor: SpokeExecutor2 = None
 answer_module: AnswerGenerator = None
 
 @asynccontextmanager
@@ -70,8 +71,8 @@ async def lifespan(app: FastAPI):
             planner_template_path="modules/planner_prompt_v3.txt"
         )
         
-        # Module 2: Executor (SpokeExecutor)
-        executor = SpokeExecutor(
+        # Module 2: Executor (SpokeExecutor2)
+        executor = SpokeExecutor2(
             llm_client=main_llm_client, # Enable pruning to optimize data
             pruning_threshold=15
         )
