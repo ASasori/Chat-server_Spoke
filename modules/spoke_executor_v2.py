@@ -145,6 +145,10 @@ class SpokeExecutor2:
         """
         print(f"    -> [PRUNING] Calling LLM to prune {len(node_list)} nodes for step: '{next_step_desc}'")
         
+        current_threshold = self.pruning_threshold
+        if len(node_list) > 50:
+            current_threshold = int(self.pruning_threshold * 1.5) # Tăng 50% nếu input quá nhiều
+
         # 1. Extract names from the LIGHTWEIGHT node list
         node_names = []
         for node in node_list:
@@ -162,7 +166,7 @@ class SpokeExecutor2:
         User Question: "{nlq}"
         My Next Step: "{next_step_desc}"
 
-        Select the **Top {self.pruning_threshold}** most relevant nodes from this list:
+        Select the **Top {current_threshold}** most relevant nodes from this list:
         {json.dumps(unique_names)}
 
         Respond with JSON: {{"selected_names": ["Name 1", "Name 2"]}}
