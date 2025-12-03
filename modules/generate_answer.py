@@ -42,7 +42,7 @@ class AnswerGenerator:
                 3. Internal Trace: {reasoning_context}
                 
                 Task:
-                1. Detect the language of User's Original Question (e.g., Vietnamese, English).
+                1. Detect the language of User's Original Question (e.g., Vietnamese, English). Only detect, do not inform or write in answer 
                 2. The system searched based on the System Processed Query but found **NO INFORMATION**.
                 Please inform the user politely that **no information was found** in the internal knowledge base regarding their specific query.
                 3. If there is 'Internal Trace', briefly summarize in general terms why it failed (optional), but keep it user-friendly.
