@@ -1,376 +1,3483 @@
-2025-12-02 17:42:32,631 - INFO - Plan created: {
-  "query_type": "complex",
-  "thought": "This is a disjunctive (OR) query. The user wants to find all side effects for Ampicillin and all side effects for Cefaclor. Plan: 1. Get 'SideEffect' nodes caused by the 'Compound' named 'Ampicillin' (Set A). 2. Get 'SideEffect' nodes caused by the 'Compound' named 'Cefaclor' (Set B). 3. Combine the two sets using a UNION operation.",
+2025-12-03 11:09:16,682 - INFO - Final answer generated.
+2025-12-03 11:09:16,683 - INFO - Final answer: Dựa trên dữ liệu được cung cấp, Fulvestrant được sử dụng để điều trị nhiều loại bệnh, bao gồm ung thư nội mạc tử cung, ung thư tuyến tụy, ung thư vú, ung thư đại trực tràng, và nhiều loại ung thư khác.
+
+Thông tin cũng cho thấy mối liên hệ giữa một số bệnh này và các triệu chứng cụ thể của chúng:
+
+**Ung thư nội mạc tử cung (endometrial cancer)** có liên quan đến các triệu chứng sau:
+*   Buồn nôn và nôn sau phẫu thuật (Postoperative Nausea and Vomiting)
+*   Béo phì (Obesity)
+*   Đau sau phẫu thuật (Pain, Postoperative)
+*   Béo bụng (Obesity, Abdominal)
+*   Són tiểu (Urinary Incontinence)
+*   Bốc hỏa (Hot Flashes)
+*   Són tiểu khi gắng sức (Urinary Incontinence, Stress)
+*   Béo phì bệnh lý (Obesity, Morbid)
+*   Tăng cân (Weight Gain)
+*   Thừa cân (Overweight)
+
+**Ung thư tuyến tụy (pancreatic cancer)** có liên quan đến các triệu chứng sau:
+*   Rối loạn vị giác (Dysgeusia)
+*   Chán ăn (Anorexia)
+*   Nôn ra máu (Hematemesis)
+*   Bất tỉnh (Unconsciousness)
+*   Tiêu chảy (Diarrhea)
+*   Ban đỏ (Erythema)
+*   Đau nội tạng (Visceral Pain)
+*   Liệt dạ dày (Gastroparesis)
+*   Đau khó chữa (Pain, Intractable)
+*   Đau bụng (Abdominal Pain)
+
+Dữ liệu không cung cấp thông tin về triệu chứng của các bệnh khác được liệt kê.
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-12-03 11:09:16,685 - INFO - Final title: None
+2025-12-03 11:09:16,685 - INFO - End time: 1764734956.6852458
+2025-12-03 11:09:16,686 - INFO - Total time for entire processing: 63.74285173416138
+2025-12-03 11:09:16,693 - INFO - WebSocket connection closed.
+2025-12-03 11:09:34,551 - INFO - WebSocket connection established.
+2025-12-03 11:09:51,035 - INFO - Start time: 1764734991.035242
+2025-12-03 11:09:51,036 - INFO - Pipeline started for question: 'Những loại bệnh nào được chữa bởi Fulvestrant và những triệu chứng của những loại bệnh đó ?'
+2025-12-03 11:09:51,036 - INFO - Is fisrt: True
+2025-12-03 11:09:51,036 - INFO - Running tasks in parallel...
+2025-12-03 11:09:51,037 - INFO - Final topic generated.
+2025-12-03 11:10:03,744 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
   "entities": [
     {
-      "name_in_query": "Ampicillin",
+      "name_in_query": "Fulvestrant",
       "normalized_type": "Compound",
-      "id_placeholder": "ampicillin_entity"
-    },
-    {
-      "name_in_query": "Cefaclor",
-      "normalized_type": "Compound",
-      "id_placeholder": "cefaclor_entity"
+      "id_placeholder": "fulvestrant_entity"
     }
   ],
   "plan": [
     {
       "step": 1,
-      "description": "Get side effects caused by 'Ampicillin' (Set A)",
-      "api_call": "/api/v1/neighborhood/Compound/name/Ampicillin?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
       "logic": null,
       "inputs": null,
-      "store_as": "side_effects_A"
+      "store_as": "disease_list"
     },
     {
       "step": 2,
-      "description": "Get side effects caused by 'Cefaclor' (Set B)",
-      "api_call": "/api/v1/neighborhood/Compound/name/Cefaclor?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
       "logic": null,
-      "inputs": null,
-      "store_as": "side_effects_B"
-    },
-    {
-      "step": 3,
-      "description": "Find the union of the two side effect lists",
-      "api_call": null,
-      "logic": "UNION",
       "inputs": [
-        "side_effects_A",
-        "side_effects_B"
+        "disease_list"
       ],
       "store_as": "final_result"
     }
   ]
 }
-2025-12-02 17:42:37,818 - INFO - Context store: {
-  "side_effects_A": [
+2025-12-03 11:10:30,532 - INFO - Context store: {
+  "disease_list": [
     {
-      "name": "Diarrhoea",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0011991"
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
     },
     {
-      "name": "Pruritus",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0033774"
+      "name": "familial male-limited precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0111545"
     },
     {
-      "name": "Thrombocytopenia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0040034"
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
     },
     {
-      "name": "Eosinophilia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0014457"
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
     },
     {
-      "name": "Pseudomembranous colitis",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C1257843"
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
     },
     {
-      "name": "Anaphylactic shock",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0002792"
+      "name": "colorectal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080199"
     },
     {
-      "name": "Nausea",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0027497"
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
     },
     {
-      "name": "Anaemia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0002871"
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
     },
     {
-      "name": "Erythema multiforme",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0014742"
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
     },
     {
-      "name": "Rash",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0015230"
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
     },
     {
-      "name": "Vomiting",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0042963"
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
     },
     {
-      "name": "Dermatitis",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0011603"
+      "name": "lung small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5409"
     },
     {
-      "name": "Leukopenia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0023530"
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
     },
     {
-      "name": "Dermatitis exfoliative",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0011606"
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
     },
     {
-      "name": "Anaphylactoid reaction",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0340865"
-    }
-  ],
-  "side_effects_B": [
-    {
-      "name": "Drug hypersensitivity",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0013182"
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
     },
     {
-      "name": "Anaphylactic shock",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0002792"
+      "name": "pulmonary hypertension",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:6432"
     },
     {
-      "name": "Urticaria",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0042109"
+      "name": "systemic lupus erythematosus",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9074"
     },
     {
-      "name": "Thrombocytopenia",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0040034"
+      "name": "fallopian tube carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1963"
     },
     {
-      "name": "Pseudomembranous colitis",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C1257843"
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
     },
     {
-      "name": "Neutropenia",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0027947"
-    },
-    {
-      "name": "Colitis",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0009319"
-    },
-    {
-      "name": "Diarrhoea",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0011991"
-    },
-    {
-      "name": "Angioedema",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0002994"
-    },
-    {
-      "name": "Rash",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0015230"
-    },
-    {
-      "name": "Vomiting",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0042963"
-    },
-    {
-      "name": "Abdominal pain",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0000737"
-    },
-    {
-      "name": "Eosinophilia",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0014457"
-    },
-    {
-      "name": "Nausea",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0027497"
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
     }
   ],
   "final_result": [
     {
-      "name": "Diarrhoea",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0011991"
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
     },
     {
-      "name": "Pruritus",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0033774"
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
     },
     {
-      "name": "Thrombocytopenia",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0040034"
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
     },
     {
-      "name": "Eosinophilia",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0014457"
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
     },
     {
-      "name": "Pseudomembranous colitis",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C1257843"
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
     },
     {
-      "name": "Anaphylactic shock",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0002792"
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
     },
     {
-      "name": "Nausea",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0027497"
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
     },
     {
-      "name": "Anaemia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0002871"
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
     },
     {
-      "name": "Erythema multiforme",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0014742"
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
     },
     {
-      "name": "Rash",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0015230"
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
     },
     {
-      "name": "Vomiting",
-      "type": "SideEffect",
-      "prev_node": "Cefaclor",
-      "identifier": "C0042963"
+      "name": "Birth Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001724"
     },
     {
-      "name": "Dermatitis",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0011603"
+      "name": "Virilism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D014770"
     },
     {
-      "name": "Leukopenia",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0023530"
+      "name": "Emaciation",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D004614"
     },
     {
-      "name": "Dermatitis exfoliative",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0011606"
+      "name": "Hirsutism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D006628"
     },
     {
-      "name": "Anaphylactoid reaction",
-      "type": "SideEffect",
-      "prev_node": "Ampicillin",
-      "identifier": "C0340865"
+      "name": "Pediatric Obesity",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D063766"
+    },
+    {
+      "name": "Body Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001835"
+    },
+    {
+      "name": "Fetal Macrosomia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005320"
+    },
+    {
+      "name": "Cafe-au-Lait Spots",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D019080"
+    },
+    {
+      "name": "Failure to Thrive",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005183"
+    },
+    {
+      "name": "Muscle Hypotonia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D009123"
     }
   ]
 }
-2025-12-02 17:42:37,821 - INFO - Execution completed. Final Context Store is ready.
-2025-12-02 17:42:56,463 - INFO - Final answer generated.
-2025-12-02 17:42:56,463 - INFO - Final answer: Dựa trên thông tin được cung cấp, đây là các tác dụng phụ liên quan đến thuốc Ampicillin và Cefaclor:
+2025-12-03 11:10:30,540 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:10:47,878 - INFO - Final answer generated.
+2025-12-03 11:10:47,878 - INFO - Final answer: Dựa trên thông tin được cung cấp, Fulvestrant được sử dụng để điều trị nhiều loại bệnh. Dưới đây là danh sách các bệnh đó và các triệu chứng liên quan được tìm thấy trong dữ liệu.
 
-**Tác dụng phụ của Ampicillin:**
-Dữ liệu cho thấy Ampicillin có liên quan đến các tác dụng phụ sau:
-*   Tiêu chảy (Diarrhoea)
-*   Ngứa (Pruritus)
-*   Giảm tiểu cầu (Thrombocytopenia)
-*   Tăng bạch cầu ái toan (Eosinophilia)
-*   Viêm đại tràng giả mạc (Pseudomembranous colitis)
-*   Sốc phản vệ (Anaphylactic shock)
-*   Buồn nôn (Nausea)
-*   Thiếu máu (Anaemia)
-*   Hồng ban đa dạng (Erythema multiforme)
-*   Phát ban (Rash)
-*   Nôn mửa (Vomiting)
-*   Viêm da (Dermatitis)
-*   Giảm bạch cầu (Leukopenia)
-*   Viêm da tróc vảy (Dermatitis exfoliative)
-*   Phản ứng dạng phản vệ (Anaphylactoid reaction)
+**Các loại bệnh được điều trị bởi Fulvestrant:**
 
-**Tác dụng phụ của Cefaclor:**
-Tương tự, Cefaclor có thể gây ra các tác dụng phụ bao gồm:
-*   Quá mẫn với thuốc (Drug hypersensitivity)
-*   Sốc phản vệ (Anaphylactic shock)
-*   Nổi mề đay (Urticaria)
-*   Giảm tiểu cầu (Thrombocytopenia)
-*   Viêm đại tràng giả mạc (Pseudomembranous colitis)
-*   Giảm bạch cầu trung tính (Neutropenia)
-*   Viêm đại tràng (Colitis)
-*   Tiêu chảy (Diarrhoea)
-*   Phù mạch (Angioedema)
-*   Phát ban (Rash)
-*   Nôn mửa (Vomiting)
-*   Đau bụng (Abdominal pain)
-*   Tăng bạch cầu ái toan (Eosinophilia)
-*   Buồn nôn (Nausea)
+*   Ung thư nội mạc tử cung (endometrial cancer)
+*   Dậy thì sớm giới hạn ở nam giới có tính gia đình (familial male-limited precocious puberty)
+*   Dậy thì sớm trung ương (central precocious puberty)
+*   Ung thư biểu mô tuyến vú (breast ductal carcinoma)
+*   Ung thư biểu mô nội mạc tử cung (endometrial carcinoma)
+*   Ung thư biểu mô đại trực tràng (colorectal carcinoma)
+*   Hội chứng McCune Albright (McCune Albright syndrome)
+*   Ung thư đại trực tràng (colorectal cancer)
+*   Ung thư biểu mô vú (breast carcinoma)
+*   Ung thư biểu mô không phải tế bào nhỏ ở phổi (lung non-small cell carcinoma)
+*   Ung thư biểu mô tuyến tiền liệt kháng cắt tinh hoàn (castration-resistant prostate carcinoma)
+*   Ung thư biểu mô tế bào nhỏ ở phổi (lung small cell carcinoma)
+*   Ung thư tuyến tiền liệt (prostate cancer)
+*   Ung thư vú (breast cancer)
+*   Ung thư biểu mô tiểu thùy xâm lấn (invasive lobular carcinoma)
+*   Tăng huyết áp động mạch phổi (pulmonary hypertension)
+*   Lupus ban đỏ hệ thống (systemic lupus erythematosus)
+*   Ung thư biểu mô ống dẫn trứng (fallopian tube carcinoma)
+*   Ung thư ống dẫn trứng (fallopian tube cancer)
+*   Ung thư buồng trứng (ovarian cancer)
 
-Có thể thấy, cả hai loại thuốc này đều có một số tác dụng phụ chung như tiêu chảy, buồn nôn, nôn mửa, phát ban, giảm tiểu cầu và sốc phản vệ.
+**Các triệu chứng của những bệnh này:**
+
+Trong số các bệnh được liệt kê ở trên, dữ liệu cung cấp thông tin chi tiết về các triệu chứng của hai bệnh cụ thể như sau:
+
+1.  **Ung thư nội mạc tử cung (endometrial cancer)** có liên quan đến các triệu chứng:
+    *   Buồn nôn và nôn sau phẫu thuật (Postoperative Nausea and Vomiting)
+    *   Béo phì (Obesity)
+    *   Đau sau phẫu thuật (Pain, Postoperative)
+    *   Béo bụng (Obesity, Abdominal)
+    *   Tiểu không tự chủ (Urinary Incontinence)
+    *   Bốc hỏa (Hot Flashes)
+    *   Tiểu không tự chủ khi gắng sức (Urinary Incontinence, Stress)
+    *   Béo phì bệnh lý (Obesity, Morbid)
+    *   Tăng cân (Weight Gain)
+    *   Thừa cân (Overweight)
+
+2.  **Dậy thì sớm giới hạn ở nam giới có tính gia đình (familial male-limited precocious puberty)** có liên quan đến các triệu chứng:
+    *   Cân nặng khi sinh (Birth Weight)
+    *   Nam hóa (Virilism)
+    *   Gầy mòn (Emaciation)
+    *   Rậm lông (Hirsutism)
+    *   Béo phì ở trẻ em (Pediatric Obesity)
+    *   Cân nặng cơ thể (Body Weight)
+    *   Thai nhi quá to (Fetal Macrosomia)
+    *   Đốm màu cà phê sữa (Cafe-au-Lait Spots)
+    *   Chậm phát triển (Failure to Thrive)
+    *   Giảm trương lực cơ (Muscle Hypotonia)
+
+Dữ liệu được cung cấp không có thông tin về triệu chứng của các bệnh khác trong danh sách.
+
+***
+
+*Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.*
+2025-12-03 11:10:47,880 - INFO - Final title: Fulvestrant: Bệnh và Triệu chứng
+2025-12-03 11:10:47,880 - INFO - End time: 1764735047.880528
+2025-12-03 11:10:47,880 - INFO - Total time for entire processing: 56.84528589248657
+2025-12-03 11:11:20,811 - INFO - Start time: 1764735080.8114185
+2025-12-03 11:11:20,811 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:11:20,811 - INFO - Is fisrt: False
+2025-12-03 11:11:20,811 - INFO - Running tasks in parallel...
+2025-12-03 11:11:33,501 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:11:58,489 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "familial male-limited precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0111545"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "systemic lupus erythematosus",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9074"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Birth Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001724"
+    },
+    {
+      "name": "Virilism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D014770"
+    },
+    {
+      "name": "Emaciation",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D004614"
+    },
+    {
+      "name": "Hirsutism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D006628"
+    },
+    {
+      "name": "Pediatric Obesity",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D063766"
+    },
+    {
+      "name": "Body Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001835"
+    },
+    {
+      "name": "Fetal Macrosomia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005320"
+    },
+    {
+      "name": "Cafe-au-Lait Spots",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D019080"
+    },
+    {
+      "name": "Failure to Thrive",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005183"
+    },
+    {
+      "name": "Muscle Hypotonia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D009123"
+    }
+  ]
+}
+2025-12-03 11:11:58,492 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:12:08,906 - INFO - Final answer generated.
+2025-12-03 11:12:08,907 - INFO - Final answer: Based on the provided information, Fulvestrant is indicated for treating several diseases. The data connects these diseases to a variety of symptoms.
+
+Fulvestrant is used to treat **endometrial cancer**, which is associated with the following symptoms:
+*   Postoperative Nausea and Vomiting
+*   Obesity and Abdominal Obesity
+*   Postoperative Pain
+*   Urinary Incontinence and Stress Urinary Incontinence
+*   Hot Flashes
+*   Weight Gain and Overweight
+*   Morbid Obesity
+
+Additionally, Fulvestrant treats **familial male-limited precocious puberty**. The symptoms linked to this condition include:
+*   Virilism
+*   Emaciation
+*   Hirsutism
+*   Pediatric Obesity
+*   Cafe-au-Lait Spots
+*   Failure to Thrive
+*   Muscle Hypotonia
+*   Issues related to Birth Weight, Body Weight, and Fetal Macrosomia
+
+Other conditions treated by Fulvestrant include breast cancer, ovarian cancer, and prostate cancer, among others.
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:12:08,907 - INFO - Final title: None
+2025-12-03 11:12:08,907 - INFO - End time: 1764735128.9071155
+2025-12-03 11:12:08,907 - INFO - Total time for entire processing: 48.09569692611694
+2025-12-03 11:13:36,522 - INFO - Start time: 1764735216.5225508
+2025-12-03 11:13:36,522 - INFO - Pipeline started for question: 'tôi muốn biết thêm những triệu chứng khác của các loại bệnh khác được đề cập ngoài những triệu chứng của những loại bệnh trên'
+2025-12-03 11:13:36,524 - INFO - Is fisrt: False
+2025-12-03 11:13:36,524 - INFO - Running tasks in parallel...
+2025-12-03 11:13:50,957 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). The query contains contextual words like 'besides' and 'other', which the final RAG synthesis step will need to handle. The plan will retrieve all necessary data for this by first finding all diseases treated by Fulvestrant, and then finding all symptoms associated with those diseases. Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases to find associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms associated with those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:14:15,323 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "pancreatic cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1793"
+    },
+    {
+      "name": "familial male-limited precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0111545"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
+    },
+    {
+      "name": "lung small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5409"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "pulmonary hypertension",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:6432"
+    },
+    {
+      "name": "systemic lupus erythematosus",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9074"
+    },
+    {
+      "name": "urinary bladder cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:11054"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Hematemesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D006396"
+    },
+    {
+      "name": "Unconsciousness",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D014474"
+    },
+    {
+      "name": "Diarrhea",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D003967"
+    },
+    {
+      "name": "Erythema",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004890"
+    },
+    {
+      "name": "Visceral Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D059265"
+    },
+    {
+      "name": "Gastroparesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D018589"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Abdominal Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D015746"
+    }
+  ]
+}
+2025-12-03 11:14:15,327 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:14:59,522 - INFO - Final answer generated.
+2025-12-03 11:14:59,522 - INFO - Final answer: An error occurred while trying to generate a response.
+2025-12-03 11:14:59,522 - INFO - Final title: None
+2025-12-03 11:14:59,527 - INFO - End time: 1764735299.5273054
+2025-12-03 11:14:59,527 - INFO - Total time for entire processing: 83.00475454330444
+2025-12-03 11:17:34,903 - INFO - Start time: 1764735454.9037063
+2025-12-03 11:17:34,903 - INFO - Pipeline started for question: 'tôi muốn biết thêm những triệu chứng khác của các loại bệnh khác được đề cập ngoài những triệu chứng của những loại bệnh trên'
+2025-12-03 11:17:34,903 - INFO - Is fisrt: False
+2025-12-03 11:17:34,908 - INFO - Running tasks in parallel...
+2025-12-03 11:17:59,481 - ERROR - Planning failed: Gemini API call failed
+2025-12-03 11:17:59,481 - INFO - Final answer: Sorry, I encountered an error during planning: Gemini API call failed
+2025-12-03 11:17:59,481 - INFO - Final title: None
+2025-12-03 11:17:59,481 - INFO - End time: 1764735479.481902
+2025-12-03 11:17:59,481 - INFO - Total time for entire processing: 24.578195571899414
+2025-12-03 11:22:18,007 - INFO - Start time: 1764735738.0073242
+2025-12-03 11:22:18,008 - INFO - Pipeline started for question: 'tôi muốn biết thêm những triệu chứng khác của các loại bệnh khác được đề cập ngoài những triệu chứng của những loại bệnh trên'
+2025-12-03 11:22:18,008 - INFO - Is fisrt: False
+2025-12-03 11:22:18,008 - INFO - Running tasks in parallel...
+2025-12-03 11:22:59,505 - ERROR - Planning failed: Gemini API call failed
+2025-12-03 11:22:59,505 - INFO - Final answer: Sorry, I encountered an error during planning: Gemini API call failed
+2025-12-03 11:22:59,505 - INFO - Final title: None
+2025-12-03 11:22:59,505 - INFO - End time: 1764735779.5054314
+2025-12-03 11:22:59,505 - INFO - Total time for entire processing: 41.49810719490051
+2025-12-03 11:22:59,521 - INFO - WebSocket connection closed.
+2025-12-03 11:29:21,978 - INFO - Server is starting up...
+2025-12-03 11:29:21,986 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:29:25,800 - INFO - WebSocket connection established.
+2025-12-03 11:29:37,346 - INFO - Start time: 1764736177.3462858
+2025-12-03 11:29:37,346 - INFO - Pipeline started for question: 'triệu chứng của bệnh ung thư'
+2025-12-03 11:29:37,346 - INFO - Is fisrt: True
+2025-12-03 11:29:37,346 - INFO - Running tasks in parallel...
+2025-12-03 11:29:37,349 - INFO - Final topic generated.
+2025-12-03 11:29:45,758 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for symptoms of cancer. I will find the 'Disease' node for 'cancer' and then find all connected 'Symptom' nodes via the 'PRESENTS_DpS' edge.",
+  "entities": [
+    {
+      "name_in_query": "cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by the disease 'cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:29:47,547 - INFO - Context store: {
+  "final_result": [
+    {
+      "name": "Hyperthermia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000084462"
+    },
+    {
+      "name": "Compassion Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000068376"
+    },
+    {
+      "name": "Aging, Premature",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D019588"
+    },
+    {
+      "name": "Feminization",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005262"
+    },
+    {
+      "name": "Vomiting",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D014839"
+    },
+    {
+      "name": "Mental Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005222"
+    },
+    {
+      "name": "Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005221"
+    },
+    {
+      "name": "Fever",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005334"
+    },
+    {
+      "name": "Cachexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D002100"
+    },
+    {
+      "name": "Hiccup",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D006606"
+    },
+    {
+      "name": "Fever of Unknown Origin",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005335"
+    },
+    {
+      "name": "Nociceptive Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059226"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Nausea",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D009325"
+    },
+    {
+      "name": "Skin Manifestations",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D012877"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Pain, Procedural",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000073818"
+    },
+    {
+      "name": "Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010146"
+    },
+    {
+      "name": "Breakthrough Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059390"
+    }
+  ]
+}
+2025-12-03 11:29:47,549 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:29:59,474 - INFO - Final answer generated.
+2025-12-03 11:29:59,474 - INFO - Final answer: An error occurred while trying to generate a response.
+2025-12-03 11:29:59,474 - INFO - Final title: Triệu chứng bệnh ung thư
+2025-12-03 11:29:59,474 - INFO - End time: 1764736199.4740222
+2025-12-03 11:29:59,475 - INFO - Total time for entire processing: 22.12773633003235
+2025-12-03 11:35:22,653 - INFO - WebSocket connection closed.
+2025-12-03 11:35:22,740 - INFO - Server is shutting down...
+2025-12-03 11:37:44,334 - INFO - Server is starting up...
+2025-12-03 11:37:44,334 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:37:49,003 - INFO - WebSocket connection established.
+2025-12-03 11:38:02,673 - INFO - Start time: 1764736682.6732502
+2025-12-03 11:38:02,674 - INFO - Pipeline started for question: 'triệu chứng bệnh ung thư'
+2025-12-03 11:38:02,674 - INFO - Is fisrt: False
+2025-12-03 11:38:02,674 - INFO - Running tasks in parallel...
+2025-12-03 11:38:12,743 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for symptoms of a disease. I will start with the Disease 'cancer' and find its neighboring Symptom nodes using the PRESENTS_DpS edge.",
+  "entities": [
+    {
+      "name_in_query": "cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by 'cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:38:14,286 - INFO - Context store: {
+  "final_result": [
+    {
+      "name": "Hyperthermia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000084462"
+    },
+    {
+      "name": "Compassion Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000068376"
+    },
+    {
+      "name": "Aging, Premature",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D019588"
+    },
+    {
+      "name": "Feminization",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005262"
+    },
+    {
+      "name": "Vomiting",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D014839"
+    },
+    {
+      "name": "Mental Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005222"
+    },
+    {
+      "name": "Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005221"
+    },
+    {
+      "name": "Fever",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005334"
+    },
+    {
+      "name": "Cachexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D002100"
+    },
+    {
+      "name": "Hiccup",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D006606"
+    },
+    {
+      "name": "Fever of Unknown Origin",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005335"
+    },
+    {
+      "name": "Nociceptive Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059226"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Nausea",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D009325"
+    },
+    {
+      "name": "Skin Manifestations",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D012877"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Pain, Procedural",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000073818"
+    },
+    {
+      "name": "Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010146"
+    },
+    {
+      "name": "Breakthrough Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059390"
+    }
+  ]
+}
+2025-12-03 11:38:14,288 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:38:25,444 - INFO - Final answer generated.
+2025-12-03 11:38:25,444 - INFO - Final answer: Dựa trên dữ liệu được cung cấp, bệnh ung thư có liên quan đến các triệu chứng sau:
+
+*   **Các triệu chứng toàn thân:** Mệt mỏi (Fatigue), Mệt mỏi tinh thần (Mental Fatigue), Suy mòn (Cachexia), Chán ăn (Anorexia), và Lão hóa sớm (Aging, Premature).
+*   **Sốt:** Sốt (Fever), Sốt cao (Hyperthermia), và Sốt không rõ nguyên nhân (Fever of Unknown Origin).
+*   **Đau:** Đau (Pain), Đau do cảm thụ thần kinh (Nociceptive Pain), Đau khó chữa (Pain, Intractable), Đau đột ngột (Breakthrough Pain), và Đau do thủ thuật (Pain, Procedural).
+*   **Các triệu chứng tiêu hóa:** Buồn nôn (Nausea), Nôn mửa (Vomiting), Nấc (Hiccup), và Rối loạn vị giác (Dysgeusia).
+*   **Các triệu chứng khác:** Các biểu hiện trên da (Skin Manifestations), Nữ hóa (Feminization), và Mệt mỏi vì cảm thông (Compassion Fatigue).
 
 Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
-2025-12-02 17:42:56,463 - INFO - Final title: None
-2025-12-02 17:42:56,463 - INFO - End time: 1764672176.4631913
-2025-12-02 17:42:56,463 - INFO - Total time for entire processing: 36.83747839927673
-2025-12-02 17:42:56,478 - INFO - WebSocket connection closed.
-2025-12-02 17:42:56,587 - INFO - Server is shutting down...
-2025-12-02 17:43:00,254 - INFO - Server is starting up...
-2025-12-02 17:43:00,254 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-12-02 17:47:26,529 - INFO - Server is shutting down...
-2025-12-02 17:47:27,671 - INFO - Server is starting up...
-2025-12-02 17:47:27,673 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-12-02 17:47:28,366 - INFO - Server is shutting down...
-2025-12-02 17:47:29,369 - INFO - Server is starting up...
-2025-12-02 17:47:29,369 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-12-02 17:47:44,544 - INFO - Server is shutting down...
-2025-12-02 17:47:45,663 - INFO - Server is starting up...
-2025-12-02 17:47:45,665 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
-2025-12-02 17:47:51,750 - INFO - Server is shutting down...
+2025-12-03 11:38:25,444 - INFO - Final title: None
+2025-12-03 11:38:25,444 - INFO - End time: 1764736705.4440064
+2025-12-03 11:38:25,444 - INFO - Total time for entire processing: 22.770756244659424
+2025-12-03 11:39:09,679 - INFO - Start time: 1764736749.6799312
+2025-12-03 11:39:09,679 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:39:09,679 - INFO - Is fisrt: False
+2025-12-03 11:39:09,679 - INFO - Running tasks in parallel...
+2025-12-03 11:39:19,091 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for symptoms of cancer. I will find the 'Disease' node for 'cancer' and then find all connected 'Symptom' nodes via the 'PRESENTS_DpS' edge.",
+  "entities": [
+    {
+      "name_in_query": "cancer",
+      "normalized_type": "Disease",
+      "id_placeholder": "cancer_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get symptoms presented by the disease 'cancer'",
+      "api_call": "/api/v1/neighborhood/Disease/name/cancer?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:39:20,291 - INFO - Context store: {
+  "final_result": [
+    {
+      "name": "Hyperthermia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000084462"
+    },
+    {
+      "name": "Compassion Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000068376"
+    },
+    {
+      "name": "Aging, Premature",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D019588"
+    },
+    {
+      "name": "Feminization",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005262"
+    },
+    {
+      "name": "Vomiting",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D014839"
+    },
+    {
+      "name": "Mental Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005222"
+    },
+    {
+      "name": "Fatigue",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005221"
+    },
+    {
+      "name": "Fever",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005334"
+    },
+    {
+      "name": "Cachexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D002100"
+    },
+    {
+      "name": "Hiccup",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D006606"
+    },
+    {
+      "name": "Fever of Unknown Origin",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D005335"
+    },
+    {
+      "name": "Nociceptive Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059226"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Nausea",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D009325"
+    },
+    {
+      "name": "Skin Manifestations",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D012877"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Pain, Procedural",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D000073818"
+    },
+    {
+      "name": "Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D010146"
+    },
+    {
+      "name": "Breakthrough Pain",
+      "type": "Symptom",
+      "prev_node": "cancer",
+      "identifier": "D059390"
+    }
+  ]
+}
+2025-12-03 11:39:20,292 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:39:29,174 - INFO - Final answer generated.
+2025-12-03 11:39:29,174 - INFO - Final answer: Based on the provided information, cancer is associated with the following symptoms:
+
+*   Hyperthermia
+*   Compassion Fatigue
+*   Premature Aging
+*   Feminization
+*   Vomiting
+*   Mental Fatigue
+*   Fatigue
+*   Fever
+*   Cachexia
+*   Hiccup
+*   Fever of Unknown Origin
+*   Nociceptive Pain
+*   Dysgeusia
+*   Anorexia
+*   Nausea
+*   Skin Manifestations
+*   Intractable Pain
+*   Procedural Pain
+*   Pain
+*   Breakthrough Pain
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:39:29,174 - INFO - Final title: None
+2025-12-03 11:39:29,178 - INFO - End time: 1764736769.1784608
+2025-12-03 11:39:29,178 - INFO - Total time for entire processing: 19.49852967262268
+2025-12-03 11:40:41,547 - INFO - Start time: 1764736841.5472457
+2025-12-03 11:40:41,551 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:40:41,551 - INFO - Is fisrt: False
+2025-12-03 11:40:41,552 - INFO - Running tasks in parallel...
+2025-12-03 11:40:56,503 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:41:18,056 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "pancreatic cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1793"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "urinary bladder cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:11054"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Hematemesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D006396"
+    },
+    {
+      "name": "Unconsciousness",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D014474"
+    },
+    {
+      "name": "Diarrhea",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D003967"
+    },
+    {
+      "name": "Erythema",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004890"
+    },
+    {
+      "name": "Visceral Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D059265"
+    },
+    {
+      "name": "Gastroparesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D018589"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Abdominal Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D015746"
+    }
+  ]
+}
+2025-12-03 11:41:18,065 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:41:30,338 - INFO - Final answer generated.
+2025-12-03 11:41:30,338 - INFO - Final answer: Based on the provided information, Fulvestrant is indicated for the treatment of several diseases. The data connects this medication to conditions such as endometrial cancer, pancreatic cancer, breast cancer, and ovarian cancer, among others.
+
+The information further details the symptoms associated with some of these diseases:
+
+For **endometrial cancer**, the associated symptoms include:
+*   Postoperative Nausea and Vomiting
+*   Obesity and Abdominal Obesity
+*   Postoperative Pain
+*   Urinary Incontinence and Stress Urinary Incontinence
+*   Hot Flashes
+*   Morbid Obesity
+*   Weight Gain
+*   Overweight
+
+For **pancreatic cancer**, the associated symptoms include:
+*   Dysgeusia (a distorted sense of taste)
+*   Anorexia
+*   Hematemesis (vomiting of blood)
+*   Unconsciousness
+*   Diarrhea
+*   Erythema (redness of the skin)
+*   Visceral Pain and Abdominal Pain
+*   Gastroparesis (delayed stomach emptying)
+*   Intractable Pain
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:41:30,338 - INFO - Final title: None
+2025-12-03 11:41:30,338 - INFO - End time: 1764736890.338297
+2025-12-03 11:41:30,338 - INFO - Total time for entire processing: 48.791051149368286
+2025-12-03 11:42:17,918 - INFO - Start time: 1764736937.9181974
+2025-12-03 11:42:17,918 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:42:17,918 - INFO - Is fisrt: False
+2025-12-03 11:42:17,918 - INFO - Running tasks in parallel...
+2025-12-03 11:42:31,299 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:42:51,998 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "pancreatic cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1793"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "urinary bladder cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:11054"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Hematemesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D006396"
+    },
+    {
+      "name": "Unconsciousness",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D014474"
+    },
+    {
+      "name": "Diarrhea",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D003967"
+    },
+    {
+      "name": "Erythema",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004890"
+    },
+    {
+      "name": "Visceral Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D059265"
+    },
+    {
+      "name": "Gastroparesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D018589"
+    },
+    {
+      "name": "Pain, Intractable",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D010148"
+    },
+    {
+      "name": "Abdominal Pain",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D015746"
+    }
+  ]
+}
+2025-12-03 11:42:52,006 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:43:03,768 - INFO - Final answer generated.
+2025-12-03 11:43:03,768 - INFO - Final answer: Based on the provided information, Fulvestrant is used to treat several diseases, and the data connects some of these diseases to specific symptoms.
+
+Fulvestrant is indicated for treating **endometrial cancer**, which is associated with the following symptoms:
+*   Postoperative Nausea and Vomiting
+*   Obesity
+*   Postoperative Pain
+*   Abdominal Obesity
+*   Urinary Incontinence
+*   Hot Flashes
+*   Stress Urinary Incontinence
+*   Morbid Obesity
+*   Weight Gain
+*   Overweight
+
+The data also shows that Fulvestrant treats **pancreatic cancer**, which presents with symptoms such as:
+*   Dysgeusia (a distortion of the sense of taste)
+*   Anorexia
+*   Hematemesis (vomiting of blood)
+*   Unconsciousness
+*   Diarrhea
+*   Erythema (skin redness)
+*   Visceral Pain
+*   Gastroparesis (delayed stomach emptying)
+*   Intractable Pain
+*   Abdominal Pain
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:43:03,768 - INFO - Final title: None
+2025-12-03 11:43:03,768 - INFO - End time: 1764736983.768518
+2025-12-03 11:43:03,768 - INFO - Total time for entire processing: 45.85032057762146
+2025-12-03 11:46:44,678 - INFO - Start time: 1764737204.678533
+2025-12-03 11:46:44,679 - INFO - Pipeline started for question: 'tôi muốn biết thêm các triệu chứng khác của các loại bệnh khác được chữa bởi FUlvestrant'
+2025-12-03 11:46:44,679 - INFO - Is fisrt: False
+2025-12-03 11:46:44,680 - INFO - Running tasks in parallel...
+2025-12-03 11:46:55,873 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:47:17,827 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "familial male-limited precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0111545"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "endometrial stromal sarcoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:4226"
+    },
+    {
+      "name": "colorectal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080199"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "castration-resistant prostate carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080909"
+    },
+    {
+      "name": "lung small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5409"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "systemic lupus erythematosus",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9074"
+    },
+    {
+      "name": "fallopian tube carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1963"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Birth Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001724"
+    },
+    {
+      "name": "Virilism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D014770"
+    },
+    {
+      "name": "Emaciation",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D004614"
+    },
+    {
+      "name": "Hirsutism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D006628"
+    },
+    {
+      "name": "Pediatric Obesity",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D063766"
+    },
+    {
+      "name": "Body Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001835"
+    },
+    {
+      "name": "Fetal Macrosomia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005320"
+    },
+    {
+      "name": "Cafe-au-Lait Spots",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D019080"
+    },
+    {
+      "name": "Failure to Thrive",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D005183"
+    },
+    {
+      "name": "Muscle Hypotonia",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D009123"
+    }
+  ]
+}
+2025-12-03 11:47:17,830 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:47:31,619 - INFO - Final answer generated.
+2025-12-03 11:47:31,619 - INFO - Final answer: Chào bạn, dựa trên thông tin được cung cấp, thuốc Fulvestrant được sử dụng để điều trị một số bệnh, và dưới đây là các triệu chứng liên quan đến một vài trong số các bệnh đó.
+
+Dữ liệu cho thấy Fulvestrant có liên quan đến việc điều trị **ung thư nội mạc tử cung** (endometrial cancer), và bệnh này có các triệu chứng liên quan như:
+*   Buồn nôn và nôn sau phẫu thuật (Postoperative Nausea and Vomiting)
+*   Béo phì (Obesity)
+*   Đau sau phẫu thuật (Pain, Postoperative)
+*   Béo bụng (Obesity, Abdominal)
+*   Tiểu không tự chủ (Urinary Incontinence)
+*   Bốc hỏa (Hot Flashes)
+*   Tiểu không tự chủ khi gắng sức (Urinary Incontinence, Stress)
+*   Béo phì bệnh lý (Obesity, Morbid)
+*   Tăng cân (Weight Gain)
+*   Thừa cân (Overweight)
+
+Ngoài ra, Fulvestrant cũng được dùng để điều trị bệnh **dậy thì sớm giới hạn ở nam giới có tính gia đình** (familial male-limited precocious puberty), vốn có các triệu chứng sau:
+*   Cân nặng khi sinh (Birth Weight)
+*   Nam hóa (Virilism)
+*   Gầy mòn (Emaciation)
+*   Lông rậm (Hirsutism)
+*   Béo phì ở trẻ em (Pediatric Obesity)
+*   Cân nặng cơ thể (Body Weight)
+*   Thai to (Fetal Macrosomia)
+*   Các đốm cà phê sữa (Cafe-au-Lait Spots)
+*   Chậm phát triển (Failure to Thrive)
+*   Giảm trương lực cơ (Muscle Hypotonia)
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-12-03 11:47:31,619 - INFO - Final title: None
+2025-12-03 11:47:31,619 - INFO - End time: 1764737251.6199458
+2025-12-03 11:47:31,625 - INFO - Total time for entire processing: 46.941412687301636
+2025-12-03 11:49:14,673 - INFO - WebSocket connection closed.
+2025-12-03 11:49:14,770 - INFO - Server is shutting down...
+2025-12-03 11:49:18,298 - INFO - Server is starting up...
+2025-12-03 11:49:18,300 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:19,507 - INFO - Server is starting up...
+2025-12-03 11:49:19,507 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:28,117 - INFO - Server is shutting down...
+2025-12-03 11:49:29,187 - INFO - Server is starting up...
+2025-12-03 11:49:29,187 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:30,418 - INFO - Server is shutting down...
+2025-12-03 11:49:31,468 - INFO - Server is starting up...
+2025-12-03 11:49:31,478 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:33,152 - INFO - Server is shutting down...
+2025-12-03 11:49:34,206 - INFO - Server is starting up...
+2025-12-03 11:49:34,207 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:34,902 - INFO - Server is shutting down...
+2025-12-03 11:49:35,977 - INFO - Server is starting up...
+2025-12-03 11:49:35,979 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:49:44,582 - INFO - Server is shutting down...
+2025-12-03 11:49:45,654 - INFO - Server is starting up...
+2025-12-03 11:49:45,657 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 11:50:09,950 - INFO - WebSocket connection established.
+2025-12-03 11:50:28,641 - INFO - Start time: 1764737428.641413
+2025-12-03 11:50:28,641 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:50:28,641 - INFO - Is fisrt: False
+2025-12-03 11:50:28,643 - INFO - Running tasks in parallel...
+2025-12-03 11:50:42,481 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:51:03,239 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "familial male-limited precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0111545"
+    },
+    {
+      "name": "central precocious puberty",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0112308"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "colorectal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080199"
+    },
+    {
+      "name": "McCune Albright syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1858"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "fallopian tube carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1963"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Birth Weight",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D001724"
+    },
+    {
+      "name": "Virilism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D014770"
+    },
+    {
+      "name": "Emaciation",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D004614"
+    },
+    {
+      "name": "Hirsutism",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D006628"
+    },
+    {
+      "name": "Pediatric Obesity",
+      "type": "Symptom",
+      "prev_node": "familial male-limited precocious puberty",
+      "identifier": "D063766"
+    }
+  ]
+}
+2025-12-03 11:51:03,246 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:51:13,812 - INFO - Final answer generated.
+2025-12-03 11:51:13,812 - INFO - Final answer: Based on the provided information, Fulvestrant is used to treat several diseases. The data connects these diseases to various symptoms.
+
+Fulvestrant is indicated for the treatment of **endometrial cancer**, which is associated with symptoms such as:
+*   Postoperative Nausea and Vomiting
+*   Obesity and Abdominal Obesity
+*   Postoperative Pain
+*   Hot Flashes
+*   Urinary Incontinence
+*   Weight Gain and Overweight
+
+Additionally, Fulvestrant treats **familial male-limited precocious puberty**, which is linked to symptoms like:
+*   Virilism
+*   Emaciation
+*   Hirsutism
+*   Pediatric Obesity
+*   Issues related to Birth Weight
+
+Other conditions treated by Fulvestrant include breast cancer, ovarian cancer, prostate cancer, colorectal cancer, and McCune Albright syndrome.
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:51:13,812 - INFO - Final title: None
+2025-12-03 11:51:13,812 - INFO - End time: 1764737473.8129196
+2025-12-03 11:51:13,812 - INFO - Total time for entire processing: 45.17150664329529
+2025-12-03 11:53:44,837 - INFO - Start time: 1764737624.837451
+2025-12-03 11:53:44,837 - INFO - Pipeline started for question: 'Những loại bệnh nào được chữa bởi Fulvestrant và những triệu chứng của những loại bệnh đó ?'
+2025-12-03 11:53:44,852 - INFO - Is fisrt: False
+2025-12-03 11:53:44,852 - INFO - Running tasks in parallel...
+2025-12-03 11:53:58,107 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:54:17,378 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "pancreatic cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1793"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "lung small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5409"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "urinary bladder cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:11054"
+    },
+    {
+      "name": "fallopian tube carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1963"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Dysgeusia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D004408"
+    },
+    {
+      "name": "Anorexia",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D000855"
+    },
+    {
+      "name": "Hematemesis",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D006396"
+    },
+    {
+      "name": "Unconsciousness",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D014474"
+    },
+    {
+      "name": "Diarrhea",
+      "type": "Symptom",
+      "prev_node": "pancreatic cancer",
+      "identifier": "D003967"
+    }
+  ]
+}
+2025-12-03 11:54:17,381 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:54:33,481 - INFO - Final answer generated.
+2025-12-03 11:54:33,481 - INFO - Final answer: Dựa trên thông tin được cung cấp, Fulvestrant được sử dụng để điều trị nhiều loại bệnh, chủ yếu là các loại ung thư. Dữ liệu cũng cho thấy các triệu chứng liên quan đến một số bệnh này.
+
+**Các loại bệnh được điều trị bởi Fulvestrant:**
+
+Fulvestrant có liên quan đến việc điều trị các bệnh sau:
+*   Ung thư nội mạc tử cung (endometrial cancer)
+*   Ung thư tuyến tụy (pancreatic cancer)
+*   Ung thư biểu mô ống tuyến vú (breast ductal carcinoma)
+*   Ung thư biểu mô nội mạc tử cung (endometrial carcinoma)
+*   Ung thư đại trực tràng (colorectal cancer)
+*   Ung thư biểu mô vú (breast carcinoma)
+*   Hội chứng ung thư vú và buồng trứng di truyền (hereditary breast ovarian cancer syndrome)
+*   Ung thư phổi không tế bào nhỏ (lung non-small cell carcinoma)
+*   Ung thư phổi tế bào nhỏ (lung small cell carcinoma)
+*   Ung thư cơ quan sinh sản nữ (female reproductive organ cancer)
+*   Ung thư tuyến tiền liệt (prostate cancer)
+*   Ung thư vú (breast cancer)
+*   Ung thư biểu mô tiểu thùy xâm lấn (invasive lobular carcinoma)
+*   Ung thư (cancer)
+*   Ung thư biểu mô (carcinoma)
+*   Ung thư bàng quang (urinary bladder cancer)
+*   Ung thư biểu mô ống dẫn trứng (fallopian tube carcinoma)
+*   Ung thư ống dẫn trứng (fallopian tube cancer)
+*   Ung thư buồng trứng (ovarian cancer)
+
+**Các triệu chứng của những bệnh này:**
+
+Trong số các bệnh được liệt kê ở trên, dữ liệu cung cấp thông tin về các triệu chứng của hai loại bệnh cụ thể:
+
+1.  **Đối với bệnh ung thư nội mạc tử cung (endometrial cancer), các triệu chứng liên quan bao gồm:**
+    *   Buồn nôn và nôn sau phẫu thuật (Postoperative Nausea and Vomiting)
+    *   Béo phì (Obesity)
+    *   Đau sau phẫu thuật (Pain, Postoperative)
+    *   Béo bụng (Obesity, Abdominal)
+    *   Són tiểu (Urinary Incontinence)
+    *   Bốc hỏa (Hot Flashes)
+    *   Són tiểu khi gắng sức (Urinary Incontinence, Stress)
+    *   Béo phì bệnh lý (Obesity, Morbid)
+    *   Tăng cân (Weight Gain)
+    *   Thừa cân (Overweight)
+
+2.  **Đối với bệnh ung thư tuyến tụy (pancreatic cancer), các triệu chứng liên quan bao gồm:**
+    *   Loạn vị giác (Dysgeusia)
+    *   Chán ăn (Anorexia)
+    *   Nôn ra máu (Hematemesis)
+    *   Bất tỉnh (Unconsciousness)
+    *   Tiêu chảy (Diarrhea)
+
+Lưu ý: Thông tin này chỉ mang tính tham khảo và không thể thay thế cho lời khuyên, chẩn đoán hoặc điều trị y tế chuyên nghiệp.
+2025-12-03 11:54:33,484 - INFO - Final title: None
+2025-12-03 11:54:33,484 - INFO - End time: 1764737673.4843903
+2025-12-03 11:54:33,484 - INFO - Total time for entire processing: 48.646939277648926
+2025-12-03 11:55:45,103 - INFO - Start time: 1764737745.103132
+2025-12-03 11:55:45,103 - INFO - Pipeline started for question: 'what are diseases treated by Fulvestrant and the symptoms of this diseases?'
+2025-12-03 11:55:45,103 - INFO - Is fisrt: False
+2025-12-03 11:55:45,103 - INFO - Running tasks in parallel...
+2025-12-03 11:55:58,821 - INFO - Plan created: {
+  "query_type": "path",
+  "thought": "This is a multi-hop path query (Compound -> Disease -> Symptom). Plan: 1. (Hop 1) Use /neighborhood to find 'Diseases' treated by the 'Compound' named 'Fulvestrant'. 2. (Hop 2) Expand the resulting list of diseases. The system will loop over this list, using each disease's 'name' to find its associated 'Symptoms'.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Hop 1: Get diseases treated by 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=TREATS_CtD&node_filters=Disease",
+      "logic": null,
+      "inputs": null,
+      "store_as": "disease_list"
+    },
+    {
+      "step": 2,
+      "description": "Hop 2: Get symptoms presented by those diseases",
+      "api_call": "/api/v1/neighborhood/{disease_list.type}/name/{disease_list.name}?edge_filters=PRESENTS_DpS&node_filters=Symptom",
+      "logic": null,
+      "inputs": [
+        "disease_list"
+      ],
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 11:56:20,544 - INFO - Context store: {
+  "disease_list": [
+    {
+      "name": "endometrial cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1380"
+    },
+    {
+      "name": "breast ductal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3007"
+    },
+    {
+      "name": "endometrial carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2871"
+    },
+    {
+      "name": "colorectal carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:0080199"
+    },
+    {
+      "name": "colorectal cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:9256"
+    },
+    {
+      "name": "breast carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3459"
+    },
+    {
+      "name": "hereditary breast ovarian cancer syndrome",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5683"
+    },
+    {
+      "name": "lung non-small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3908"
+    },
+    {
+      "name": "lung small cell carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:5409"
+    },
+    {
+      "name": "female reproductive organ cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:120"
+    },
+    {
+      "name": "prostate cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:10283"
+    },
+    {
+      "name": "breast cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1612"
+    },
+    {
+      "name": "invasive lobular carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:3457"
+    },
+    {
+      "name": "cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:162"
+    },
+    {
+      "name": "sarcomatoid carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:4015"
+    },
+    {
+      "name": "carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:305"
+    },
+    {
+      "name": "fallopian tube carcinoma",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1963"
+    },
+    {
+      "name": "fallopian tube cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:1964"
+    },
+    {
+      "name": "ovarian cancer",
+      "type": "Disease",
+      "prev_node": "Fulvestrant",
+      "identifier": "DOID:2394"
+    }
+  ],
+  "final_result": [
+    {
+      "name": "Postoperative Nausea and Vomiting",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D020250"
+    },
+    {
+      "name": "Obesity",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009765"
+    },
+    {
+      "name": "Pain, Postoperative",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D010149"
+    },
+    {
+      "name": "Obesity, Abdominal",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D056128"
+    },
+    {
+      "name": "Urinary Incontinence",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014549"
+    },
+    {
+      "name": "Hot Flashes",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D019584"
+    },
+    {
+      "name": "Urinary Incontinence, Stress",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D014550"
+    },
+    {
+      "name": "Obesity, Morbid",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D009767"
+    },
+    {
+      "name": "Weight Gain",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D015430"
+    },
+    {
+      "name": "Overweight",
+      "type": "Symptom",
+      "prev_node": "endometrial cancer",
+      "identifier": "D050177"
+    },
+    {
+      "name": "Constipation",
+      "type": "Symptom",
+      "prev_node": "colorectal carcinoma",
+      "identifier": "D003248"
+    },
+    {
+      "name": "Nausea",
+      "type": "Symptom",
+      "prev_node": "colorectal carcinoma",
+      "identifier": "D009325"
+    },
+    {
+      "name": "Sarcopenia",
+      "type": "Symptom",
+      "prev_node": "colorectal carcinoma",
+      "identifier": "D055948"
+    },
+    {
+      "name": "Pain, Procedural",
+      "type": "Symptom",
+      "prev_node": "colorectal carcinoma",
+      "identifier": "D000073818"
+    },
+    {
+      "name": "Fatigue",
+      "type": "Symptom",
+      "prev_node": "colorectal carcinoma",
+      "identifier": "D005221"
+    }
+  ]
+}
+2025-12-03 11:56:20,549 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 11:56:32,676 - INFO - Final answer generated.
+2025-12-03 11:56:32,687 - INFO - Final answer: Based on the information provided, Fulvestrant is used to treat a variety of diseases, primarily different types of cancer. These include:
+
+*   endometrial cancer
+*   breast ductal carcinoma
+*   endometrial carcinoma
+*   colorectal carcinoma
+*   colorectal cancer
+*   breast carcinoma
+*   hereditary breast ovarian cancer syndrome
+*   lung non-small cell carcinoma
+*   lung small cell carcinoma
+*   female reproductive organ cancer
+*   prostate cancer
+*   breast cancer
+*   invasive lobular carcinoma
+*   sarcomatoid carcinoma
+*   fallopian tube carcinoma
+*   fallopian tube cancer
+*   ovarian cancer
+
+The data further provides symptoms associated with some of these specific conditions:
+
+For **endometrial cancer**, the associated symptoms listed are:
+*   Postoperative Nausea and Vomiting
+*   Obesity
+*   Postoperative Pain
+*   Abdominal Obesity
+*   Urinary Incontinence
+*   Hot Flashes
+*   Stress Urinary Incontinence
+*   Morbid Obesity
+*   Weight Gain
+*   Overweight
+
+For **colorectal carcinoma**, the associated symptoms are:
+*   Constipation
+*   Nausea
+*   Sarcopenia
+*   Procedural Pain
+*   Fatigue
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 11:56:32,689 - INFO - Final title: None
+2025-12-03 11:56:32,689 - INFO - End time: 1764737792.6896105
+2025-12-03 11:56:32,689 - INFO - Total time for entire processing: 47.58647847175598
+2025-12-03 12:10:58,799 - INFO - WebSocket connection closed.
+2025-12-03 12:23:09,867 - INFO - Server is shutting down...
+2025-12-03 17:11:13,662 - INFO - Server is starting up...
+2025-12-03 17:11:13,709 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 17:12:15,368 - INFO - Server is shutting down...
+2025-12-03 17:12:18,412 - INFO - Server is starting up...
+2025-12-03 17:12:18,414 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 17:33:44,486 - INFO - Server is shutting down...
+2025-12-03 17:34:07,478 - INFO - Server is starting up...
+2025-12-03 17:34:07,478 - INFO - ==================== ALL AI MODULES INITIALIZED SUCCESSFULLY ====================
+2025-12-03 17:34:45,793 - INFO - WebSocket connection established.
+2025-12-03 17:34:55,889 - INFO - WebSocket connection closed.
+2025-12-03 17:35:02,623 - INFO - WebSocket connection established.
+2025-12-03 17:35:13,901 - INFO - Start time: 1764758113.9019613
+2025-12-03 17:35:13,901 - INFO - Pipeline started for question: 'what are side effects of Fulvestrant'
+2025-12-03 17:35:13,901 - INFO - Is fisrt: True
+2025-12-03 17:35:13,901 - INFO - Running tasks in parallel...
+2025-12-03 17:35:13,904 - INFO - Final topic generated.
+2025-12-03 17:35:25,044 - INFO - Plan created: {
+  "query_type": "one-hop",
+  "thought": "This is a one-hop query. The user is asking for the side effects of a specific compound. The plan is to use the /neighborhood API to find 'SideEffect' nodes connected to the 'Compound' node named 'Fulvestrant' via the 'CAUSES_CcSE' edge.",
+  "entities": [
+    {
+      "name_in_query": "Fulvestrant",
+      "normalized_type": "Compound",
+      "id_placeholder": "fulvestrant_entity"
+    }
+  ],
+  "plan": [
+    {
+      "step": 1,
+      "description": "Get side effects caused by the compound 'Fulvestrant'",
+      "api_call": "/api/v1/neighborhood/Compound/name/Fulvestrant?edge_filters=CAUSES_CcSE&node_filters=SideEffect",
+      "logic": null,
+      "inputs": null,
+      "store_as": "final_result"
+    }
+  ]
+}
+2025-12-03 17:35:27,179 - INFO - Context store: {
+  "final_result": [
+    {
+      "name": "Venous thromboembolism",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C1861172"
+    },
+    {
+      "name": "Gastrointestinal pain",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0687713"
+    },
+    {
+      "name": "Haemoglobin",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0518015"
+    },
+    {
+      "name": "Angioedema",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0002994"
+    },
+    {
+      "name": "Bone pain",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0151825"
+    },
+    {
+      "name": "Urinary tract infection",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0042029"
+    },
+    {
+      "name": "Vulvovaginal candidiasis",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0700345"
+    },
+    {
+      "name": "Vaginal moniliasis",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0006852"
+    },
+    {
+      "name": "Hepatic enzyme increased",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0235996"
+    },
+    {
+      "name": "Injection site haematoma",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0542008"
+    },
+    {
+      "name": "Leukorrhea",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0023533"
+    },
+    {
+      "name": "Headache",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0018681"
+    },
+    {
+      "name": "Malnutrition",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0162429"
+    },
+    {
+      "name": "Depression",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C0011570"
+    },
+    {
+      "name": "Infestation",
+      "type": "SideEffect",
+      "prev_node": "Fulvestrant",
+      "identifier": "C1384353"
+    }
+  ]
+}
+2025-12-03 17:35:27,179 - INFO - Execution completed. Final Context Store is ready.
+2025-12-03 17:35:35,423 - INFO - Final answer generated.
+2025-12-03 17:35:35,423 - INFO - Final answer: Based on the provided information, Fulvestrant is associated with the following side effects:
+
+*   Venous thromboembolism
+*   Gastrointestinal pain
+*   Changes in Haemoglobin
+*   Angioedema
+*   Bone pain
+*   Urinary tract infection
+*   Vulvovaginal candidiasis
+*   Vaginal moniliasis
+*   Increased hepatic enzymes
+*   Injection site haematoma
+*   Leukorrhea
+*   Headache
+*   Malnutrition
+*   Depression
+*   Infestation
+
+Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.
+2025-12-03 17:35:35,423 - INFO - Final title: Fulvestrant Side Effects
+2025-12-03 17:35:35,423 - INFO - End time: 1764758135.4236383
+2025-12-03 17:35:35,423 - INFO - Total time for entire processing: 21.521677017211914
+2025-12-03 17:37:00,739 - INFO - WebSocket connection closed.
+2025-12-03 17:37:24,385 - INFO - Server is shutting down...

@@ -59,6 +59,35 @@ class AnswerGenerator:
             # 2. Xử lý trường hợp CÓ DỮ LIỆU (Success Case)
             context_str = json.dumps(context_store, indent=2, ensure_ascii=False)
 
+            # final_prompt = f"""
+            # You are an expert biomedical reasoning agent. Your task is to answer the user's question based ONLY on the provided JSON context.
+
+            # INPUTS:
+            # 1. **User's Original Question:** "{original_question}" 
+            # (Use this to determine the **OUTPUT LANGUAGE** and **TONE**).
+            # 2. **System Processed Query:** "{nlq}" 
+            # (Use this to understand the **LOGIC** and match with the Data Context).
+
+            # Data Context from Knowledge Graph:
+            # ```json
+            # {context_str}
+            # ```
+
+            # Instructions:
+            # 1.  **LANGUAGE DETECTION:** Identify the language used in "User's Original Question" (Input 1).
+            # 2.  **OUTPUT GENERATION:** Generate the entire response **IN THAT EXACT SAME LANGUAGE**.
+            # 3.  **NATURAL REASONING (CRITICAL):** - Analyze the connection between the intermediate data (e.g., "diseases_list") and the "final_result".
+            #     - **Weave this reasoning into a clear, natural narrative.** Explain *how* one entity leads to another based on the data.
+            #     - **PROHIBITION:** Do NOT mention technical terms like "JSON", "keys", "dictionaries", "lists", or "variables" in your final answer. Instead, use natural phrases like "associated with", "leads to", "causes", "treats".
+            #     - Example style (English): "The drug Aspirin is shown to treat Headache, which is why..."
+            #     - Example style (Vietnamese): "Dựa trên dữ liệu, thuốc Aspirin được tìm thấy là có điều trị chứng Đau đầu, điều này giải thích..."
+            # 4.  **ACCURACY:** Your explanation must *only* reflect the data connections shown in the context. Do not add external knowledge.
+            # 5.  **DISCLAIMER:** Conclude with a disclaimer translated into the target language. 
+            #     (English template: "Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.")
+
+            # If the "final_result" is valid, explain the findings clearly and naturally in the target language.
+            # """
+            
             final_prompt = f"""
             You are an expert biomedical reasoning agent. Your task is to answer the user's question based ONLY on the provided JSON context.
 
@@ -75,19 +104,33 @@ class AnswerGenerator:
 
             Instructions:
             1.  **LANGUAGE DETECTION:** Identify the language used in "User's Original Question" (Input 1).
+            
             2.  **OUTPUT GENERATION:** Generate the entire response **IN THAT EXACT SAME LANGUAGE**.
+            
             3.  **NATURAL REASONING (CRITICAL):** - Analyze the connection between the intermediate data (e.g., "diseases_list") and the "final_result".
                 - **Weave this reasoning into a clear, natural narrative.** Explain *how* one entity leads to another based on the data.
-                - **PROHIBITION:** Do NOT mention technical terms like "JSON", "keys", "dictionaries", "lists", or "variables" in your final answer. Instead, use natural phrases like "associated with", "leads to", "causes", "treats".
-                - Example style (English): "The drug Aspirin is shown to treat Headache, which is why..."
-                - Example style (Vietnamese): "Dựa trên dữ liệu, thuốc Aspirin được tìm thấy là có điều trị chứng Đau đầu, điều này giải thích..."
-            4.  **ACCURACY:** Your explanation must *only* reflect the data connections shown in the context. Do not add external knowledge.
-            5.  **DISCLAIMER:** Conclude with a disclaimer translated into the target language. 
+                - **PROHIBITION:** Do NOT mention technical terms like "JSON", "keys", "dictionaries", "lists", or "variables". Use natural phrases like "associated with", "leads to", "causes", "treats".
+            
+            4.  **ACCURACY:** Your explanation must *only* reflect the data connections shown in the context.
+
+            5.  **CONTEXTUAL COMPLETENESS & ADAPTIVE SUGGESTION (CRITICAL):**
+                - Since the provided context is a **filtered subset**, you must write a closing paragraph that is **SPECIFIC to the entities asked in the "{nlq}"**.
+                - **Do NOT use generic phrases** like "specific part" or "detailed information". You must explicitly name the missing details based on the user's topic.
+                - **Logic:** "I have provided [Entity Y] for some [Entity X]. If you need [Entity Y] for a specific [Entity X] listed above, please ask."
+                
+                - **Examples of Adaptive Behavior:**
+                  * *If User asks about "Drugs and Side Effects":*
+                      "Lưu ý: Danh sách trên bao gồm các loại thuốc phổ biến nhất. Nếu bạn cần biết chi tiết **tác dụng phụ của một loại thuốc cụ thể nào** trong danh sách trên, hãy đặt câu hỏi riêng cho loại thuốc đó."
+                  * *If User asks about "Diseases and Symptoms":*
+                      "Note: These are the primary associated diseases. If you need a comprehensive list of **symptoms for a specific disease** mentioned, please refine your query."
+                
+                - **Action:** Write this adaptive note in the target language, ensuring it sounds helpful and strictly relevant to the current topic.
+
+            6.  **DISCLAIMER:** Conclude with a disclaimer translated into the target language. 
                 (English template: "Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.")
 
             If the "final_result" is valid, explain the findings clearly and naturally in the target language.
             """
-            
             # Gọi LLM xử lý câu trả lời chính
             final_answer = await self.llm_client.generate_text(final_prompt)
             return final_answer

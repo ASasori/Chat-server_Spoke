@@ -16,6 +16,7 @@ from modules.query_writing import QueryWriting
 from modules.smart_search import SmartSearch
 # from modules.spoke_executor import SpokeExecutor
 from modules.spoke_executor_v2 import SpokeExecutor2
+# from modules.spoke_executor_v3 import SpokeExecutor3
 from modules.generate_answer import AnswerGenerator
 
 # Configure logging for easy debugging
@@ -74,7 +75,7 @@ async def lifespan(app: FastAPI):
         # Module 2: Executor (SpokeExecutor2)
         executor = SpokeExecutor2(
             llm_client=main_llm_client, # Enable pruning to optimize data
-            pruning_threshold=15
+            pruning_threshold=20
         )
 
         # Module 3: Answer Generator
