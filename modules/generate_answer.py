@@ -45,7 +45,13 @@ class AnswerGenerator:
                 1. Detect the language of User's Original Question (e.g., Vietnamese, English). Only detect, do not inform or write in answer 
                 2. The system searched based on the System Processed Query but found **NO INFORMATION**.
                 Please inform the user politely that **no information was found** in the internal knowledge base regarding their specific query.
-                3. If there is 'Internal Trace', briefly summarize in general terms why it failed (optional), but keep it user-friendly.
+                3.  **KNOWLEDGEABLE TRACE EXPLANATION (CRITICAL UPDATE):** - Analyze the 'Internal Trace' data.
+                - If the trace contains intermediate findings (e.g., a list of Diseases, Drugs, or Genes found during the search process):
+                    * **DO NOT** simply say "I found some data" or "I searched intermediate steps".
+                    * **YOU MUST EXTRACT AND NAME 2-3 SPECIFIC EXAMPLES** from the trace to demonstrate knowledge.
+                    * **Logic:** "I successfully found information about [Topic A] (including examples such as X, Y) and [Topic B] (such as Z), but unfortunately, the database does not currently show the specific relationship/connection you asked for."
+                    * **Constraint:** Do not dump raw lists. Integrate the examples naturally into the sentence.
+                - If the trace is completely empty/meaningless, simply state that the concept is not currently in the database.
                 4. **CRITICAL:** The output MUST be in the SAME LANGUAGE as User's Original Question. 
                 5. **CONDITIONAL DISCLAIMER:** 
                    - IF 'Internal Trace' data EXISTS and is NOT EMPTY (meaning it contains any non-empty value, text, or content): Add a standard medical disclaimer at the end in the SAME LANGUAGE.
@@ -84,6 +90,7 @@ class AnswerGenerator:
             # 4.  **ACCURACY:** Your explanation must *only* reflect the data connections shown in the context. Do not add external knowledge.
             # 5.  **DISCLAIMER:** Conclude with a disclaimer translated into the target language. 
             #     (English template: "Note: This information is for reference only and is not a substitute for professional medical advice, diagnosis, or treatment.")
+            # 3. If there is 'Internal Trace', briefly summarize in general terms why it failed (optional), but keep it user-friendly.
 
             # If the "final_result" is valid, explain the findings clearly and naturally in the target language.
             # """
