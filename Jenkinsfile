@@ -30,21 +30,26 @@ pipeline {
             steps {
                 echo "Deploying with Docker Compose..."
                 script {
-                    // 1. Tắt các container cũ nếu đang chạy
+                    // 1. Cố gắng lấy lại quyền sở hữu thư mục hiện tại (fix lỗi Permission denied)
+                    // Dùng '|| true' để nếu không có sudo thì cũng không bị fail pipeline
+                    sh "sudo chown -R \$(whoami) . || true"
+                    
+                    // 2. Xóa file .env cũ đi trước khi copy cái mới
+                    sh "rm -f .env"
+
+                    // 3. Tắt container cũ
                     sh "docker compose down || true"
 
-                    // 2. Lấy file .env từ Jenkins (Vẫn giữ nguyên bước này)
+                    // 4. Lấy file .env từ Jenkins Credentials
                     withCredentials([file(credentialsId: 'chat-server-env', variable: 'SECRET_FILE')]) {
                         sh 'cp $SECRET_FILE .env'
                     }
 
-                    // 3. FIX QUAN TRỌNG: Sửa connection string trong .env
-                    // Vì file .env cũ của bạn đang để localhost, ta cần đổi thành 'mongo'
-                    // Lệnh này tìm chữ '127.0.0.1' hoặc 'localhost' thay bằng 'mongo'
+                    // 5. Sửa connection string trong .env (localhost -> mongo)
                     sh "sed -i 's/127.0.0.1/mongo/g' .env"
                     sh "sed -i 's/localhost/mongo/g' .env"
 
-                    // 4. Chạy Docker Compose (Build lại và chạy nền)
+                    // 6. Chạy Docker Compose
                     sh "docker compose up -d --build"
                 }
             }
