@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "Deploying chat-server container..."
                 script {
-                    // Stop & remove container nếu tồn tại
+                    // 1. Stop & remove container cũ nếu tồn tại
                     sh """
                         if [ \$(docker ps -aq -f name=${CONTAINER_NAME}) ]; then
                             docker stop ${CONTAINER_NAME} || true
@@ -38,19 +38,26 @@ pipeline {
                         fi
                     """
 
-                    // Kiểm tra env file
+                    // 2. LẤY FILE .ENV TỪ JENKINS CREDENTIALS [QUAN TRỌNG]
+                    // ID 'chat-server-env' lấy từ ảnh bạn gửi
+                    withCredentials([file(credentialsId: 'chat-server-env', variable: 'SECRET_FILE')]) {
+                        // Copy file bí mật từ Jenkins vào thư mục làm việc và đặt tên là .env
+                        sh 'cp $SECRET_FILE .env'
+                    }
+
+                    // 3. Kiểm tra lại xem file .env đã có chưa (Giờ thì chắc chắn sẽ có)
                     sh """
-                        if [ ! -f ${ENV_FILE} ]; then
-                            echo "${ENV_FILE} not found! Please provide it."
+                        if [ ! -f .env ]; then
+                            echo ".env not found! Please provide it."
                             exit 1
                         fi
                     """
 
-                    // Chạy container
+                    // 4. Chạy container với file .env vừa lấy được
                     sh """
                         docker run -d \
                         --name ${CONTAINER_NAME} \
-                        --env-file ${ENV_FILE} \
+                        --env-file .env \
                         -p ${PORT}:${PORT} \
                         ${IMAGE_NAME}:${IMAGE_TAG}
                     """
