@@ -28,39 +28,24 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo "Deploying chat-server container..."
+                echo "Deploying with Docker Compose..."
                 script {
-                    // 1. Stop & remove container cũ nếu tồn tại
-                    sh """
-                        if [ \$(docker ps -aq -f name=${CONTAINER_NAME}) ]; then
-                            docker stop ${CONTAINER_NAME} || true
-                            docker rm ${CONTAINER_NAME} || true
-                        fi
-                    """
+                    // 1. Tắt các container cũ nếu đang chạy
+                    sh "docker compose down || true"
 
-                    // 2. LẤY FILE .ENV TỪ JENKINS CREDENTIALS [QUAN TRỌNG]
-                    // ID 'chat-server-env' lấy từ ảnh bạn gửi
+                    // 2. Lấy file .env từ Jenkins (Vẫn giữ nguyên bước này)
                     withCredentials([file(credentialsId: 'chat-server-env', variable: 'SECRET_FILE')]) {
-                        // Copy file bí mật từ Jenkins vào thư mục làm việc và đặt tên là .env
                         sh 'cp $SECRET_FILE .env'
                     }
 
-                    // 3. Kiểm tra lại xem file .env đã có chưa (Giờ thì chắc chắn sẽ có)
-                    sh """
-                        if [ ! -f .env ]; then
-                            echo ".env not found! Please provide it."
-                            exit 1
-                        fi
-                    """
+                    // 3. FIX QUAN TRỌNG: Sửa connection string trong .env
+                    // Vì file .env cũ của bạn đang để localhost, ta cần đổi thành 'mongo'
+                    // Lệnh này tìm chữ '127.0.0.1' hoặc 'localhost' thay bằng 'mongo'
+                    sh "sed -i 's/127.0.0.1/mongo/g' .env"
+                    sh "sed -i 's/localhost/mongo/g' .env"
 
-                    // 4. Chạy container với file .env vừa lấy được
-                    sh """
-                        docker run -d \
-                        --name ${CONTAINER_NAME} \
-                        --env-file .env \
-                        -p ${PORT}:${PORT} \
-                        ${IMAGE_NAME}:${IMAGE_TAG}
-                    """
+                    // 4. Chạy Docker Compose (Build lại và chạy nền)
+                    sh "docker compose up -d --build"
                 }
             }
         }

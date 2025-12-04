@@ -1,17 +1,38 @@
 version: '3.8'
+
 services:
+  # Container Database
+  mongo:
+    image: mongo:6.0
+    container_name: chat_mongodb
+    restart: always
+    volumes:
+      - mongo_data:/data/db # Lưu dữ liệu ra ngoài để không bị mất
+    ports:
+      - "27017:27017"
+    networks:
+      - chat_network
+
+  # Container Chat Server
   chat-server:
-    # Build từ Dockerfile trong thư mục hiện tại
     build: .
     container_name: chat-server
+    restart: always
     ports:
-      # Ánh xạ port: <máy_host>:<container>
-      # Đổi "3000:3000" cho phù hợp
-      - "3000:3000"
-    restart: unless-stopped
+      - "3001:3001"
     env_file:
       - .env
-    # volumes:
-    #   # Nếu server cần lưu data (ví dụ: chat logs, db),
-    #   # hãy mount một volume
-    #   - ./chat_data:/usr/src/app/data
+    environment:
+      # Ghi đè biến kết nối DB: thay vì localhost thì trỏ vào tên service 'mongo'
+      - MONGO_URI=mongodb://mongo:27017/SPOKEChat 
+    depends_on:
+      - mongo # Chờ mongo chạy xong mới chạy app
+    networks:
+      - chat_network
+
+volumes:
+  mongo_data:
+
+networks:
+  chat_network:
+    driver: bridge
