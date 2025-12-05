@@ -9,11 +9,11 @@ async def run_test():
     """
     Kết nối đến AI Server WebSocket, gửi một câu hỏi, và in ra câu trả lời.
     """
-    uri = "ws://localhost:8001/ws/query"
+    uri = "ws://kazekageiii.xyz:8001/ws/query"
 
     test_payload = {
         "is_first": True,
-        "question":"Tại sao, tôi không hiểu ?",
+        "question":"Những triệu chứng của bệnh ung thư tuyến tụy?",
         # "question": "tôi muốn biết thông tin về ung thư phổi, cụ thể là những thuốc nào có thể chữa ung thư phổi?",
         "history": [
             # {

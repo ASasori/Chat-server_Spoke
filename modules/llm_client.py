@@ -60,16 +60,16 @@ class GeminiLLMClient(BaseLLMClient):
     def __init__(
         self, 
         api_key: str, 
-        max_retries_main: int = 2,
-        max_retries_sub: int = 10, 
-        rpm_limit: int = 2
+        max_retries_main: int = 150,
+        max_retries_sub: int = 2000, 
+        rpm_limit: int = 150
     ):
         self.api_key = api_key
         genai.configure(api_key=api_key)
         
-        self.model_main = genai.GenerativeModel("gemini-2.5-pro") 
-        self.model_sub = genai.GenerativeModel("gemini-2.0-flash")
-        self.model_filter = genai.GenerativeModel("gemini-2.0-flash")
+        self.model_main = genai.GenerativeModel("gemini-3-pro") 
+        self.model_sub = genai.GenerativeModel("gemini-2.5-flash")
+        self.model_filter = genai.GenerativeModel("gemini-2.5-flash")
         
         self.max_retries_main = max_retries_main
         self.max_retries_sub = max_retries_sub
