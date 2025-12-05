@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy toàn bộ project vào container
 COPY . .
 
-# Expose port mà uvicorn sẽ chạy
+# Expose port
 EXPOSE 8001
 
-# Chạy app bằng uvicorn
-CMD ["uvicorn", "server_ai_main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+# Chạy app (Đã bỏ --reload để chạy mode production)
+CMD ["uvicorn", "server_ai_main:app", "--host", "0.0.0.0", "--port", "8001"]
