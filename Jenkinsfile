@@ -12,13 +12,15 @@ pipeline {
         ENV_FILE = ".env" 
         HOST_PORT = "8001"
         CONTAINER_PORT = "8001"
+        // Tên network bạn muốn join
+        DOCKER_NETWORK = "chatserver-spoke_chat_network" 
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo "Checking out branch hoangdn/feat-server-ai-ws..."
+                // Lưu ý: Đảm bảo branch này đúng với repo của bạn
                 git branch: 'hoangdn/feat-server-ai-ws', url: 'https://github.com/ASasori/Chat-server_Spoke.git'
             }
         }
@@ -35,24 +37,34 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "Deploying container..."
-                sh """
-                    # Stop và remove container cũ nếu có
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
+                script {
+                    // 1. Dọn dẹp container cũ
+                    sh "docker stop ${CONTAINER_NAME} || true"
+                    sh "docker rm ${CONTAINER_NAME} || true"
 
-                    # Run container mới, expose port, mount env
-                    docker run -d --name ${CONTAINER_NAME} \
-                        --env-file ${ENV_FILE} \
-                        -p ${HOST_PORT}:${CONTAINER_PORT} \
-                        ${IMAGE_NAME}:${IMAGE_TAG}
-                """
+                    // 2. [QUAN TRỌNG] Lấy file .env từ Jenkins Credentials
+                    // ID 'chat-server-env' phải khớp với ID bạn tạo trong Jenkins
+                    withCredentials([file(credentialsId: 'chat-server-env', variable: 'SECRET_FILE')]) {
+                        sh 'cp $SECRET_FILE .env'
+                    }
+
+                    // 3. Chạy container mới với Network
+                    sh """
+                        docker run -d --name ${CONTAINER_NAME} \
+                            --restart always \
+                            --env-file ${ENV_FILE} \
+                            --network ${DOCKER_NETWORK} \
+                            -p ${HOST_PORT}:${CONTAINER_PORT} \
+                            ${IMAGE_NAME}:${IMAGE_TAG}
+                    """
+                }
             }
         }
     }
 
     post {
         success {
-            echo "Deploy DONE!"
+            echo "Deploy DONE! Container connected to ${DOCKER_NETWORK}"
         }
         failure {
             echo "Deploy FAILED!"
