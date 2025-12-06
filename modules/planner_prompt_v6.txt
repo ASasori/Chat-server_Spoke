@@ -28,20 +28,42 @@ You MUST strictly adhere to the following SPOKE schema.
 ENTITY CASING & FORMATTING RULES (STRICT)
 ====================================================================
 
-You MUST normalize the `{{EntityName}}` used in the `api_call` based on its `{{NodeType}}`. Apply these casing rules strictly:
+You MUST normalize the `{{EntityName}}` used in the `api_call` based on its `{{NodeType}}`. Apply these casing rules strictly to match the SPOKE Knowledge Graph database standards:
 
-1. **Disease**: DO NOT capitalize (lowercase all).
-   - *Example:* "lung cancer", "breast cancer"
-2. **Symptom**: Capitalize the first letter of EVERY word (Title Case).
-   - *Example:* "Weight Gain", "Birth Weight"
-3. **SideEffect**: Capitalize ONLY the first letter of the FIRST word (Sentence Case).
-   - *Example:* "Intermittent headache", "Headache occurring"
-4. **Compound**: Capitalize ONLY the first letter of the FIRST word (Sentence Case).
-   - *Example:* "Aspirin softam", "Aspirin eugenol ester"
-5. **CellType**: DO NOT capitalize (lowercase all).
-   - *Example:* "multipolar neuron", "bitufted neuron"
-6. **Anatomy**: DO NOT capitalize (lowercase all).
-7. **Protein**: UPPERCASE all letters.
+1. **LOWERCASE ALL (General Rule)**:
+   - **Target Nodes**: `Anatomy`, `CellType`, `Food`, `BiologicalProcess`, `MolecularFunction`, `CellularComponent`.
+   - *Example:* "multipolar neuron", "apple", "immune response".
+
+2. **DISEASE NODE SPECIFIC RULE (Lowercase with Eponym Exceptions)**:
+   - **Target Node**: `Disease`
+   - **Rule**: Generally convert to **lowercase**.
+   - **EXCEPTION**: If the disease name includes a **Proper Noun** (an Eponym - named after a person/place), **Capitalize the Proper Noun** but keep the generic words (syndrome, disease, etc.) lowercase unless they are part of the proper name structure found in DOID.
+   - *Standard Example:* "lung cancer", "gestational diabetes", "type 2 diabetes mellitus".
+   - *Eponym Example:* "Bartter disease", "Osgood-Schlatter's disease", "Weissenbacher-Zweymuller syndrome", "Down syndrome".
+
+3. **UPPERCASE ALL**:
+   - **Target Nodes**: `Protein`, `Gene`.
+   - *Example:* "TP53", "TNF", "BRCA1".
+
+4. **TITLE CASE** (Capitalize the first letter of EVERY word):
+   - **Target Nodes**: `Symptom`, `PharmacologicClass`.
+   - *Example:* "Weight Gain", "Anti-Inflammatory Agents".
+
+5. **COMPOUND & CHEMICAL SMART CASE (Variable)**:
+   - **Target Node**: `Compound`
+   - **Rule**: Prefer **Title Case** (e.g., "Ascorbic Acid") or **Sentence Case** (e.g., "Aspirin eugenol ester") for generic drug names.
+   - **Crucial**: **Preserve** specific chemical syntax including hyphens, numbers, and mixed casing if the entity is a complex chemical derivative.
+   - *Examples:* "Aspirin", "Valproic Acid", "NOSH-aspirin", "17beta-estradiol".
+   - *Note:* Do NOT force ALL UPPERCASE for compounds (even if some databases do) unless the input is specifically an acronym like "DMSO".
+   
+6. **SENTENCE CASE** (Capitalize ONLY the first letter of the FIRST word; lowercase the rest):
+   - **Target Nodes**: `SideEffect`, `Nutrient`, `Pathway`, `Organism`.
+   - *Example:* "Intermittent headache", "Aspirin eugenol ester", "Vitamin c", "Metabolism of proteins", "Homo sapiens".
+
+**CRITICAL NOTE ON ACRONYMS**: 
+If the input `{{EntityName}}` contains a well-known acronym (e.g., "HIV", "AIDS", "DNA"):
+- For `Disease`: Keep it lowercase if possible (e.g., "aids"), unless the specific database entry enforces uppercase. *Safe fallback: Try lowercase first.*
+- For `Pathway` or others: Keep the acronym uppercase (e.g., "HIV Life Cycle").
 
 ====================================================================
 CORRECT SPOKE API CALL RULES (Execution Plan Rules)

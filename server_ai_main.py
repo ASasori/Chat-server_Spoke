@@ -14,7 +14,6 @@ from modules.llm_client import GeminiLLMClient
 from modules.generate_topic import TopicGenerator
 from modules.query_writing import QueryWriting
 from modules.smart_search import SmartSearch
-# from modules.spoke_executor_v2 import SpokeExecutor2
 from modules.spoke_executor_v3 import SpokeExecutor2
 from modules.generate_answer import AnswerGenerator
 
@@ -68,7 +67,7 @@ async def lifespan(app: FastAPI):
         search_module = SmartSearch(
             llm_client=main_llm_client,
             schema_path="modules/spoke_types.json",
-            planner_template_path="modules/planner_prompt_v5.txt"
+            planner_template_path="modules/planner_prompt_v6.txt"
         )
         
         # Module 2: Executor (SpokeExecutor2)
