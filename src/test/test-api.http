@@ -1,0 +1,179 @@
+@baseUrl = https://chatserver.kazekageiii.xyz
+@email = test_user_01@mail.com
+@password = 123456
+@username = Tester01
+
+### ==============================================================================
+### PHẦN 1: QUẢN LÝ NGƯỜI DÙNG (USR)
+### ==============================================================================
+
+### USR_01: Đăng ký thành công
+# @name signUp
+POST {{baseUrl}}/users/sign-up
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "username": "{{username}}"
+}
+
+### USR_02: Đăng ký thiếu trường (Sẽ lỗi 400)
+POST {{baseUrl}}/users/sign-up
+Content-Type: application/json
+
+{
+    "email": "missing@test.com",
+    "username": "NoPass"
+}
+
+### USR_03: Đăng ký sai định dạng email (Sẽ lỗi 400)
+POST {{baseUrl}}/users/sign-up
+Content-Type: application/json
+
+{
+    "email": "invalid-email",
+    "password": "123",
+    "username": "user"
+}
+
+### USR_04: Đăng ký trùng Email (Chạy lại request USR_01 sẽ ra lỗi này)
+POST {{baseUrl}}/users/sign-up
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "username": "{{username}}"
+}
+
+### USR_05: Đăng nhập thành công (Lấy Token để dùng cho các request sau)
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+
+### Lưu Token vào biến để dùng
+@authToken = {{login.response.body.token}}
+
+### USR_06: Đăng nhập sai mật khẩu
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "wrongpassword"
+}
+
+### USR_07: Đổi mật khẩu thành công
+PATCH {{baseUrl}}/users/password
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "oldPassword": "{{password}}",
+    "newPassword": "newpassword123"
+}
+
+### (Khôi phục lại pass cũ để test tiếp dễ dàng)
+PATCH {{baseUrl}}/users/password
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "oldPassword": "newpassword123",
+    "newPassword": "{{password}}"
+}
+
+### USR_08: Đổi mật khẩu trùng cũ (Lỗi 400)
+PATCH {{baseUrl}}/users/password
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "oldPassword": "{{password}}",
+    "newPassword": "{{password}}"
+}
+
+### USR_09: Cập nhật Username
+PATCH {{baseUrl}}/users/username
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "newUsername": "SuperTester"
+}
+
+### ==============================================================================
+### PHẦN 2: CHAT SESSION (SES) & HẠ TẦNG (INF)
+###
+### LƯU Ý: Hãy test thử websocket với token đã lấy ở trên trước khi chạy phần này
+### ==============================================================================
+
+### INF_01: API không có Token (Lỗi 401)
+GET {{baseUrl}}/chat-sessions/get-by-user
+
+### INF_02: API Token sai/hết hạn (Lỗi 401)
+GET {{baseUrl}}/chat-sessions/get-by-user
+Authorization: fake-token-123
+
+### SES_01: Lấy danh sách Session (Mặc định)
+# @name getSessions
+GET {{baseUrl}}/chat-sessions/get-by-user
+Authorization: {{authToken}}
+
+### Lấy ID của session đầu tiên (nếu có) để test các bước sau
+@sessionId = {{getSessions.response.body.chatSessions[0]._id}}
+
+### SES_02: Phân trang danh sách
+GET {{baseUrl}}/chat-sessions/get-by-user?page=2&limit=5
+Authorization: {{authToken}}
+
+### SES_03: Đổi tên Session thành công
+# Cần chắc chắn biến @sessionId có giá trị (User phải chat ít nhất 1 lần qua Socket để có session)
+PATCH {{baseUrl}}/chat-sessions/{{sessionId}}/name
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "newTitle": "Renamed via REST Client"
+}
+
+### SES_04: Đổi tên thiếu Title (Lỗi 400)
+PATCH {{baseUrl}}/chat-sessions/{{sessionId}}/name
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "newTitle": ""
+}
+
+### SES_07: ID Session sai định dạng (Lỗi 400)
+PATCH {{baseUrl}}/chat-sessions/invalid-id-123/name
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "newTitle": "Test"
+}
+
+### SES_05: Xóa mềm (Soft Delete)
+PATCH {{baseUrl}}/chat-sessions/{{sessionId}}/soft-delete
+Authorization: {{authToken}}
+
+### SES_06: Kiểm tra ẩn sau khi xóa mềm
+# Gọi lại API lấy danh sách, session ID trên sẽ không còn xuất hiện
+GET {{baseUrl}}/chat-sessions/get-by-user
+Authorization: {{authToken}}
+
+### ==============================================================================
+### PHẦN 3: LỊCH SỬ TIN NHẮN (MSG - HTTP ONLY)
+### ==============================================================================
+
+### MSG_01: Lấy lịch sử tin nhắn
+GET {{baseUrl}}/messages/session/{{sessionId}}/get-messages
+Authorization: {{authToken}}
